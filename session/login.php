@@ -25,10 +25,13 @@
 
 				//Inicio de sesion
 				$_SESSION['isLogged'] = true;
+				//Cambiarlo por el objeto completo
+
 				$_SESSION['username'] = $this->username;
 				
 				//Toma el tipo de usuario
 				$fila = mysqli_fetch_assoc($resultado);
+
 				$_SESSION['type_user'] = $fila['id_tipo_usuario'];
 	            echo '<script type="text/javascript">
 	            	window.location.href="/index.php";
