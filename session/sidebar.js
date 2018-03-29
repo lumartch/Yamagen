@@ -1,3 +1,0 @@
-function sidebar(){
-	alert("hola");
-}

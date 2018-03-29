@@ -1,11 +1,6 @@
-<!-- Header -->
-<header id="header">
-	<a href="index.php" class="logo"><strong>Yamagen</strong> by Black Mesa</a>
-</header>
-
 <section id="banner">
 	<div>
-		<form action="usuario/crearUsuario.php" method="post">
+		<form action="/usuario/crearUsuario.php" method="post">
 			<h1>Registro de usuario</h1>
 			<table>
 				<tr>
@@ -13,15 +8,13 @@
 						<input id="username" name="username" type="text" placeholder="Username" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanumericos" required></input>
 					</th>
 					<th>
-						<input id="email" name="email" type="email" placeholder="Correo electronico" title="Formato incorrecto de correo electronico" required></input>
+						<input id="email" name="email" type="text" placeholder="Correo electronico" title="Formato incorrecto de correo electronico" required></input>
 					</th>
 				</tr>
 				<tr>
+					<th><label>Contraseña generada</label></th>
 					<th>
-						<input id="pass" name="pass" type="password" placeholder="Contraseña" title="Ingresar contraseña" required></input>
-					</th>
-					<th>
-						<input id="checkPass" name="checkPass" type="password" placeholder="Repita la contraseña" title="Corroborar contraseña" required></input>
+						<input id="pass" name="pass" type="text" placeholder="Contraseña" title="Ingresar contraseña" required></input>
 					</th>
 				</tr>
 				<tr>
@@ -43,13 +36,19 @@
 			</table>
 			<table>
 					<tr>
-						<input id="claveMaestro" name="claveMaestro" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos"></input>
+						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos"></input>
 					</tr>
 			</table>
-			<input type="submit" value="Registrar"></input>
+			<input type="submit" value="Registrar" id="registrar" name="registrar" onclick="corroborar();"></input>
+			<div name="statusUsername" id="statusUsername"><br/><ul><li><strong>Username: </strong></li></ul></div>
+			<div name="statusEmail" id="statusEmail"><br/><ul><li><strong>Email: </strong></li></ul></div>
+			<div name="statusClave" id="statusClave"><br/><ul><li><strong>Clave: </strong></li></ul></div>
 		</form>
 	</div>
-	<span class="img-container">
+	<span>
 		<img src="imagenes/blackmesalogo.jpg" alt="Logo"></img>
 	</span>
 </section>
+
+<script language="JavaScript" type="text/javascript" src="/js/check_user.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/random-password-generator.js"></script>

@@ -7,7 +7,7 @@
 	$apellidos = $_POST['apellidos'];
 	$centroUniversitario = $_POST['centroUniv'];
 	$grado_estudios = $_POST['gradoEstudios'];
-	$clave = $_POST['claveMaestro'];
+	$clave = $_POST['clave'];
 	
 	$usuario = new Usuario;
 	$usuario->crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);

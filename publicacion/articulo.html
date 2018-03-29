@@ -1,6 +1,7 @@
 <section id="banner">
-	<h1>Bibliografico</h1>
+	<h1>Artículo</h1>
 </section>
+
 <section>
 	<form action="#" method="post">
 		<table>
@@ -12,14 +13,12 @@
 				<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" required></input></th>
 				<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" required></input></th>
 			</tr>
-				<th><input id="editorial" name="editorial" type="text" placeholder="Editorial" required></input></th>
-			</tr>
-			<tr>
 			<tr>
 				<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" required></input></th>
 				<th><select id="tipo" name="tipo" required>
-						<option value="1">Libro</option>
-						<option value="2">Memorias</option>
+						<option value="1">Articulo de difusión y divulgación</option>
+						<option value="2">Articulo arbitrado</option>
+						<option value="3">Articulo en revista indexada</option>
 					</select>
 				</th>
 			</tr>
@@ -27,6 +26,7 @@
 				<th><input id="colaborador" name="colaborador" type="text" placeholder="colaboradores"></input></th>
 			</tr>
 		</table>
-		<input type="submit" value="Registrar"></input>
+		<input type="submit" value="Registrar" id="registrar"></input>
 	</form>
 </section>
+

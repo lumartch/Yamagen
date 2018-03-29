@@ -1,31 +1,26 @@
-<!-- Header -->
-<header id="header">
-	<a href="index.php" class="logo"><strong>Yamagen</strong> by Black Mesa</a>
-</header>
-
 <!-- Banner -->
 <section id="banner">
-	<div class="content" id="content">
-	<h1>¡Hola!, Esto es Yamagen by Black Mesa</h1>
-	<p>La Secretaría de Educación Pública ha lanzado un programa de estímulos para profesores de escuelas educativas a nivel superior. El Programa para el Desarrollo Profesional Docente, para el Tipo Superior (PRODEP) organiza a los profesores en equipos llamados cuerpos académicos con el fin de que desarrollen sus capacidades de investigación, docencia, desarrollo tecnológico e innovación.</p>
-	<ul class="actions">
-		<li><button id="info" class="button big">Seguir leyendo</button></li>
-		<!--Script para cargar -->
-		<script>
-		$("#info").on("click", function(){
-			$("#banner").load("info.html");
-		});
-		</script>
+	<div id="contenido">
+		<h1>¡Hola!, Esto es Yamagen by Black Mesa</h1>
+		<p>La Secretaría de Educación Pública ha lanzado un programa de estímulos para profesores de escuelas educativas a nivel superior. El Programa para el Desarrollo Profesional Docente, para el Tipo Superior (PRODEP) organiza a los profesores en equipos llamados cuerpos académicos con el fin de que desarrollen sus capacidades de investigación, docencia, desarrollo tecnológico e innovación.</p>
+		<ul>
+			<button id="informacion">Seguir leyendo</button>
+			<script>
+				$("#informacion").on('click', function(){
+					$("#contenido").load("/info.html");
+				});
+			</script>
 		</ul>
 	</div>
-	<span class="img-container">
+	<span>
 		<img src="imagenes/blackmesalogo.jpg" alt="Logo">
 	</span>
 </section>
-<section id="galeriaImagenes">
+
+<section class="banner">
 	<h1>Galeria</h1>
 </section>
 
-<section id="publicacionesNuevas">
+<section class="banner">
 	<h1>Publicaciones nuevas</h1>
 </section>

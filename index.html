@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Yamagen by Black Mesa</title>
+		<script language="JavaScript" type="text/javascript" src="/js/jquery.min.js"></script>
+		<link rel="stylesheet" href="/css/main.css" />
+		<script language="JavaScript" type="text/javascript" src="/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+	</head>	
+	<body>
+		<div id="wrapper">
+
+			<!--Contenido-->
+			<div id="main">
+				<div id="titulo" class="inner">
+				  <header id="header"><a href="index.html" class="logo"><strong>Yamagen</strong> by Black Mesa</a></header>
+				</div>
+
+				<div id="contInfo" class="inner"></div>
+				
+			</div>
+
+			<!-- Sidebar -->
+			<div id="sidebar">
+				<div id="tipoSidebar" class="inner">
+					<header class="major">
+						<h2>Menú</h2>
+					</header>
+					<nav id="menu"></nav>
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
+
+<script language="javascript" type="text/javascript">
+	var isLogged = true;
+	if(isLogged == true){
+		var type_user = 1;
+		if(type_user == 1){
+			$("#menu").load("/js/sidebar/sidebar_adm.html");
+		}
+		else{
+			$("#menu").load("/js/sidebar/sidebar_user.html");
+		}
+	}
+	else{
+		$("#menu").load("/js/sidebar/sidebar_default.html");
+	}
+	$("#contInfo").load("/mini_info.html");
+</script>

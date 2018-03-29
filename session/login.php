@@ -25,8 +25,6 @@
 
 				//Inicio de sesion
 				$_SESSION['isLogged'] = true;
-				//Cambiarlo por el objeto completo
-
 				$_SESSION['username'] = $this->username;
 				
 				//Toma el tipo de usuario
@@ -34,14 +32,14 @@
 
 				$_SESSION['type_user'] = $fila['id_tipo_usuario'];
 	            echo '<script type="text/javascript">
-	            	window.location.href="/index.php";
+	            	window.location.href="/index.html";
 	            </script>';
-
+	            
 			} else {
 				//Regresa para indicar que no hubo inicio de sesión
 				echo '<script type="text/javascript">
 		            	alert("No existe el usuario, o la contraseña es erronea.");
-		            	window.location.href="/index.php";
+		            	window.location.href="/index.html";
 		            </script>';
 			}
 		}
@@ -53,7 +51,7 @@
 			session_destroy();
 			echo '<script type="text/javascript">
 		            	alert("Cerrando sesión...");
-		            	window.location.href="/index.php";
+		            	window.location.href="/index.html";
 		            </script>';
 		}
 	}

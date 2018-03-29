@@ -1,0 +1,39 @@
+
+<link rel="stylesheet" href="/css/login.css" />
+
+<a onclick="document.getElementById('id01').style.display='block'">Iniciar sesión</a>
+
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="/session/InicioSesion.php" method="post">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="/imagenes/blackmesalogo.jpg" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <input type="text" placeholder="Username" name="usrName" id="usrName" required>
+
+      <input type="password" placeholder="Contraseña" name="passwd" id="passwd" required>
+        
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="submit">Login</button>
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
+      
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
