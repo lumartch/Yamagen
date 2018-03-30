@@ -1,54 +1,99 @@
-<section id="banner">
-	<div>
+<section>
+	<div class="inner">
 		<form action="/usuario/crearUsuario.php" method="post">
 			<h1>Registro de usuario</h1>
 			<table>
 				<tr>
 					<th>
-						<input id="username" name="username" type="text" placeholder="Username" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanumericos" required></input>
+						<input id="username" name="username" type="text" placeholder="Username" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanumericos" autocomplete="off" required></input>
 					</th>
-					<th>
-						<input id="email" name="email" type="text" placeholder="Correo electronico" title="Formato incorrecto de correo electronico" required></input>
+					<th><!--Hacer regex de correo-->
+						<input id="email" name="email" type="text" placeholder="Correo electronico" title="Formato incorrecto de correo electronico" autocomplete="off" required></input>
 					</th>
 				</tr>
 				<tr>
 					<th><label>Contraseña generada</label></th>
 					<th>
-						<input id="pass" name="pass" type="text" placeholder="Contraseña" title="Ingresar contraseña" required></input>
+						<input id="pass" name="pass" type="text" placeholder="Contraseña" title="Ingresar contraseña" autocomplete="off" required></input>
 					</th>
 				</tr>
 				<tr>
 					<th>
-						<input id="nombre" name="nombre" type="text" placeholder="Nombre(s)"  pattern="[A-Za-záéíóú]+" title="Solo se aceptan caraceteres alfabeticos" required></input>
+						<input id="nombre" name="nombre" type="text" placeholder="Nombre(s)"  pattern="[A-Za-záéíóú ]+" title="Solo se aceptan caraceteres alfabeticos" autocomplete="off" required></input>
 					</th>
 					<th>
-						<input id="apellidos" name="apellidos" type="text" placeholder="Apellidos" pattern="[A-Za-záéíóú]+" title="Solo se aceptan caraceteres alfabeticos" required></input>
+						<input id="apellidos" name="apellidos" type="text" placeholder="Apellidos" pattern="[A-Za-záéíóú ]+" title="Solo se aceptan caraceteres alfabeticos" autocomplete="off" required></input>
 					</th>
 				</tr>
 				<tr>
 					<th>
-						<input id="centroUniv" name="centroUniv" type="text" placeholder="Centro universitario" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos"></input>
+						<input id="centroUniv" name="centroUniv" type="text" placeholder="Centro universitario" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
 					</th>
 					<th>
-						<input id="gradoEstudios" name="gradoEstudios" type="text" placeholder="Grado de estudios" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos"></input>
+						<input id="gradoEstudios" name="gradoEstudios" type="text" placeholder="Grado de estudios" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
 					</th>
 				</tr>
 			</table>
 			<table>
 					<tr>
-						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos"></input>
+						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" required></input>
+						<input id="linInves" name="linInves" type="text" placeholder="Línea de investigación (Para agregar, introduzca el nombre y luego presione tabulador)" pattern="[A-Za-záéíóú0-9 ,;.:-]+" title="Solo se aceptan caraceteres alfanúmericos" autofocus ></input>
+						Líneas de investigación registradas <br/>
+						<div id="linGuardadas" name="linGuardadas" class="inner"></div>
+					</tr>
+					<tr>
+					<th><div name="statusUsername" id="statusUsername"><br/><ul><li><strong>Username: </strong></li></ul></div></th>
+					<th><div name="statusEmail" id="statusEmail"><br/><ul><li><strong>Email: </strong></li></ul></div></th>
+					<th><div name="statusClave" id="statusClave"><br/><ul><li><strong>Clave: </strong></li></ul></div></th>
 					</tr>
 			</table>
-			<input type="submit" value="Registrar" id="registrar" name="registrar" onclick="corroborar();"></input>
-			<div name="statusUsername" id="statusUsername"><br/><ul><li><strong>Username: </strong></li></ul></div>
-			<div name="statusEmail" id="statusEmail"><br/><ul><li><strong>Email: </strong></li></ul></div>
-			<div name="statusClave" id="statusClave"><br/><ul><li><strong>Clave: </strong></li></ul></div>
+			<input type="submit" value="Registrar" id="registrar" name="registrar" class="enviar"></input>
 		</form>
 	</div>
-	<span>
-		<img src="imagenes/blackmesalogo.jpg" alt="Logo"></img>
-	</span>
 </section>
 
 <script language="JavaScript" type="text/javascript" src="/js/check_user.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/random-password-generator.js"></script>
+
+<script>
+	var cont = 1;
+	$.get( "/linea_investigacion/lin_autocomp.php", function( lineas ) {
+		$( function() {
+			var availableTags = JSON.parse(lineas);
+			$("#linInves").autocomplete({
+			source: availableTags
+			});
+		} );
+	});
+
+    var info = "";
+	$("#linInves").keypress(function(e) {
+	    var keycode = (e.keyCode ? e.keyCode : e.which);
+	    var linTexto = document.getElementById("linInves").value + "-";
+
+	    if (keycode == '9' && linTexto != "") {
+	    	$("#linGuardadas").append('<h3><a id="num'+ cont +'" value="'+ linTexto +'">'+ linTexto + '</a><input id="eli'+ cont +'" type="button" value="X" class="btnRemove btn-xs"></input></h3>');
+	    	info += linTexto;
+
+			$('.btnRemove').click (function () {   
+				var aux = $(this).prev().text();
+				var auxStr = info.replace(aux, "");
+				info = auxStr;
+				//alert("Asi deberia quedar: "+ info);
+                $(this).prev().remove();    
+                $(this).remove();
+            });
+
+			//alert(info);
+	    	document.getElementById("linInves").value = "";
+	    	$('#linInves').focus();
+	    	cont++;
+	    }
+	});
+
+	$('.enviar').click(function(){
+		$("#linInves").val(info) ;
+	});
+</script>
+
+

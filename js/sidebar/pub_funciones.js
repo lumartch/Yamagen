@@ -1,3 +1,6 @@
+$("#profile").on('click', function(){
+    $("#contInfo").load("/js/sidebar/profile.html");                    
+});
 $("#linInnov").on('click', function() {
     $("#contInfo").load("/publicacion/linInnov.html");
 });

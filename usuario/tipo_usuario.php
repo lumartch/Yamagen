@@ -1,5 +1,10 @@
 <?php
 	include "usuario.php";
+
+	class Generar_PDF{
+		
+	}
+
 	class Usr {
 		function __construct(){
 			
@@ -46,12 +51,13 @@
 			$insert = ("Insert into USUARIO(username, email, password, nombre, apellidos, centroUniAct, gradoEstudios, clave, id_tipo_usuario) 
 				values('$username', '$email', '$password', '$nombre', '$apellidos', '$centroUniversitario', '$grado_estudios', '$clave', 2)");
 			if(mysqli_query($conn, $insert)){
-				echo "New record created successfully";
+				echo "Nuevo usuario creado.";
+				mysqli_close($conn);
 			}
 			else{
 				echo "Error: ". mysqli_error($conn);
+				mysqli_close($conn);
 			}
-			mysqli_close($conn);
 		}
 
 		public function mostrarUsuario(){

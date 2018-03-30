@@ -1,4 +1,18 @@
 <?php
+	include "linea_investigacion.php";
+	$linea_investigacion = new Linea_Investigacion;
+	$lineasInv = $_POST['linInves'];
+	$jsonLineas = json_encode(explode("-", $lineasInv));
+	$jsonLineas = json_decode($jsonLineas);
+	for($i = 0; $i < count($jsonLineas) - 1; $i++){
+		if($jsonLineas[$i] == ""){
+		}
+		else{
+			$auxLin = $jsonLineas[$i];
+			$linea_investigacion->crear($auxLin);
+		}
+	}
+
 	include "tipo_usuario.php";
 	$username = $_POST['username'];
 	$email = $_POST['email'];
@@ -13,4 +27,26 @@
 	$usuario->crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);
 	$tipo_usuario = new Tipo_Usuario;
 	$tipo_usuario->admin->crearUsuario($usuario);
+
+
+	for($i = 0; $i < count($jsonLineas) - 1; $i++){
+		if($jsonLineas[$i] == ""){
+		}
+		else{
+			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$lin = $jsonLineas[$i];
+			$insert = "INSERT INTO USR_LIN_INVES(lin_inves, usrname) VALUES ('$lin', '$username')";
+			if(mysqli_query($conn, $insert)){
+				mysqli_close($conn);
+			}
+			else{
+				echo "Error: ". mysqli_error($conn);
+				mysqli_close($conn);
+			}
+		}
+	}
+
+	echo '<script type="text/javascript">
+    	window.location.href="/index.html";
+    </script>';
 ?>

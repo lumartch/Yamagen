@@ -4,10 +4,13 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Yamagen by Black Mesa</title>
-		<script language="JavaScript" type="text/javascript" src="/js/jquery.min.js"></script>
-		<link rel="stylesheet" href="/css/main.css" />
-		<script language="JavaScript" type="text/javascript" src="/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="stylesheet" href="/css/login.css" />
+		<link rel="stylesheet" href="/css/jquery-ui.css">
+		<script language="JavaScript" type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+		<script language="JavaScript" type="text/javascript" src="/js/jquery-ui.js"></script>
+		<script language="JavaScript" type="text/javascript" src="/js/bootstrap.min.js"></script>
 	</head>	
 	<body>
 		<div id="wrapper">
@@ -36,19 +39,4 @@
 	</body>
 </html>
 
-<script language="javascript" type="text/javascript">
-	var isLogged = true;
-	if(isLogged == true){
-		var type_user = 1;
-		if(type_user == 1){
-			$("#menu").load("/js/sidebar/sidebar_adm.html");
-		}
-		else{
-			$("#menu").load("/js/sidebar/sidebar_user.html");
-		}
-	}
-	else{
-		$("#menu").load("/js/sidebar/sidebar_default.html");
-	}
-	$("#contInfo").load("/mini_info.html");
-</script>
+<script language="JavaScript" type="text/javascript" src="/js/index.js"></script>

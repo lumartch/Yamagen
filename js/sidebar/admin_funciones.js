@@ -1,3 +1,5 @@
+
+
 $("#crearUsuario").on('click', function() {
     $("#contInfo").load("/usuario/crear.html");
 });

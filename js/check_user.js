@@ -1,6 +1,6 @@
-var bandera1 = false;
-var bandera2 = false;
-var bandera3 = false;
+$('#username').bind('copy paste', function(e) { e.preventDefault(); });
+$('#email').bind('copy paste', function(e) { e.preventDefault(); });
+$('#clave').bind('copy paste', function(e) { e.preventDefault(); });
 
 $("#username").keyup(function() {
 	var text = $("#username").val();
@@ -12,11 +12,12 @@ $("#username").keyup(function() {
 		function(data){
 			$("#statusUsername").html("<br/><ul><li><strong>Username: " + data + "</strong></li></ul>");
 			if(data == "Disponible"){
-				bandera1 = false;
+				document.getElementById("statusUsername").value = data;
 			}
 			else{
-				bandera1 = true;
+				document.getElementById("statusUsername").value = data;
 			}
+			corroborar();
 		});
 	}
 });
@@ -32,11 +33,12 @@ $("#email").keyup(function() {
 		function(data){
 			$("#statusEmail").html("<br/><ul><li><strong>Email: " + data + "</strong></li></ul>");
 			if(data == "Disponible"){
-				bandera2 = false;
+				document.getElementById("statusEmail").value = data;
 			}
 			else{
-				bandera2 = true;
+				document.getElementById("statusEmail").value = data;
 			}
+			corroborar();
 		});
 	}
 });
@@ -51,21 +53,24 @@ $("#clave").keyup(function() {
 		function(data){
 			$("#statusClave").html("<br/><ul><li><strong>Clave: " + data + "</strong></li></ul>");
 			if(data == "Disponible"){
-				bandera3 = false;
+				document.getElementById("statusClave").value = data;
 			}
 			else{
-				bandera3 = true;
+				document.getElementById("statusClave").value = data;
 			}
+			corroborar();
 		});
 	}
+
 });
 
-
-
-
-if(bandera1 == true && bandera2 == true && bandera3 == true){
-		document.getElementById("statusUsername").value = "Pos si";
-	}
-	else{
+function corroborar(){
+	if(document.getElementById("statusUsername").value == "Disponible" &&
+		document.getElementById("statusEmail").value == "Disponible" &&
+		document.getElementById("statusClave").value == "Disponible"){
 		document.getElementById("registrar").disabled = false;
 	}
+	else{
+		document.getElementById("registrar").disabled = true;
+	}
+}
