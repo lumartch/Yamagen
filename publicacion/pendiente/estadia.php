@@ -1,17 +1,17 @@
 <?php
 	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-	$select = "SELECT id, nomInvestigacion, usrname FROM LIN_INNOVADORA WHERE status = false";
+	$select = "SELECT id, nomEstadia, usrname FROM ESTADIA WHERE status = false";
 	$resultado= mysqli_query($conn, $select);
 	mysqli_close($conn);
 
 	echo '<ul>';
 	$data = "";
 	while($row = mysqli_fetch_assoc($resultado)) {
-		$data = $row['id']."_".$row['nomInvestigacion']."_".$row['usrname']."_linInnov";
+		$data = $row['id']."_".$row['nomEstadia']."_".$row['usrname']."_estadia";
 		echo '
 			<li>
-				<input value="'.$row['nomInvestigacion'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/>
+				<input value="'.$row['nomEstadia'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/>
 				<form action="/publicacion/pendiente/aceptar_publicacion.php" method="post" id="aceptar"></form>
 				<form action="" method="post"></form>
 				<form action="" method="post"></form>

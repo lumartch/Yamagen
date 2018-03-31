@@ -23,18 +23,31 @@ insert into USUARIO(username, email,password, nombre, apellidos, centroUniAct, g
 create table LINEA_INVESTIGACION(linea VARCHAR(40) NOT NULL UNIQUE);
 <--Prueba--->
 insert into LINEA_INVESTIGACION(linea) values("Prueba");
-insert into LINEA_INVESTIGACION(linea) values("Hola mundo");
-insert into LINEA_INVESTIGACION(linea) values("Esto es una prueba");
 
 //Usr_lin_inves
 create table USR_LIN_INVES(lin_inves VARCHAR(40) NULL, FOREIGN KEY(lin_inves) REFERENCES LINEA_INVESTIGACION(linea), usrname VARCHAR(30) NOT NULL, FOREIGN KEY (usrname) REFERENCES USUARIO(username));
 <---Prueba->
 insert into USR_LIN_INVES(lin_inves, usrname) values ('Prueba','AdminYamagen');
+<--Eliminar-->
+Delete from USR_LIN_INVES where lin_inves='Prueba' and usrname='AdminYamagen';
 
 
 
 //Linea Innovadora
 create table LIN_INNOVADORA(id INT PRIMARY KEY AUTO_INCREMENT, nomInvestigacion VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+INSERT INTO LIN_INNOVADORA (nomInvestigacion, usrname, nombre, apellidos, status) VALUES ('$this->nomInvestigacion','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+<--update-->
+UPDATE LIN_INNOVADORA SET status=true where id='$' and nomInvestigacion='$' and usrname='$';
 
-<--Aceptar-->
-UPDATE LIN_INNOVADORA SET status=true where id=2 and nomInvestigacion='Hey' and usrname='AdminYamagen';
+//Direccion 
+create table DIRECCION(id INT PRIMARY KEY AUTO_INCREMENT, nomDireccion VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, nombreAlumno VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+
+insert into DIRECCION(nomDireccion, fechaIni, fechaFin, nomEmpresa, nombreAlumno, usrname, nombre, apellidos, status)
+	VALUES ('', '', '','', '', '','', '', '',)
+
+
+//Estadia
+create table ESTADIA(id INT PRIMARY KEY AUTO_INCREMENT, nomEstadia VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, nombreAlumno VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+
+//Proyecto_Inv
+create table PROY_INVESTIGACION(id INT PRIMARY KEY AUTO_INCREMENT, nomProyecto VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);

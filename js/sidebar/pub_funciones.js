@@ -37,7 +37,3 @@ $("#estadia").on('click', function() {
 $("#proy_inv").on('click', function() {
     $("#contInfo").load("/publicacion/proy_inv.html");
 });
-
-$("#pub_pendientes").on('click', function() {
-    $("#contInfo").load("/publicacion/pendiente/pub_pendientes.html");
-});

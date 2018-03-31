@@ -3,7 +3,7 @@
 </section>
 
 <section>
-	<form action="/publicacion/crearPublicacion.php" method="post">
+	<form action="/publicacion/usuario/crear_publicacion.php" method="post">
 		<table>
 			<tr>
 				<th><input id="nomArt" name="nomArt" type="text" placeholder="Artículo" required></input></th>
@@ -14,7 +14,10 @@
 				<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" required></input></th>
 			</tr>
 			<tr>
+				<th>Fecha de registro</th>
 				<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" required></input></th>
+			</tr>
+			<tr>
 				<th><select id="tipo" name="tipo" required>
 						<option value="1">Articulo de difusión y divulgación</option>
 						<option value="2">Articulo arbitrado</option>

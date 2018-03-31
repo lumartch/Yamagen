@@ -9,10 +9,6 @@ $.get( "/js/session.php", function( isLogged ) {
 			else{
 				$("#menu").load("/js/sidebar/sidebar_user.html");
 			}
-
-			$.get( "/js/user.php", function( username ) {
-				$("#usuario").html("<a id='profile'><h4><strong>" + username + "</strong></h4></a>");
-			});
 		});
 		
 	}

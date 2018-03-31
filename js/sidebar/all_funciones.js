@@ -7,9 +7,13 @@ $("#equipo").on('click', function() {
 });
 
 $("#pub_nuevas").on('click', function() {
-    $("#contInfo").load("/publicaciones_nuevas.html");
+    $("#contInfo").load("/publicacion/nuevas/publicaciones_nuevas.html");
 });
 
 $("#galeria").on('click', function() {
-    $("#contInfo").load("/galeria.html");
+    $("#contInfo").load("/galeria/galeria.html");
+});
+
+$("#pub_buscar").on('click', function() {
+    $("#contInfo").load("/buscar/buscar.html");
 });

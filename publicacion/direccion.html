@@ -2,21 +2,24 @@
 	<h1>Dirección individualizada</h1>
 </section>
 <section>
-	<form action="/publicacion/crearPublicacion.php" method="post">
+	<form action="/publicacion/usuario/crear_publicacion.php" method="post">
 		<table>
 			<tr>
-				<th><input id="nomProy" name="nomProy" type="text" placeholder="Proyecto" required></input></th>
+				<th><input id="nombre" name="nombre" type="text" placeholder="Proyecto" required></input></th>
 				<th><input id="empresa" name="empresa" type="text" placeholder="Empresa" required></input></th>
 			</tr>
 			<tr>
+				<th>Fecha de inicio</th>
 				<th><input id="fechaIni" name="fechaIni" type="date" placeholder="Fecha Inicio" required></input></th>
+			</tr>
+			<tr>
+				<th>Fecha final</th>
 				<th><input id="fechaFin" name="fechaFin"type="date" placeholder="Fecha fin" required></input></th>
 			</tr>
+			<tr>
 				<th><input id="alumno" name="alumno" type="text" placeholder="Alumno" required></input></th>
 			</tr>
 			<tr>
-			<tr>
-				<th><input id="fecha" name="fecha" type="date" placeholder="Fecha registro" required></input></th>
 				<th><input id="colaborador" name="colaborador" type="text" placeholder="colaboradores"></input></th>
 			</tr>
 		</table>
