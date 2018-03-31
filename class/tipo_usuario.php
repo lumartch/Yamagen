@@ -1,6 +1,8 @@
 <?php
+	session_start();
 	include "usuario.php";
-
+	include "publicacion.php";
+	
 	class Generar_PDF{
 		
 	}
@@ -10,8 +12,21 @@
 			
 		}
 
-		public function crearPublicacion(){
+		public function crearPublicacion($publicacion, $lin_nombre){
+			$username = $_SESSION['username'];
+			$nombre = $_SESSION['nombre'];
+			$apellidos = $_SESSION['apellidos'];
 
+			if($publicacion == "lin_innovadora"){
+				$aux = new Lin_Innovadora;
+				$aux->crear($lin_nombre, $username, $nombre, $apellidos);
+			}
+
+
+
+			else {
+				echo "nope";
+			}
 		}
 
 		public function mostrarPublicacion(){
@@ -64,12 +79,25 @@
 
 		}
 		
-		public function editarUsuario(){
-
-		}
-		
 		public function eliminarUsuario(){
 
+		}
+
+		public function aceptarPublicacion($tipo, $username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			if($tipo == "linInnov"){
+				$update = "UPDATE LIN_INNOVADORA SET status=true where id='$id' and nomInvestigacion='$nom' and usrname='$username'";
+				if(mysqli_query($conn, $update)){
+					echo 'Produccion aceptada';
+				}
+				else{
+					echo 'Error de produccion';
+				}
+				mysqli_close($conn);
+			}
+			else{
+				echo "error";
+			}
 		}
 	}
 

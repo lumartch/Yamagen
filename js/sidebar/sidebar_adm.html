@@ -2,6 +2,8 @@
 	<div id="usuario"></div>
 	<li><a id="principal">Página principal</a></li>
 	<li><a id="equipo">Equipo técnico</a></li>
+	<li><a id="pub_nuevas">Publicaciones nuevas</a></li>
+	<li><a id="galeria">Galeria de fotos</a></li>
 	<li>
 	    <div class="panel panel-default">
 	        <div class="panel-heading">
@@ -11,9 +13,7 @@
 	        	<div class="panel-body">
 	        		<ul>
 						<li><a id="crearUsuario">Crear usuario</a></li>
-						<li><a id="modificarUsuario">Modificar usuario</a></li>
 						<li><a id="mostrarUsuarios">Mostrar usuarios</a></li>
-						<li><a id="eliminarUsuario">Eliminar usuario</a></li>
 					</ul>
 	        	</div>
 	      	</div>
@@ -22,12 +22,12 @@
 	<li>
 	    <div class="panel panel-default">
 	        <div class="panel-heading">
-	        	<a data-toggle="collapse" data-parent="#accordion" href="#publicacion">Crear publicación</a>
+	        	<a data-toggle="collapse" data-parent="#accordion" href="#pub_sidebar">Crear publicación</a>
 	        </div>
-	        <div id="publicacion" class="panel-collapse collapse">
+	        <div id="pub_sidebar" class="panel-collapse collapse">
 	        	<div class="panel-body">
 	        		<ul>
-						<li><a id="linInnov">Línea innovadora de investigación aplicada y desarrollo tecnológico.</a></li>
+						<li><a id="lineaIN">Línea innovadora de investigación aplicada y desarrollo tecnológico</a></li>
 						<li>
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -56,12 +56,14 @@
 	    </div>
 	</li>
 	<li><a id="pub_pendientes">Publicaciones pendientes</a></li>
+	<li><a id="pub_user">Mis publicaciones</a></li>
 	<li><a id="pub_buscar">Buscar publicación</a></li>
 	<li><a id="contacto">Contacto</a></li>
 	<li><a href="/session/CierreSesion.php" id="cerrarSesion">Cerrar sesión</a></li>
 </ul>
 
 <!--scrips-->
+<script language="JavaScript" type="text/javascript" src="/js/sidebar/pub_funciones.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/sidebar/admin_funciones.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/sidebar/all_funciones.js"></script>
-<script language="JavaScript" type="text/javascript" src="/js/sidebar/pub_funciones.js"></script>
+<script language="JavaScript" type="text/javascript" src="/js/sidebar/users_funciones.js"></script>

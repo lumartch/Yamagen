@@ -30,3 +30,11 @@ insert into LINEA_INVESTIGACION(linea) values("Esto es una prueba");
 create table USR_LIN_INVES(lin_inves VARCHAR(40) NULL, FOREIGN KEY(lin_inves) REFERENCES LINEA_INVESTIGACION(linea), usrname VARCHAR(30) NOT NULL, FOREIGN KEY (usrname) REFERENCES USUARIO(username));
 <---Prueba->
 insert into USR_LIN_INVES(lin_inves, usrname) values ('Prueba','AdminYamagen');
+
+
+
+//Linea Innovadora
+create table LIN_INNOVADORA(id INT PRIMARY KEY AUTO_INCREMENT, nomInvestigacion VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+
+<--Aceptar-->
+UPDATE LIN_INNOVADORA SET status=true where id=2 and nomInvestigacion='Hey' and usrname='AdminYamagen';

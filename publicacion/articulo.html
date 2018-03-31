@@ -3,7 +3,7 @@
 </section>
 
 <section>
-	<form action="#" method="post">
+	<form action="/publicacion/crearPublicacion.php" method="post">
 		<table>
 			<tr>
 				<th><input id="nomArt" name="nomArt" type="text" placeholder="Artículo" required></input></th>
@@ -27,6 +27,7 @@
 			</tr>
 		</table>
 		<input type="submit" value="Registrar" id="registrar"></input>
+		<input type="hidden" id="publicacion" name="publicacion" value="articulo"></input>
 	</form>
 </section>
 

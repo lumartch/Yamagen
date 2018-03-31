@@ -1,6 +1,53 @@
 <section id="banner">
+	<div class="inner">
 	<h1>Perfil de usuario</h1>
-</section>
+		<form action="#" method="post">
+			<table>
+				<tr>
+					<th>
+						<input id="username" name="username" type="text" disabled></input>
+					</th>
+					<th><!--Hacer regex de correo-->
+						<input id="email" name="email" type="text" placeholder="Correo electronico" title="Formato incorrecto de correo electronico" autocomplete="off" required></input>
+						<input type="button" value="Cambiar"></button>
+					</th>
+				</tr>
+				<tr>
+					<th>
+						<input id="newPass" name="newPass" type="text" placeholder="Nueva contraseña" title="Nueva contraseña" autocomplete="off" required></input>
+					</th>
+					<th>
+						<input id="confPass" name="confPass" type="text" placeholder="Confirmar contraseña" title="Confirmar contraseña" autocomplete="off" required></input>
+					</th>
+				</tr>
+				<tr>
+					<th>
+						<input id="nombre" name="nombre" type="text" placeholder="Nombre(s)"  pattern="[A-Za-záéíóú ]+" title="Solo se aceptan caraceteres alfabeticos" autocomplete="off" required></input>
+					</th>
+					<th>
+						<input id="apellidos" name="apellidos" type="text" placeholder="Apellidos" pattern="[A-Za-záéíóú ]+" title="Solo se aceptan caraceteres alfabeticos" autocomplete="off" required></input>
+					</th>
+				</tr>
+				<tr>
+					<th>
+						<input id="centroUniv" name="centroUniv" type="text" placeholder="Centro universitario" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
+					</th>
+					<th>
+						<input id="gradoEstudios" name="gradoEstudios" type="text" placeholder="Grado de estudios" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
+					</th>
+				</tr>
+			</table>
+			<table>
+					<tr>
+						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" required></input>
+						<input id="linInves" name="linInves" type="text" placeholder="Línea de investigación (Para agregar, introduzca el nombre y luego presione tabulador)" pattern="[A-Za-záéíóú0-9 ,;.:-]+" title="Solo se aceptan caraceteres alfanúmericos" autofocus ></input>
+						Líneas de investigación registradas <br/>
 
-<section id="banner">
+						<div id="linGuardadas" name="linGuardadas" class="inner"></div>
+
+					</tr>
+			</table>
+			<input type="submit" value="Guardar" id="guardar" name="guardar"></input>
+		</form>
+	</div>
 </section>

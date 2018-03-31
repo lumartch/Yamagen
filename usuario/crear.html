@@ -79,12 +79,9 @@
 				var aux = $(this).prev().text();
 				var auxStr = info.replace(aux, "");
 				info = auxStr;
-				//alert("Asi deberia quedar: "+ info);
                 $(this).prev().remove();    
                 $(this).remove();
             });
-
-			//alert(info);
 	    	document.getElementById("linInves").value = "";
 	    	$('#linInves').focus();
 	    	cont++;

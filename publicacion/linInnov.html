@@ -2,12 +2,14 @@
 	<h1>Línea innovadora de investigación aplicada y desarrollo tecnológico</h1>
 </section>
 <section>
-	<div action="#" method="post">
-		<table>
-			<tr><input type="text" placeholder="Linea de investigacion"></input></tr>
-			<tr><input id="colaborador" name="colaborador" type="text" placeholder="colaboradores"></input></tr>
-		</table>
-		<input type="submit" value="Registrar"></input>
-	</div>
-
+	<form  action="/publicacion/crearPublicacion.php" method="post">
+		<div>
+			<table>
+				<tr><input id="lin_nombre" name="lin_nombre" type="text" placeholder="Linea de investigacion" required></input></tr>
+				<tr><input id="colaborador" name="colaborador" type="text" placeholder="Colaboradores"></input></tr>
+			</table>
+			<input type="submit" value="Registrar"></input>
+		</div>
+		<input type="hidden" id="publicacion" name="publicacion" value="lin_innovadora"></input>
+	</form>
 </section>

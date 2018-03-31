@@ -6,6 +6,7 @@
 	$select = "SELECT username, nombre, apellidos, email, centroUniAct, gradoEstudios, clave FROM USUARIO";
 	$resultado = mysqli_query($conn, $select);
 	mysqli_close($conn);
+	
 	while($row = mysqli_fetch_assoc($resultado)) {
 		
 		$user = $row['username'];

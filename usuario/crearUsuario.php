@@ -1,5 +1,6 @@
 <?php
-	include "linea_investigacion.php";
+	include ($_SERVER['DOCUMENT_ROOT']."/class/linea_investigacion.php");
+
 	$linea_investigacion = new Linea_Investigacion;
 	$lineasInv = $_POST['linInves'];
 	$jsonLineas = json_encode(explode("-", $lineasInv));
@@ -13,7 +14,7 @@
 		}
 	}
 
-	include "tipo_usuario.php";
+	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
 	$username = $_POST['username'];
 	$email = $_POST['email'];
 	$password = $_POST['pass'];

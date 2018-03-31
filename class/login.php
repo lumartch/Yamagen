@@ -17,7 +17,7 @@
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$select = "SELECT id_tipo_usuario FROM USUARIO WHERE username = '$this->username' and password = '$this->password'";
+			$select = "SELECT id_tipo_usuario, nombre, apellidos FROM USUARIO WHERE username = '$this->username' and password = '$this->password'";
 			$resultado = mysqli_query($conn, $select);
 			mysqli_close($conn);			
 
@@ -29,6 +29,9 @@
 				
 				//Toma el tipo de usuario
 				$fila = mysqli_fetch_assoc($resultado);
+
+				$_SESSION['nombre'] = $fila['nombre'];
+				$_SESSION['apellidos'] = $fila['apellidos'];
 
 				$_SESSION['type_user'] = $fila['id_tipo_usuario'];
 	            echo '<script type="text/javascript">

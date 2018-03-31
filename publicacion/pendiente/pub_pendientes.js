@@ -1,0 +1,1 @@
+$("#linInnovBody").load("/publicacion/pendiente/lin_innov.php");
