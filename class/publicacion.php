@@ -144,18 +144,212 @@
 	}
 
 	class Prod_Academica extends Producto_Status{
-		private $fechaPub;
+		private $fecha;
 		public function __construct(){
 
 		}
 	}
 
 	class Articulo extends Prod_Academica{
-		private $nombreArticulo;
+		private $nomArticulo;
 		private $nombreRevista;
-		private $;
-		private $;
+		private $noPaginas;
+		private $isbn;
+
+		public function __construct(){
+
+		}
+
+		public function crear($nombrePub, $nombreRevista, $noPaginas, $isbn, $fecha, $username, $nombre, $apellidos){
+			$this->nomArticulo = $nombrePub;
+			$this->fecha = $fecha;
+			$this->nombreRevista = $nombreRevista;
+			$this->noPaginas = $noPaginas;
+			$this->isbn = $isbn;
+			$this->username = $username;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->status = false;
+
+
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$insert = "INSERT INTO ARTICULO(nomArticulo, nombreRevista, noPaginas, isbn, fecha, usrname, nombre, apellidos, status)
+			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->noPaginas','$this->isbn', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			
+			if(mysqli_query($conn, $insert)){
+				echo 'Se ha realizado una insercion';
+			}
+			else{
+				echo "No se pudo";
+			}
+			mysqli_close($conn);
+		}
 	}
 
+	class Bibliografico extends Prod_Academica{
+		private $nomArticulo;
+		private $nombreRevista;
+		private $noPaginas;
+		private $isbn;
+		private $editorial;
+		public function __construct(){
+
+		}
+
+		public function crear($nombrePub, $nombreRevista, $editorial, $noPaginas, $isbn, $fecha, $username, $nombre, $apellidos){
+			$this->nomArticulo = $nombrePub;
+			$this->fecha = $fecha;
+			$this->nombreRevista = $nombreRevista;
+			$this->editorial = $editorial;
+			$this->noPaginas = $noPaginas;
+			$this->isbn = $isbn;
+			$this->username = $username;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->status = false;
+
+
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$insert = "INSERT INTO BIBLIOGRAFICO(nomArticulo, nombreRevista, editorial, noPaginas, isbn, fecha, usrname, nombre, apellidos, status)
+			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->editorial','$this->noPaginas','$this->isbn', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			
+			if(mysqli_query($conn, $insert)){
+				echo 'Se ha realizado una insercion';
+			}
+			else{
+				echo "No se pudo";
+			}
+			mysqli_close($conn);
+		}
+	}
+
+
+	class Informe_Tecnico extends Prod_Academica{
+		private $nomPub;
+		private $dependencia;
+
+		public function __construct(){
+
+		}
+
+		public function crear($nombrePub, $dependencia, $fecha, $username, $nombre, $apellidos){
+			$this->nomPub = $nombrePub;
+			$this->dependencia = $dependencia;
+			$this->fecha = $fecha;
+			$this->username = $username;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->status = false;
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+
+			$insert = "INSERT INTO INFORME_TECNICO(nomPub, dependencia, fecha, usrname, nombre, apellidos, status)
+			VALUES ('$this->nomPub', '$this->dependencia', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			
+			if(mysqli_query($conn, $insert)){
+				echo 'Se ha realizado una insercion';
+			}
+			else{
+				echo "No se pudo";
+			}
+			mysqli_close($conn);
+		}
+
+	}
+
+	class Prod_Innovadora extends Prod_Academica{
+		private $nomPub;
+		private $noRegistro;
+
+		public function __construct(){
+
+		}
+
+		public function crear($nombrePub, $noRegistro, $fecha, $username, $nombre, $apellidos){
+			$this->nomPub = $nombrePub;
+			$this->noRegistro = $noRegistro;
+			$this->fecha = $fecha;
+			$this->username = $username;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->status = false;
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+
+			$insert = "INSERT INTO PROD_INNOVADORA(nomPub, noRegistro, fecha, usrname, nombre, apellidos, status)
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			
+			if(mysqli_query($conn, $insert)){
+				echo 'Se ha realizado una insercion';
+			}
+			else{
+				echo "No se pudo";
+			}
+			mysqli_close($conn);
+		}
+
+	}
+
+	class Manual_Operacion extends Prod_Academica{
+		private $nomPub;
+		private $noRegistro;
+
+		public function __construct(){
+
+		}
+
+		public function crear($nombrePub, $noRegistro, $fecha, $username, $nombre, $apellidos){
+			$this->nomPub = $nombrePub;
+			$this->noRegistro = $noRegistro;
+			$this->fecha = $fecha;
+			$this->username = $username;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->status = false;
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+
+			$insert = "INSERT INTO MANUAL_OPERACION(nomPub, noRegistro, fecha, usrname, nombre, apellidos, status)
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			
+			if(mysqli_query($conn, $insert)){
+				echo 'Se ha realizado una insercion';
+			}
+			else{
+				echo "No se pudo";
+			}
+			mysqli_close($conn);
+		}
+
+	}
+
+	class Prototipo extends Prod_Academica{
+		private $nomPub;
+		private $noRegistro;
+
+		public function __construct(){
+
+		}
+
+		public function crear($nombrePub, $noRegistro, $fecha, $username, $nombre, $apellidos){
+			$this->nomPub = $nombrePub;
+			$this->noRegistro = $noRegistro;
+			$this->fecha = $fecha;
+			$this->username = $username;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->status = false;
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+
+			$insert = "INSERT INTO PROTOTIPO(nomPub, noRegistro, fecha, usrname, nombre, apellidos, status)
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			
+			if(mysqli_query($conn, $insert)){
+				echo 'Se ha realizado una insercion';
+			}
+			else{
+				echo "No se pudo";
+			}
+			mysqli_close($conn);
+		}
+
+	}
 
 ?>
