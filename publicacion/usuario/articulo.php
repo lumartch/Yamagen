@@ -15,15 +15,16 @@
 			<li>
 				<input value="'.$row['nomArticulo'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/>
 				
-				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="elForm"></form>
-				<form action="#" method="post" id="verForm"></form>
+				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="eliminarForm"></form>
+				<form action="#" method="post" id="mostrarForm"></form>
+				<form action="#" method="post" id="editarForm"></form>
 
 				<table>
 					<tr>
-						<button id="eliminar" name="eliminar" value="'.$data.'" form="elForm">Eliminar</button>
+						<button id="eliminar" name="eliminar" value="'.$data.'" form="eliminarForm">Eliminar</button>
 
-						<button id="ver" name="ver" value="veTODO" form="verForm">Editar</button>
-						<button id="ver" name="ver" value="veTODO" form="verForm">Ver</button>
+						<button id="ver" name="ver" value="veTODO" form="mostrarForm">Ver</button>
+						<button id="ver" name="ver" value="veTODO" form="editarForm">Editar</button>
 					</tr>
 				</table>
 			</li>';

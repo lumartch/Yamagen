@@ -23,6 +23,21 @@
 			$this->centroUniversitario = $centroUniversitario;
 			$this->grado_estudios = $grado_estudios;
 			$this->clave = $clave;
+
+			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			if(!$conn){
+				echo 'Conexion no establecida'. mysql_error();
+			}
+
+			$insert = ("Insert into USUARIO(username, email, password, nombre, apellidos, centroUniAct, gradoEstudios, clave, id_tipo_usuario) 
+				values('$username', '$email', '$password', '$nombre', '$apellidos', '$centroUniversitario', '$grado_estudios', '$clave', 2)");
+			if(mysqli_query($conn, $insert)){
+				echo "Nuevo usuario creado.";
+			}
+			else{
+				echo "Error: ". mysqli_error($conn);
+			}
+			mysqli_close($conn);
 		}
 
 		public function editar($username){
@@ -31,32 +46,6 @@
 
 		public function mostrar($username){
 			$this->username = $username;
-		}
-
-		public function getUsername(){
-			return $this->username;
-		}
-
-		public function getEmail(){
-			return $this->email;
-		}
-		public function getPassword(){
-			return $this->password;
-		}
-		public function getNombre(){
-			return $this->nombre;
-		}
-		public function getApellidos(){
-			return $this->apellidos;
-		}
-		public function getCentroUniversitario(){
-			return $this->centroUniversitario;
-		}
-		public function getGradoEstudios(){
-			return $this->grado_estudios;
-		}
-		public function getClave(){
-			return $this->clave;
 		}
 
 	}

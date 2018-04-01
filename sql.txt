@@ -26,50 +26,55 @@ insert into LINEA_INVESTIGACION(linea) values("Prueba");
 
 //Usr_lin_inves
 create table USR_LIN_INVES(lin_inves VARCHAR(40) NULL, FOREIGN KEY(lin_inves) REFERENCES LINEA_INVESTIGACION(linea), usrname VARCHAR(30) NOT NULL, FOREIGN KEY (usrname) REFERENCES USUARIO(username));
-<---Prueba->
+<--Prueba-->
 insert into USR_LIN_INVES(lin_inves, usrname) values ('Prueba','AdminYamagen');
-<--Eliminar-->
-Delete from USR_LIN_INVES where lin_inves='Prueba' and usrname='AdminYamagen';
-
 
 
 //Linea Innovadora
-create table LIN_INNOVADORA(id INT PRIMARY KEY AUTO_INCREMENT, nomInvestigacion VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table LIN_INNOVADORA(id INT PRIMARY KEY AUTO_INCREMENT, nomInvestigacion VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
+
+
 INSERT INTO LIN_INNOVADORA (nomInvestigacion, usrname, nombre, apellidos, status) VALUES ('$this->nomInvestigacion','$this->username','$this->nombre','$this->apellidos', '$this->status')";
 <--update-->
 UPDATE LIN_INNOVADORA SET status=true where id='$' and nomInvestigacion='$' and usrname='$';
 
+
 //Direccion 
-create table DIRECCION(id INT PRIMARY KEY AUTO_INCREMENT, nomDireccion VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, nombreAlumno VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
-
-insert into DIRECCION(nomDireccion, fechaIni, fechaFin, nomEmpresa, nombreAlumno, usrname, nombre, apellidos, status)
-	VALUES ('', '', '','', '', '','', '', '',)
-
+create table DIRECCION(id INT PRIMARY KEY AUTO_INCREMENT, nomDireccion VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, nombreAlumno VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
 //Estadia
-create table ESTADIA(id INT PRIMARY KEY AUTO_INCREMENT, nomEstadia VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, nombreAlumno VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table ESTADIA(id INT PRIMARY KEY AUTO_INCREMENT, nomEstadia VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, nombreAlumno VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
 //Proyecto_Inv
-create table PROY_INVESTIGACION(id INT PRIMARY KEY AUTO_INCREMENT, nomProyecto VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table PROY_INVESTIGACION(id INT PRIMARY KEY AUTO_INCREMENT, nomProyecto VARCHAR(40) NOT NULL, fechaIni DATE NOT NULL, fechaFin DATE NOT NULL, nomEmpresa VARCHAR(40) NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
-
+//Tipo_Articulo
+create table TIPO_ARTICULO(id INT PRIMARY KEY AUTO_INCREMENT, tipo VARCHAR(40) NOT NULL);
+insert into TIPO_ARTICULO(tipo) VALUES ('Artículo de difusión y divulgación');
+insert into TIPO_ARTICULO(tipo) VALUES ('Articulo arbitrado');
+insert into TIPO_ARTICULO(tipo) VALUES ('Artículo en revista');
 
 //Articulo
-create table ARTICULO(id INT PRIMARY KEY AUTO_INCREMENT, nomArticulo VARCHAR(40) NOT NULL, nombreRevista VARCHAR(40) NOT NULL, noPaginas INT NOT NULL, isbn VARCHAR(40) NOT NULL, fecha DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table ARTICULO(id INT PRIMARY KEY AUTO_INCREMENT, nomArticulo VARCHAR(40) NOT NULL, nombreRevista VARCHAR(40) NOT NULL, noPaginas INT NOT NULL, isbn VARCHAR(40) NOT NULL, fechaPublicacion DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL, id_tipo_articulo INT NOT NULL, FOREIGN KEY(id_tipo_articulo) REFERENCES TIPO_ARTICULO(id));
+
+//tipo bibliografico
+create table TIPO_BIBLIOGRAFICO(id INT PRIMARY KEY AUTO_INCREMENT, tipo VARCHAR(40) NOT NULL);
+insert into TIPO_BIBLIOGRAFICO(tipo) VALUES ('Libro');
+insert into TIPO_BIBLIOGRAFICO(tipo) VALUES ('Memorias');
 
 //Bibliografico
-create table BIBLIOGRAFICO(id INT PRIMARY KEY AUTO_INCREMENT, nomArticulo VARCHAR(40) NOT NULL, nombreRevista VARCHAR(40) NOT NULL, editorial VARCHAR(40) NOT NULL, noPaginas INT NOT NULL, isbn VARCHAR(40) NOT NULL, fecha DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table BIBLIOGRAFICO(id INT PRIMARY KEY AUTO_INCREMENT, nomArticulo VARCHAR(40) NOT NULL, nombreRevista VARCHAR(40) NOT NULL, editorial VARCHAR(40) NOT NULL, noPaginas INT NOT NULL, isbn VARCHAR(40) NOT NULL, fechaPublicacion DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL, id_tipo_biblio INT NOT NULL, FOREIGN KEY(id_tipo_biblio) REFERENCES TIPO_BIBLIOGRAFICO(id));
 
 //Informe tecnico
-create table INFORME_TECNICO(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, dependencia VARCHAR(40) NOT NULL, fecha DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table INFORME_TECNICO(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, dependencia VARCHAR(40) NOT NULL, fechaPublicacion DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
 //Produccion innovadora
-create table PROD_INNOVADORA(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, noRegistro VARCHAR(40) NOT NULL, fecha DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table PROD_INNOVADORA(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, noRegistro VARCHAR(40) NOT NULL, fechaPublicacion DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
 //Manual
-create table MANUAL_OPERACION(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, noRegistro VARCHAR(40) NOT NULL, fecha DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table MANUAL_OPERACION(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, noRegistro VARCHAR(40) NOT NULL, fechaPublicacion DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
 //Prototipo
-create table PROTOTIPO(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, noRegistro VARCHAR(40) NOT NULL, fecha DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL);
+create table PROTOTIPO(id INT PRIMARY KEY AUTO_INCREMENT, nomPub VARCHAR(40) NOT NULL, noRegistro VARCHAR(40) NOT NULL, fechaPublicacion DATE NOT NULL, usrname VARCHAR(30) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, status BOOL NOT NULL, fechaInsercion DATE NOT NULL);
 
 

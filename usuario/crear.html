@@ -1,12 +1,13 @@
 <section>
 	<div class="inner">
-		<form action="/usuario/crearUsuario.php" method="post">
+		<form action="/usuario/crear_usuario.php" method="post">
 			<h1>Registro de usuario</h1>
 			<table>
 				<tr>
 					<th>
 						<input id="username" name="username" type="text" placeholder="Username" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanumericos" autocomplete="off" required></input>
 					</th>
+
 					<th><!--Hacer regex de correo-->
 						<input id="email" name="email" type="text" placeholder="Correo electronico" title="Formato incorrecto de correo electronico" autocomplete="off" required></input>
 					</th>
@@ -37,7 +38,7 @@
 			<table>
 					<tr>
 						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" required></input>
-						<input id="linInves" name="linInves" type="text" placeholder="Línea de investigación (Para agregar, introduzca el nombre y luego presione tabulador)" pattern="[A-Za-záéíóú0-9 ,;.:-]+" title="Solo se aceptan caraceteres alfanúmericos" autofocus ></input>
+						<input id="linInves" name="linInves" type="text" placeholder="Línea de investigación (Para agregar, introduzca el nombre y luego presione tabulador)" pattern="[A-Za-záéíóú0-9 ,;.:]+" title="Solo se aceptan caraceteres alfanúmericos" autofocus ></input>
 						Líneas de investigación registradas <br/>
 						<div id="linGuardadas" name="linGuardadas" class="inner"></div>
 					</tr>
@@ -48,6 +49,8 @@
 					</tr>
 			</table>
 			<input type="submit" value="Registrar" id="registrar" name="registrar" class="enviar"></input>
+
+			<input type="hidden" id="lineas_inv" name="lineas_inv" disabled></input>
 		</form>
 	</div>
 </section>
@@ -72,7 +75,7 @@
 	    var linTexto = document.getElementById("linInves").value + "-";
 
 	    if (keycode == '9' && linTexto != "") {
-	    	$("#linGuardadas").append('<h3><a id="num'+ cont +'" value="'+ linTexto +'">'+ linTexto + '</a><input id="eli'+ cont +'" type="button" value="X" class="btnRemove btn-xs"></input></h3>');
+	    	$("#linGuardadas").append('<button id="eli'+ cont +'" value="'+linTexto+'" class="btnRemove">'+linTexto+'  X</button>');
 	    	info += linTexto;
 
 			$('.btnRemove').click (function () {   
@@ -89,7 +92,7 @@
 	});
 
 	$('.enviar').click(function(){
-		$("#linInves").val(info) ;
+		$("#lineas_inv").val(info) ;
 	});
 </script>
 

@@ -14,16 +14,15 @@
 		echo '
 			<li>
 				<input value="'.$row['nomArticulo'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/>
-				
-				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="elForm"></form>
-				<form action="#" method="post" id="verForm"></form>
+				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="eliminarForm"></form>
+				<form action="/publicacion/usuario/modificar_publicacion.php" method="post" id="modificarForm"></form>
+				<form action="/publicacion/usuario/mostrar_publicacion.php" method="post" id="mostrarForm"></form>
 
 				<table>
 					<tr>
-						<button id="eliminar" name="eliminar" value="'.$data.'" form="elForm">Eliminar</button>
-
-						<button id="ver" name="ver" value="veTODO" form="verForm">Editar</button>
-						<button id="ver" name="ver" value="veTODO" form="verForm">Ver</button>
+						<button id="eliminar" name="eliminar" value="'.$data.'" form="eliminarForm">Eliminar</button>
+						<button id="modificar" name="modificar" value="modificar" form="modificarForm">Modificar</button>
+						<button id="mostrar" name="mostrar" value="mostrar" form="mostrarForm">Mostrar</button>
 					</tr>
 				</table>
 			</li>';

@@ -28,8 +28,8 @@
 			$this->username = $username;
 
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-			$insert = "INSERT INTO LIN_INNOVADORA (nomInvestigacion, usrname, nombre, apellidos, status) 
-			VALUES ('$this->nomInvestigacion','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO LIN_INNOVADORA (nomInvestigacion, usrname, nombre, apellidos, status, fechaInsercion) 
+			VALUES ('$this->nomInvestigacion','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
 			}
@@ -38,6 +38,33 @@
 			}
 			mysqli_close($conn);
 		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM LIN_INNOVADORA WHERE id='$id' and nomInvestigacion='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE LIN_INNOVADORA SET status=true where id='$id' and nomInvestigacion='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+
+		}
+
+
 	}
 
 	class Direccion extends Producto_Status{
@@ -63,8 +90,8 @@
 			$this->status = false;
 
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-			$insert = "INSERT INTO DIRECCION(nomDireccion, fechaIni, fechaFin, nomEmpresa, nombreAlumno, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomDireccion', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO DIRECCION(nomDireccion, fechaIni, fechaFin, nomEmpresa, nombreAlumno, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomDireccion', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
 			}
@@ -72,6 +99,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM DIRECCION WHERE id='$id' and nomDireccion='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE DIRECCION SET status=true where id='$id' and nomDireccion='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 	}
 
@@ -98,8 +150,8 @@
 			$this->status = false;
 
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-			$insert = "INSERT INTO ESTADIA(nomEstadia, fechaIni, fechaFin, nomEmpresa, nombreAlumno, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomEstadia', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO ESTADIA(nomEstadia, fechaIni, fechaFin, nomEmpresa, nombreAlumno, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomEstadia', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
 			}
@@ -107,6 +159,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM ESTADIA WHERE id='$id' and nomEstadia='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE ESTADIA SET status=true where id='$id' and nomEstadia='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 	}
 
@@ -131,8 +208,8 @@
 			$this->status = false;
 
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-			$insert = "INSERT INTO PROY_INVESTIGACION(nomProyecto, fechaIni, fechaFin, nomEmpresa, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomProyecto', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO PROY_INVESTIGACION(nomProyecto, fechaIni, fechaFin, nomEmpresa, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomProyecto', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
 			}
@@ -141,10 +218,35 @@
 			}
 			mysqli_close($conn);
 		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM PROY_INVESTIGACION WHERE id='$id' and nomProyecto='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE PROY_INVESTIGACION SET status=true where id='$id' and nomProyecto='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
+		}
 	}
 
 	class Prod_Academica extends Producto_Status{
-		private $fecha;
+		private $fechaPublicacion;
 		public function __construct(){
 
 		}
@@ -155,14 +257,15 @@
 		private $nombreRevista;
 		private $noPaginas;
 		private $isbn;
+		private $id_tipo;
 
 		public function __construct(){
 
 		}
 
-		public function crear($nombrePub, $nombreRevista, $noPaginas, $isbn, $fecha, $username, $nombre, $apellidos){
+		public function crear($nombrePub, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $username, $nombre, $apellidos, $id_tipo){
 			$this->nomArticulo = $nombrePub;
-			$this->fecha = $fecha;
+			$this->fechaPublicacion = $fechaPublicacion;
 			$this->nombreRevista = $nombreRevista;
 			$this->noPaginas = $noPaginas;
 			$this->isbn = $isbn;
@@ -171,10 +274,12 @@
 			$this->apellidos = $apellidos;
 			$this->status = false;
 
+			$this->id_tipo = $id_tipo;
 
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-			$insert = "INSERT INTO ARTICULO(nomArticulo, nombreRevista, noPaginas, isbn, fecha, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->noPaginas','$this->isbn', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO ARTICULO(nomArticulo, nombreRevista, noPaginas, isbn, fechaPublicacion, usrname, nombre, apellidos, status, fechaInsercion, id_tipo_articulo)
+			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->noPaginas','$this->isbn', '$this->fechaPublicacion','$this->username','$this->nombre','$this->apellidos',
+			 '$this->status', NOW(), '$this->id_tipo')";
 			
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
@@ -183,6 +288,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM ARTICULO WHERE id='$id' and nomArticulo='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE ARTICULO SET status=true where id='$id' and nomArticulo='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 	}
 
@@ -192,13 +322,15 @@
 		private $noPaginas;
 		private $isbn;
 		private $editorial;
+		private $id_tipo;
+
 		public function __construct(){
 
 		}
 
-		public function crear($nombrePub, $nombreRevista, $editorial, $noPaginas, $isbn, $fecha, $username, $nombre, $apellidos){
+		public function crear($nombrePub, $nombreRevista, $editorial, $noPaginas, $isbn, $fechaPublicacion, $username, $nombre, $apellidos, $id_tipo){
 			$this->nomArticulo = $nombrePub;
-			$this->fecha = $fecha;
+			$this->fechaPublicacion = $fechaPublicacion;
 			$this->nombreRevista = $nombreRevista;
 			$this->editorial = $editorial;
 			$this->noPaginas = $noPaginas;
@@ -208,10 +340,13 @@
 			$this->apellidos = $apellidos;
 			$this->status = false;
 
+			$this->id_tipo = $id_tipo;
+
 
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-			$insert = "INSERT INTO BIBLIOGRAFICO(nomArticulo, nombreRevista, editorial, noPaginas, isbn, fecha, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->editorial','$this->noPaginas','$this->isbn', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO BIBLIOGRAFICO(nomArticulo, nombreRevista, editorial, noPaginas, isbn, fechaPublicacion, usrname, nombre, apellidos, status, fechaInsercion, id_tipo_biblio)
+			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->editorial','$this->noPaginas','$this->isbn', '$this->fechaPublicacion','$this->username','$this->nombre','$this->apellidos', 
+				'$this->status', NOW(), '$this->id_tipo')";
 			
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
@@ -219,7 +354,31 @@
 			else{
 				echo "No se pudo";
 			}
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM BIBLIOGRAFICO WHERE id='$id' and nomArticulo='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
 			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE BIBLIOGRAFICO SET status=true where id='$id' and nomArticulo='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 	}
 
@@ -232,18 +391,18 @@
 
 		}
 
-		public function crear($nombrePub, $dependencia, $fecha, $username, $nombre, $apellidos){
+		public function crear($nombrePub, $dependencia, $fechaPublicacion, $username, $nombre, $apellidos){
 			$this->nomPub = $nombrePub;
 			$this->dependencia = $dependencia;
-			$this->fecha = $fecha;
+			$this->fechaPublicacion = $fechaPublicacion;
 			$this->username = $username;
 			$this->nombre = $nombre;
 			$this->apellidos = $apellidos;
 			$this->status = false;
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-			$insert = "INSERT INTO INFORME_TECNICO(nomPub, dependencia, fecha, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomPub', '$this->dependencia', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO INFORME_TECNICO(nomPub, dependencia, fechaPublicacion, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomPub', '$this->dependencia', '$this->fechaPublicacion','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
@@ -252,6 +411,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM INFORME_TECNICO WHERE id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE INFORME_TECNICO SET status=true where id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 
 	}
@@ -264,18 +448,18 @@
 
 		}
 
-		public function crear($nombrePub, $noRegistro, $fecha, $username, $nombre, $apellidos){
+		public function crear($nombrePub, $noRegistro, $fechaPublicacion, $username, $nombre, $apellidos){
 			$this->nomPub = $nombrePub;
 			$this->noRegistro = $noRegistro;
-			$this->fecha = $fecha;
+			$this->fechaPublicacion = $fechaPublicacion;
 			$this->username = $username;
 			$this->nombre = $nombre;
 			$this->apellidos = $apellidos;
 			$this->status = false;
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-			$insert = "INSERT INTO PROD_INNOVADORA(nomPub, noRegistro, fecha, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO PROD_INNOVADORA(nomPub, noRegistro, fechaPublicacion, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
@@ -284,6 +468,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM PROD_INNOVADORA WHERE id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE PROD_INNOVADORA SET status=true where id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 
 	}
@@ -296,18 +505,18 @@
 
 		}
 
-		public function crear($nombrePub, $noRegistro, $fecha, $username, $nombre, $apellidos){
+		public function crear($nombrePub, $noRegistro, $fechaPublicacion, $username, $nombre, $apellidos){
 			$this->nomPub = $nombrePub;
 			$this->noRegistro = $noRegistro;
-			$this->fecha = $fecha;
+			$this->fechaPublicacion = $fechaPublicacion;
 			$this->username = $username;
 			$this->nombre = $nombre;
 			$this->apellidos = $apellidos;
 			$this->status = false;
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-			$insert = "INSERT INTO MANUAL_OPERACION(nomPub, noRegistro, fecha, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO MANUAL_OPERACION(nomPub, noRegistro, fechaPublicacion, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
@@ -316,6 +525,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM MANUAL_OPERACION WHERE id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE MANUAL_OPERACION SET status=true where id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 
 	}
@@ -328,18 +562,18 @@
 
 		}
 
-		public function crear($nombrePub, $noRegistro, $fecha, $username, $nombre, $apellidos){
+		public function crear($nombrePub, $noRegistro, $fechaPublicacion, $username, $nombre, $apellidos){
 			$this->nomPub = $nombrePub;
 			$this->noRegistro = $noRegistro;
-			$this->fecha = $fecha;
+			$this->fechaPublicacion = $fechaPublicacion;
 			$this->username = $username;
 			$this->nombre = $nombre;
 			$this->apellidos = $apellidos;
 			$this->status = false;
 			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-			$insert = "INSERT INTO PROTOTIPO(nomPub, noRegistro, fecha, usrname, nombre, apellidos, status)
-			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fecha','$this->username','$this->nombre','$this->apellidos', '$this->status')";
+			$insert = "INSERT INTO PROTOTIPO(nomPub, noRegistro, fechaPublicacion, usrname, nombre, apellidos, status, fechaInsercion)
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion','$this->username','$this->nombre','$this->apellidos', '$this->status', NOW())";
 			
 			if(mysqli_query($conn, $insert)){
 				echo 'Se ha realizado una insercion';
@@ -348,6 +582,31 @@
 				echo "No se pudo";
 			}
 			mysqli_close($conn);
+		}
+
+		public function eliminar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$delete = "DELETE FROM PROTOTIPO WHERE id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $delete)){
+				echo 'Produccion Eliminada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+		}
+
+		public function aceptar($username, $nom, $id){
+			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$update = "UPDATE PROTOTIPO SET status=true where id='$id' and nomPub='$nom' and usrname='$username'";
+			if(mysqli_query($conn, $update)){
+				echo 'Produccion aceptada';
+			}
+			else{
+				echo 'Error de produccion';
+			}
+			mysqli_close($conn);
+			
 		}
 
 	}
