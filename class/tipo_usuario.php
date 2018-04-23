@@ -163,12 +163,20 @@
 			$usuario->crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);
 		}
 
-		public function mostrarUsuario(){
-
+		public function modificarUsuario($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave){
+			$usuario = new Usuario;
+			$usuario->crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);
 		}
-		
-		public function eliminarUsuario(){
 
+		public function mostrarUsuario($username){
+			$usuario = new Usuario;
+			$usuario->mostrar($username);
+		}
+
+		
+		public function eliminarUsuario($username){
+			$usuario = new Usuario;
+			$usuario->eliminar($username);
 		}
 
 		public function aceptarPublicacion($tipo, $username, $nom, $id){

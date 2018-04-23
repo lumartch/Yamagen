@@ -3,7 +3,38 @@
 </section>
 
 <section id="mostrar_usuarios">
+	
 </section>
 
-
 <script>$("#mostrar_usuarios").load("/usuario/mostrar_usuarios.php");</script>
+
+<script>
+	var usuario = '';
+    var password = '';
+	var nombre = '';
+    var apellido = '';
+    var email = '';
+    var grado = '';
+    var centro = '';
+    var clave = '';
+    function modificarDatos(usr, pass, nam, ape, ema, gra, cen, clav){
+        this.usuario = usr;
+        password = pass;
+        nombre = nam;
+        apellido = ape;
+        email = ema;
+        grado = gra;
+        centro = cen;
+        clave = clav;
+        alert("Modificando usuario: " +  this.usuario);
+        window.location.href = "/usuario/modificar_usuario.php/" + "?usr=" +  this.usuario + "&pass=" + this.password + "&nom=" + this.nombre + "&ape=" + this.apellido + "&ema=" + this.email + "&gra=" + this.grado + "&cen=" + this.centro + "&clav=" + this.clave;
+    }
+
+    function eliminarDatos(usr){
+        this.usuario = usr;
+        alert("Eliminando usuario: " +  this.usuario);
+        window.location.href = "/usuario/eliminar_usuario.php/" + "?usr=" + this.usuario;
+    }
+
+
+</script>
