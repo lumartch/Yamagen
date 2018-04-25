@@ -1,36 +1,87 @@
 <?php 
-
-	class Usuario {
-		private $username;
-		private $email;
-		private $password;
+	class Academico{
+		private $id_academico;
 		private $nombre;
 		private $apellidos;
+		private $email;
 		private $centroUniversitario;
 		private $grado_estudios;
 		private $clave;
+		function __construct(){
+
+		}
+		public function crear($nombre, $apellidos, $email){
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+
+			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			if(!$conn){
+				echo 'Conexion no establecida'. mysql_error();
+			}
+			$insert = ("INSERT INTO ACADEMICO(nombre, apellidos, email) VALUES ('$nombre', '$apellidos', '$email')");
+			if(mysqli_query($conn, $insert)){
+				echo "Nuevo Academico creado.";
+			}
+			else{
+				echo "Error: ". mysqli_error($conn);
+			}
+			mysqli_close($conn);
+		}
+		public function modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
+			$this->id_academico = $id_academico;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->email = $email;
+			$this->centroUniversitario = $centroUniversitario;
+			$this->grado_estudios = $grado_estudios;
+			$this->clave = $clave;
+
+			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			if(!$conn){
+				echo 'Conexion no establecida'. mysql_error();
+			}
+
+			$update = ("UPDATE  ACADEMICO SET nombre = '$this->nombre', apellidos = '$this->apellidos', email = '$this->email', 
+						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  WHERE id = '$this->id_academico'");
+			if(mysqli_query($conn, $update)){
+			}
+			else{
+				echo "Error: ". mysqli_error($conn);
+			}
+			mysqli_close($conn);
+		}
+
+		public function eliminar($id){
+
+		}
+	}
+
+	class Usuario {
+		private $id_usuario;
+		private $username;
+		private $password;
+		private $id_academico;
 
 		function __construct(){
 
 		}
 
-		public function crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave){
+		public function crear($username, $password, $nombre, $apellidos, $email){
 			$this->username = $username;
-			$this->email = $email;
 			$this->password = $password;
-			$this->nombre = $nombre;
-			$this->apellidos = $apellidos;
-			$this->centroUniversitario = $centroUniversitario;
-			$this->grado_estudios = $grado_estudios;
-			$this->clave = $clave;
 
 			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$insert = ("Insert into USUARIO(username, email, password, nombre, apellidos, centroUniAct, gradoEstudios, clave, id_tipo_usuario) 
-				values('$username', '$email', '$password', '$nombre', '$apellidos', '$centroUniversitario', '$grado_estudios', '$clave', 2)");
+			$select_academico = ("SELECT id FROM ACADEMICO WHERE nombre = '$nombre' and apellidos = '$apellidos' and email = '$email'");
+			$this->id_academico = mysqli_query($conn, $select_academico);
+			$id = mysqli_fetch_assoc($this->id_academico);
+			$id_A = $id["id"];
+			
+			$insert = ("INSERT INTO USUARIO (username, password, id_tipo_usuario, id_academico) VALUES ('$username', '$password', 2, '$id_A')");
+
 			if(mysqli_query($conn, $insert)){
 				echo "Nuevo usuario creado.";
 			}
@@ -40,25 +91,17 @@
 			mysqli_close($conn);
 		}
 
-		public function modificar($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave){
-			$this->username = $username;
-			$this->email = $email;
+		public function modificar($id_usuario, $password){
 			$this->password = $password;
-			$this->nombre = $nombre;
-			$this->apellidos = $apellidos;
-			$this->centroUniversitario = $centroUniversitario;
-			$this->grado_estudios = $grado_estudios;
-			$this->clave = $clave;
+			$this->id_usuario = $id_usuario;
 
 			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$insert = ("UPDATE  USUARIO  email = '$this->email', password = '$this->password', nombre = '$this->nombre', apellidos = '$this->apellidos', centroUniAct = '$this->centroUniversitario', 
-				gradoEstudios = '$this->grado_estudios', clave = '$this->clave' WHERE username = '$this->username'");
-			if(mysqli_query($conn, $insert)){
-				echo "Nuevo usuario creado.";
+			$update = ("UPDATE  USUARIO SET password = '$this->password' WHERE id = '$this->id_usuario'");
+			if(mysqli_query($conn, $update)){
 			}
 			else{
 				echo "Error: ". mysqli_error($conn);
@@ -66,14 +109,14 @@
 			mysqli_close($conn);
 		}
 
-		public function eliminar($username){
-			$this->username = $username;
+		public function eliminar($id_usuario){
+			$this->id_usuario = $id_usuario;
 			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$delete = ("Delete from USUARIO WHERE username = '$this->username'");
+			$delete = ("DELETE FROM USUARIO WHERE id = '$this->id_usuario'");
 			if(mysqli_query($conn, $delete)){ }
 			else{
 				echo "Error: ". mysqli_error($conn);
@@ -82,7 +125,7 @@
 		}
 
 
-		public function mostrar($username){
+		/*public function mostrar($username){
 			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
@@ -162,7 +205,7 @@
 					<br/>";
 				$i++;
 		    }
-		}
+		}*/
 
 	}
 ?>

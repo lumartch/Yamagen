@@ -1,9 +1,9 @@
 <?php
 	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
 	$admin = new Admin;
-	$username = $_GET['usr'];
+	$id_usuario = $_GET['id_usuaro'];
 
-	$admin->eliminarUsuario($username);
+	$admin->eliminarUsuario($id_usuario);
 ?>
 
 <script type="text/javascript">

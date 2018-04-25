@@ -4,7 +4,7 @@
 	if(isset($_POST['clave'])){
 		$clave = $_POST['clave'];
 		if(!empty($clave)){
-			$select = "SELECT clave FROM USUARIO WHERE clave = '$clave'";
+			$select = "SELECT clave FROM ACADEMICO WHERE clave = '$clave'";
 			$resultado = mysqli_query($conn, $select);
 			if(mysqli_num_rows($resultado) == 0){
 				echo "Disponible";

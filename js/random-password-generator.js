@@ -1,7 +1,6 @@
 //generador automatico de contraseñas
 var theNumbers = ["2","3","4","5","6","7","8","9"];
 var theLetters = ["a","b","c","d","e","f","g","h","j","k","m","n","p","q","r","s","t","u","v","w","x","y","z"];
-var theSpecials = ["!","@","#","$","%","&","*","+","="];
 
 var a= 1;
 var x = 0;
@@ -14,8 +13,6 @@ while(x < a){
 	allPwds += newPwd;
 	newPwd = theLetters[Math.floor(Math.random()*theLetters.length)];
 	newPwd = newPwd.toUpperCase(); 
-	allPwds += newPwd;
-	newPwd = theSpecials[Math.floor(Math.random()*theSpecials.length)];
 	allPwds += newPwd;
 	newPwd = theNumbers[Math.floor(Math.random()*theNumbers.length)];
 	allPwds += newPwd;

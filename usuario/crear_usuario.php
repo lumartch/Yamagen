@@ -1,5 +1,5 @@
 <?php
-	include ($_SERVER['DOCUMENT_ROOT']."/class/linea_investigacion.php");
+	/*include ($_SERVER['DOCUMENT_ROOT']."/class/linea_investigacion.php");
 
 	$linea_investigacion = new Linea_Investigacion;
 	$lineasInv = $_POST['lineas_inv'];
@@ -12,7 +12,7 @@
 			$auxLin = $jsonLineas[$i];
 			$linea_investigacion->crear($auxLin);
 		}
-	}
+	}*/
 
 	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
 	$username = $_POST['username'];
@@ -20,14 +20,11 @@
 	$password = $_POST['pass'];
 	$nombre = $_POST['nombre'];
 	$apellidos = $_POST['apellidos'];
-	$centroUniversitario = $_POST['centroUniv'];
-	$grado_estudios = $_POST['gradoEstudios'];
-	$clave = $_POST['clave'];
 	
 	$tipo_usuario = new Tipo_Usuario;
-	$tipo_usuario->admin->crearUsuario($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);
+	$tipo_usuario->admin->crearUsuario($username, $password, $nombre, $apellidos, $email);
 
-	if($lineasInv != ""){
+	/*if($lineasInv != ""){
 		for($i = 0; $i < count($jsonLineas) - 1; $i++){
 			if($jsonLineas[$i] == ""){
 			}
@@ -44,7 +41,7 @@
 				}
 			}
 		}
-	}
+	}*/
 
 	echo '<script type="text/javascript">
     	window.location.href="/index.html";

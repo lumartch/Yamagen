@@ -26,7 +26,8 @@
 						<input id="apellidos" name="apellidos" type="text" placeholder="Apellidos" pattern="[A-Za-záéíóú ]+" title="Solo se aceptan caraceteres alfabeticos" autocomplete="off" required></input>
 					</th>
 				</tr>
-				<tr>
+			</table>
+				<!--<tr>
 					<th>
 						<input id="centroUniv" name="centroUniv" type="text" placeholder="Centro universitario" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
 					</th>
@@ -34,20 +35,19 @@
 						<input id="gradoEstudios" name="gradoEstudios" type="text" placeholder="Grado de estudios" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
 					</th>
 				</tr>
-			</table>
+			</table>-->
 			<table>
-					<tr>
+					<!--<tr>
 						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" required></input>
 						<input id="linInves" name="linInves" type="text" placeholder="Línea de investigación (Para agregar, introduzca el nombre y luego presione tabulador)" pattern="[A-Za-záéíóú0-9 ,;.:]+" title="Solo se aceptan caraceteres alfanúmericos" autofocus ></input>
 						Líneas de investigación registradas <br/>
 						<div id="linGuardadas" name="linGuardadas" class="inner"></div>
-					</tr>
+					</tr>-->
 					<tr>
 					<th><div name="statusUsername" id="statusUsername"><br/><ul><li><strong>Username: </strong></li></ul></div></th>
 					<th><div name="statusEmail" id="statusEmail"><br/><ul><li><strong>Email: </strong></li></ul></div></th>
-					<th><div name="statusClave" id="statusClave"><br/><ul><li><strong>Clave: </strong></li></ul></div></th>
 					</tr>
-			</table>
+			</table>-
 			<input type="submit" value="Registrar" id="registrar" name="registrar" class="enviar"></input>
 
 			<input type="hidden" id="lineas_inv" name="lineas_inv" disabled></input>
@@ -58,7 +58,7 @@
 <script language="JavaScript" type="text/javascript" src="/js/check_user.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/random-password-generator.js"></script>
 
-<script>
+<!--<script>
 	var cont = 1;
 	$.get( "/linea_investigacion/lin_autocomp.php", function( lineas ) {
 		$( function() {
@@ -94,6 +94,6 @@
 	$('.enviar').click(function(){
 		$("#lineas_inv").val(info) ;
 	});
-</script>
+</script>-->
 
 

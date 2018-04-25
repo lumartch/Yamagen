@@ -1,6 +1,6 @@
 $('#username').bind('copy paste', function(e) { e.preventDefault(); });
 $('#email').bind('copy paste', function(e) { e.preventDefault(); });
-$('#clave').bind('copy paste', function(e) { e.preventDefault(); });
+//$('#clave').bind('copy paste', function(e) { e.preventDefault(); });
 
 $("#username").keyup(function() {
 	var text = $("#username").val();
@@ -43,7 +43,7 @@ $("#email").keyup(function() {
 	}
 });
 
-$("#clave").keyup(function() {
+/*$("#clave").keyup(function() {
 	var text = $("#clave").val();
 	if(clave == ""){
 		$("#statusClave").html("Vacio");
@@ -62,12 +62,11 @@ $("#clave").keyup(function() {
 		});
 	}
 
-});
+});*/
 
 function corroborar(){
 	if(document.getElementById("statusUsername").value == "Disponible" &&
-		document.getElementById("statusEmail").value == "Disponible" &&
-		document.getElementById("statusClave").value == "Disponible"){
+		document.getElementById("statusEmail").value == "Disponible"){
 		document.getElementById("registrar").disabled = false;
 	}
 	else{

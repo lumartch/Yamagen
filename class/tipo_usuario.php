@@ -13,13 +13,11 @@
 		}
 
 		public function crearPublicacion($publicacion, $nombrePub){
-			$username = $_SESSION['username'];
-			$nombre = $_SESSION['nombre'];
-			$apellidos = $_SESSION['apellidos'];
+			$id_academico = $_SESSION['id_academico'];
 
 			if($publicacion == "lin_innovadora"){
 				$aux = new Lin_Innovadora;
-				$aux->crear($nombrePub, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $id_academico);
 			}
 			else if($publicacion == "direccion"){
 				$fechaIni = $_POST['fechaIni'];
@@ -27,7 +25,7 @@
 				$nomEmpresa = $_POST['empresa'];
 				$nomAlumno = $_POST['alumno'];
 				$aux = new Direccion;
-				$aux->crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $nomAlumno, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $nomAlumno, $id_academico);
 			}
 			else if($publicacion == "estadia"){
 				$fechaIni = $_POST['fechaIni'];
@@ -35,14 +33,14 @@
 				$nomEmpresa = $_POST['empresa'];
 				$nomAlumno = $_POST['alumno'];
 				$aux = new Estadia;
-				$aux->crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $nomAlumno, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $nomAlumno, $id_academico);
 			}
 			else if($publicacion == "proy_inv"){
 				$fechaIni = $_POST['fechaIni'];
 				$fechaFin = $_POST['fechaFin'];
 				$nomEmpresa = $_POST['empresa'];
 				$aux = new Proy_Investigacion;
-				$aux->crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $id_academico);
 			}
 			else if($publicacion == "articulo"){
 				$nombreRevista = $_POST['nomRev'];
@@ -51,7 +49,7 @@
 				$fechaPublicacion = $_POST['fecha'];
 				$id_tipo = $_POST['tipo'];
 				$aux = new Articulo;
-				$aux->crear($nombrePub, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $username, $nombre, $apellidos, $id_tipo);
+				$aux->crear($nombrePub, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $id_academico, $id_tipo);
 			}
 			else if($publicacion == "bibliografico"){
 				$nombreRevista = $_POST['nomRev'];
@@ -61,31 +59,31 @@
 				$editorial = $_POST['editorial'];
 				$id_tipo = $_POST['tipo'];
 				$aux = new Bibliografico;
-				$aux->crear($nombrePub, $nombreRevista, $editorial, $noPaginas, $isbn, $fechaPublicacion, $username, $nombre, $apellidos, $id_tipo);
+				$aux->crear($nombrePub, $nombreRevista, $editorial, $noPaginas, $isbn, $fechaPublicacion, $id_academico, $id_tipo);
 			}
 			else if($publicacion == "informe"){
 				$dependencia = $_POST['nomDep'];
 				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Informe_Tecnico;
-				$aux->crear($nombrePub, $dependencia, $fechaPublicacion, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $dependencia, $fechaPublicacion, $id_academico);
 			}
 			else if($publicacion == "prod_innovadora"){
-				$dependencia = $_POST['noReg'];
+				$noRegistro = $_POST['noReg'];
 				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Prod_Innovadora;
-				$aux->crear($nombrePub, $dependencia, $fechaPublicacion, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $noRegistro, $fechaPublicacion, $id_academico);
 			}
 			else if($publicacion == "manual"){
-				$dependencia = $_POST['noReg'];
+				$noRegistro = $_POST['noReg'];
 				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Manual_Operacion;
-				$aux->crear($nombrePub, $dependencia, $fechaPublicacion, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $noRegistro, $fechaPublicacion, $id_academico);
 			}
 			else if($publicacion == "prototipo"){
-				$dependencia = $_POST['noReg'];
+				$noRegistro = $_POST['noReg'];
 				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Prototipo;
-				$aux->crear($nombrePub, $dependencia, $fechaPublicacion, $username, $nombre, $apellidos);
+				$aux->crear($nombrePub, $noRegistro, $fechaPublicacion, $id_academico);
 			}
 
 			else {
@@ -158,14 +156,18 @@
 
 		}
 
-		public function crearUsuario($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave){
+		public function crearUsuario($username, $password, $nombre, $apellidos, $email){
+			$academico = new Academico;
+			$academico->crear($nombre, $apellidos, $email);
 			$usuario = new Usuario;
-			$usuario->crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);
+			$usuario->crear($username, $password, $nombre, $apellidos, $email);
 		}
 
-		public function modificarUsuario($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave){
+		public function modificarUsuario($id_academico, $id_usuario, $password, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
 			$usuario = new Usuario;
-			$usuario->crear($username, $email, $password, $nombre, $apellidos, $centroUniversitario, $grado_estudios, $clave);
+			$usuario->modificar($id_usuario, $password);
+			$academico = new Academico;
+			$academico->modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
 		}
 
 		public function mostrarUsuario($username){
@@ -174,9 +176,9 @@
 		}
 
 		
-		public function eliminarUsuario($username){
+		public function eliminarUsuario($id_usuario){
 			$usuario = new Usuario;
-			$usuario->eliminar($username);
+			$usuario->eliminar($id_usuario);
 		}
 
 		public function aceptarPublicacion($tipo, $username, $nom, $id){

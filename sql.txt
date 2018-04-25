@@ -15,6 +15,8 @@ insert into TIPO_USUARIO(nombreTipo) values('usr');
 // Lineas de investigacion
 create table USUARIO(username VARCHAR(30) PRIMARY KEY UNIQUE NOT NULL, email VARCHAR(40) NOT NULL, password CHAR(40) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, centroUniAct VARCHAR(40) NOT NULL, gradoEstudios VARCHAR(40), clave VARCHAR(20) UNIQUE NOT NULL,id_tipo_usuario INT NOT NULL, FOREIGN KEY(id_tipo_usuario) REFERENCES TIPO_USUARIO(id));
 
+create table ACADEMICO(username VARCHAR(30) PRIMARY KEY UNIQUE NOT NULL, email VARCHAR(40) NOT NULL, password CHAR(40) NOT NULL, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, centroUniAct VARCHAR(40) NOT NULL, gradoEstudios VARCHAR(40), clave VARCHAR(20) UNIQUE NOT NULL,id_tipo_usuario INT NOT NULL, FOREIGN KEY(id_tipo_usuario) REFERENCES TIPO_USUARIO(id));
+
 <--Administrador-->
 insert into USUARIO(username, email,password, nombre, apellidos, centroUniAct, gradoEstudios, clave,id_tipo_usuario) values ('AdminYamagen', 'yamagen@gmail.com','123456789', 'Administrador', 'Yamagen', 'Black Mesa', 'Ingenieria','QWERTY', 1);
 

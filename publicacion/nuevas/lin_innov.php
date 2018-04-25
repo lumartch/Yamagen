@@ -1,15 +1,18 @@
 <?php
 	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
-	$select = "SELECT id, nomInvestigacion, usrname FROM LIN_INNOVADORA WHERE status = true ORDER BY id DESC LIMIT 5";
-
+	$select = "SELECT * FROM LIN_INNOVADORA WHERE status = true ORDER BY id DESC LIMIT 5";
 	$resultado= mysqli_query($conn, $select);
-	mysqli_close($conn);
 
 	echo '<ul>';
 	$data = "";
 	while($row = mysqli_fetch_assoc($resultado)) {
-		$data = $row['id']."_".$row['nomInvestigacion']."_".$row['usrname']."_linInnov";
-		echo '<li><input value="'.$row['nomInvestigacion'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/></li>';
+		$id_academico = $row['id_academico'];
+		$select_AC = "SELECT nombre, apellidos FROM ACADEMICO WHERE id = '$id_academico'";
+		$res_AC = mysqli_query($conn, $select_AC);
+		$resul = mysqli_fetch_assoc($res_AC); 
+		$data = $row['id']."_".$row['nomInvestigacion']."_".$row['id_academico']."_linInnov";
+		echo '<li><input value="'.$row['nomInvestigacion'].' del academico '.$resul['nombre'].' '.$resul['apellidos'].'" disabled="true" type="text"/></li>';
 	}
 	echo '</ul>';
+	mysqli_close($conn);
 ?>

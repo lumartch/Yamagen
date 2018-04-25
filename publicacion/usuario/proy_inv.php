@@ -1,19 +1,23 @@
 <?php
 	session_start();
-	$username = $_SESSION['username'];
+	$id_academico = $_SESSION['id_academico'];
 	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-	$select = "SELECT id, nomProyecto, usrname FROM PROY_INVESTIGACION WHERE usrname = '$username'";
+	$select = "SELECT id, nomProyecto, id_academico FROM PROY_INVESTIGACION WHERE id_academico = '$id_academico'";
+	$select_AC = "SELECT nombre, apellidos FROM ACADEMICO WHERE id = '$id_academico'";
 	$resultado= mysqli_query($conn, $select);
+	$res_AC = mysqli_query($conn, $select_AC);
+	$resul = mysqli_fetch_assoc($res_AC);
+	
 	mysqli_close($conn);
 
 	echo '<ul>';
 	$data = "";
 	while($row = mysqli_fetch_assoc($resultado)) {
-		$data = $row['id']."_".$row['nomProyecto']."_".$row['usrname']."_proInv";
+		$data = $row['id']."_".$row['nomProyecto']."_".$row['id_academico']."_proInv";
 		echo '
 			<li>
-				<input value="'.$row['nomProyecto'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/>
+				<input value="'.$row['nomProyecto'].' del academico '.$resul['nombre'].' '.$resul["apellidos"].'" disabled="true" type="text"/>
 				
 				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="elForm"></form>
 				<form action="#" method="post" id="verForm"></form>

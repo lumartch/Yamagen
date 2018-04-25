@@ -1,19 +1,23 @@
 <?php
 	session_start();
-	$username = $_SESSION['username'];
+	$id_academico = $_SESSION['id_academico'];
 	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
 
-	$select = "SELECT id, nomPub, usrname FROM PROD_INNOVADORA WHERE usrname = '$username'";
+	$select = "SELECT id, nomPub, id_academico FROM PROD_INNOVADORA WHERE id_academico = '$id_academico'";
+	$select_AC = "SELECT nombre, apellidos FROM ACADEMICO WHERE id = '$id_academico'";
 	$resultado= mysqli_query($conn, $select);
+	$res_AC = mysqli_query($conn, $select_AC);
+	$resul = mysqli_fetch_assoc($res_AC);
+	
 	mysqli_close($conn);
 
 	echo '<ul>';
 	$data = "";
 	while($row = mysqli_fetch_assoc($resultado)) {
-		$data = $row['id']."_".$row['nomPub']."_".$row['usrname']."_prodInnov";
+		$data = $row['id']."_".$row['nomPub']."_".$row['id_academico']."_prodInnov";
 		echo '
 			<li>
-				<input value="'.$row['nomPub'].' del usuario '.$row['usrname'].'" disabled="true" type="text"/>
+				<input value="'.$row['nomPub'].' del academico '.$resul['nombre'].' '.$resul["apellidos"].'" disabled="true" type="text"/>
 				
 				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="elForm"></form>
 				<form action="#" method="post" id="verForm"></form>
