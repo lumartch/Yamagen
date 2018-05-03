@@ -91,48 +91,48 @@
 			}
 		}
 		
-		public function eliminarPublicacion($tipo, $username, $nom, $id){
+		public function eliminarPublicacion($tipo, $id_academico, $nom, $id){
 			if($tipo == "linInnov"){
 				$aux = new Lin_Innovadora;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "dirInd"){
 				$aux = new Direccion;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "estadia"){
 				$aux = new Estadia;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "proInv"){
 				$aux = new Proy_Investigacion;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "articulo"){
 				$aux = new Articulo;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "bibliografico"){
 				$aux = new Bibliografico;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 				
 			}
 			else if($tipo == "informe"){
 				$aux = new Informe_Tecnico;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "prodInnov"){
 				$aux = new Prod_Innovadora;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 				
 			}
 			else if($tipo == "manual"){
 				$aux = new Manual_Operacion;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			else if($tipo == "prototipo"){
 				$aux = new Prototipo;
-				$aux->eliminar($username, $nom, $id);
+				$aux->eliminar($id_academico, $nom, $id);
 			}
 			
 			else{
@@ -144,8 +144,90 @@
 
 		}
 		
-		public function editarPublicacion(){
-
+		public function editarPublicacion($tipo, $id_pub){
+			if($tipo == 1){
+				$aux = new Lin_Innovadora;
+				$nombre = $_GET["nombre"];
+				$aux->actualizar($id_pub, $nombre);
+			}
+			else if($tipo == 2){
+				$nomArt = $_GET['nombre'];
+				$nombreRevista = $_GET['nomRev'];
+				$noPaginas = $_GET['noPag'];
+				$isbn = $_GET['isbn'];
+				$fechaPublicacion = $_GET['fecha'];
+				$id_tipo_art = $_GET['tipoArt'];
+				$aux = new Articulo;
+				$aux->actualizar($id_pub, $nomArt, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $id_tipo_art);
+			}
+			else if($tipo == 3){
+				$nomArt = $_GET['nombre'];
+				$nombreRevista = $_GET['nomRev'];
+				$noPaginas = $_GET['noPag'];
+				$isbn = $_GET['isbn'];
+				$fechaPublicacion = $_GET['fecha'];
+				$editorial = $_GET['editorial'];
+				$id_tipo_art = $_GET['tipoArt'];
+				$aux = new Bibliografico;
+				$aux->actualizar($id_pub, $nomArt, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $editorial ,$id_tipo_art);
+			}
+			else if($tipo == 4){
+				$nomPub = $_GET['nombre'];
+				$dependencia = $_GET['nomDep'];
+				$fechaPublicacion = $_GET['fecha'];
+				$aux = new Informe_Tecnico;
+				$aux->actualizar($id_pub, $nomPub, $dependencia, $fechaPublicacion);
+			}
+			else if($tipo == 5){
+				$nomPub = $_GET['nombre'];
+				$noRegistro = $_GET['noReg'];
+				$fechaPublicacion = $_GET['fecha'];
+				$aux = new Manual_Operacion;
+				$aux->actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion);
+			}
+			else if($tipo == 6){
+				$nomPub = $_GET['nombre'];
+				$noRegistro = $_GET['noReg'];
+				$fechaPublicacion = $_GET['fecha'];
+				$aux = new Prod_Innovadora;
+				$aux->actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion);
+			}
+			else if($tipo == 7){
+				$nomPub = $_GET['nombre'];
+				$noRegistro = $_GET['noReg'];
+				$fechaPublicacion = $_GET['fecha'];
+				$aux = new Prototipo;
+				$aux->actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion);
+			}
+			else if($tipo == 8){
+				$nomPub = $_GET['nombre'];
+				$empresa = $_GET['empresa'];
+				$fechaIni = $_GET['fechaIni'];
+				$fechaFin = $_GET['fechaFin'];
+				$aux = new Proy_Investigacion;
+				$aux->actualizar($id_pub, $nomPub, $empresa, $fechaIni, $fechaFin);
+			}
+			else if($tipo == 9){
+				$nomDireccion = $_GET['nombre'];
+				$empresa = $_GET['empresa'];
+				$fechaIni = $_GET['fechaIni'];
+				$fechaFin = $_GET['fechaFin'];
+				$alumno = $_GET['alumno'];
+				$aux = new Direccion;
+				$aux->actualizar($id_pub, $nomDireccion, $empresa, $fechaIni, $fechaFin, $alumno);
+			}
+			else if($tipo == 10){
+				$nomEstadia = $_GET['nombre'];
+				$empresa = $_GET['empresa'];
+				$fechaIni = $_GET['fechaIni'];
+				$fechaFin = $_GET['fechaFin'];
+				$alumno = $_GET['alumno'];
+				$aux = new Estadia;
+				$aux->actualizar($id_pub, $nomEstadia, $empresa, $fechaIni, $fechaFin, $alumno);
+			}
+			else {
+				echo "nope";
+			}
 		}
 	}
 
@@ -167,6 +249,7 @@
 			$usuario = new Usuario;
 			$usuario->modificar($id_usuario, $password);
 			$academico = new Academico;
+
 			$academico->modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
 		}
 
@@ -181,48 +264,48 @@
 			$usuario->eliminar($id_usuario);
 		}
 
-		public function aceptarPublicacion($tipo, $username, $nom, $id){
+		public function aceptarPublicacion($tipo, $id_academico, $nom, $id){
 			if($tipo == "linInnov"){
 				$aux = new Lin_Innovadora;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "dirInd"){
 				$aux = new Direccion;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "estadia"){
 				$aux = new Estadia;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "proInv"){
 				$aux = new Proy_Investigacion;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "articulo"){
 				$aux = new Articulo;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "bibliografico"){
 				$aux = new Bibliografico;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 				
 			}
 			else if($tipo == "informe"){
 				$aux = new Informe_Tecnico;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "prodInnov"){
 				$aux = new Prod_Innovadora;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 				
 			}
 			else if($tipo == "manual"){
 				$aux = new Manual_Operacion;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 			else if($tipo == "prototipo"){
 				$aux = new Prototipo;
-				$aux->aceptar($username, $nom, $id);
+				$aux->aceptar($id_academico, $nom, $id);
 			}
 
 			else{

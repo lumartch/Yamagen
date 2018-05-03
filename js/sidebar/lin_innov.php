@@ -1,6 +1,8 @@
 <?php
 	session_start();
-	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+	$aux = new Conexion;
+	$conn = $aux->conexion();
 
 	$select = "SELECT id, nomInvestigacion, usrname FROM LIN_INNOVADORA WHERE status = false";
 	$resultado= mysqli_query($conn, $select);

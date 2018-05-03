@@ -1,11 +1,13 @@
 <?php 
+	//include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+
 	class Academico{
 		private $id_academico;
 		private $nombre;
 		private $apellidos;
 		private $email;
 		private $centroUniversitario;
-		private $grado_estudios;
+		private $grado_estudios = '';
 		private $clave;
 		function __construct(){
 
@@ -14,7 +16,9 @@
 			$this->nombre = $nombre;
 			$this->apellidos = $apellidos;
 
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
@@ -36,13 +40,15 @@
 			$this->grado_estudios = $grado_estudios;
 			$this->clave = $clave;
 
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
 			$update = ("UPDATE  ACADEMICO SET nombre = '$this->nombre', apellidos = '$this->apellidos', email = '$this->email', 
 						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  WHERE id = '$this->id_academico'");
+
 			if(mysqli_query($conn, $update)){
 			}
 			else{
@@ -70,7 +76,8 @@
 			$this->username = $username;
 			$this->password = $password;
 
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
@@ -95,7 +102,8 @@
 			$this->password = $password;
 			$this->id_usuario = $id_usuario;
 
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
@@ -111,7 +119,8 @@
 
 		public function eliminar($id_usuario){
 			$this->id_usuario = $id_usuario;
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
@@ -126,7 +135,8 @@
 
 
 		/*public function mostrar($username){
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}

@@ -1,95 +1,145 @@
+<style>
+table {
+    border-collapse: collapse;
+    border: 1px;
+} 
+
+th,td {
+    border: 1px;
+}
+
+table.d {
+    table-layout: fixed;
+    width: 100%;    
+}
+</style>
+
 <section id="banner">
-	<h1>Publicaciones pendientes</h1>
+    <h1>Publicaciones pendientes</h1>
 </section>
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#lineasInovadoras">Línea innovadora de investigación aplicada y desarrollo tecnológico</a>
-    </div>
-    <div id="lineasInovadoras" class="panel-collapse collapse">
-    	<div id="linInnovBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#art">Artículos</a>
-    </div>
-    <div id="art" class="panel-collapse collapse">
-    	<div id="artBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#biblio">Bibliografico</a>
-    </div>
-    <div id="biblio" class="panel-collapse collapse">
-    	<div id="biblioBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#inform">Informe técnico</a>
-    </div>
-    <div id="inform" class="panel-collapse collapse">
-    	<div id="informBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#manualOperacion">Manual de operación</a>
-    </div>
-    <div id="manualOperacion" class="panel-collapse collapse">
-    	<div id="manualOperacionBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#prod_innov">Productividad innovadora</a>
-    </div>
-    <div id="prod_innov" class="panel-collapse collapse">
-    	<div id="prod_innovBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#prot">Prototipo</a>
-    </div>
-    <div id="prot" class="panel-collapse collapse">
-    	<div id="protBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#proy_inv">Proyectos de investigación aplicada y desarrollo tecnológico</a>
-    </div>
-    <div id="proy_inv" class="panel-collapse collapse">
-    	<div id="proy_invBody" class="panel-body"></div>
-  	</div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#direccionIndividual">Dirección individualizada</a>
-    </div>
-    <div id="direccionIndividual" class="panel-collapse collapse">
-    	<div id="direccionIndividualBody" class="panel-body"></div>
-  	</div>
-</div>
-
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-    	<a data-toggle="collapse" data-parent="#accordion" href="#estadiaEmpresa">Estadía en empresas</a>
-    </div>
-    <div id="estadiaEmpresa" class="panel-collapse collapse">
-    	<div id="estadiaEmpresaBody" class="panel-body"></div>
-  	</div>
-</div>
+<table class="d">
+    <tr>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#linInnov">Línea innovadora de investigación aplicada y desarrollo tecnológico</a>
+                </div>
+                <div id="linInnov" class="panel-collapse collapse">
+                    <div id="linInnovBody" class="panel-body">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </th>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#art">Artículos</a>
+                </div>
+                <div id="art" class="panel-collapse collapse">
+                    <div id="artBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#biblio">Bibliografico</a>
+                </div>
+                <div id="biblio" class="panel-collapse collapse">
+                    <div id="biblioBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#inform">Informe técnico</a>
+                </div>
+                <div id="inform" class="panel-collapse collapse">
+                    <div id="informBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#manualOperacion">Manual de operación</a>
+                </div>
+                <div id="manualOperacion" class="panel-collapse collapse">
+                    <div id="manualOperacionBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#prod_innov">Productividad innovadora</a>
+                </div>
+                <div id="prod_innov" class="panel-collapse collapse">
+                    <div id="prod_innovBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#prot">Prototipo</a>
+                </div>
+                <div id="prot" class="panel-collapse collapse">
+                    <div id="protBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#proy_inv">Proyectos de investigación aplicada y desarrollo tecnológico</a>
+                </div>
+                <div id="proy_inv" class="panel-collapse collapse">
+                    <div id="proy_invBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#direccionIndividual">Dirección individualizada</a>
+                </div>
+                <div id="direccionIndividual" class="panel-collapse collapse">
+                    <div id="direccionIndividualBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+        <th>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#estadiaEmpresa">Estadía en empresas</a>
+                </div>
+                <div id="estadiaEmpresa" class="panel-collapse collapse">
+                    <div id="estadiaEmpresaBody" class="panel-body"></div>
+                </div>
+            </div>
+        </th>
+    </tr>
+</table>
 
 <script language="JavaScript" type="text/javascript" src="/publicacion/pendiente/pub_pendientes.js"></script>
+<script>
+    var info = '';
+    var tipo = '';
+    function verDatos(info, tipo){
+        this.info = info;
+        this.tipo = tipo;
+       $("#contInfo").load("/publicacion/usuario/mostrar_publicacion.php/?info="+ this.info + "&tipo=" + this.tipo);
+    }
+</script>

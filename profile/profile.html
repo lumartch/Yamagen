@@ -30,7 +30,9 @@
         this.grado = gra;
         this.centro = cen;
         this.clave = clav;
-        alert("Modificando al usuario: " +  this.username);
-        //window.location.href = "/profile/modificar.php/" + "?id_ac=" +  this.id_academico + "&id_usr=" + this.id_usuaro + "&pass=" + this.password + "&nom=" + this.nombre + "&ape=" + this.apellido + "&ema=" + this.email + "&gra=" + this.grado + "&cen=" + this.centro + "&clav=" + this.clave;
+        alert("Modificando usuario");
+        //$("#contInfo").load("/profile/modificar.php/" + "?id_ac=" +  this.id_academico + "&id_usr=" + this.id_usuaro + "&pass=" + this.password + "&nom=" + this.nombre + "&ape=" + this.apellido + "&ema=" + this.email + "&gra=" + this.grado + "&cen=" + this.centro + "&clav=" + this.clave);
+
+        window.location.href = "/profile/modificar.php/" + "?id_ac=" +  this.id_academico + "&id_usr=" + this.id_usuaro + "&pass=" + this.password + "&nom=" + this.nombre + "&ape=" + this.apellido + "&ema=" + this.email + "&gra=" + this.grado + "&cen=" + this.centro + "&clav=" + this.clave;
     }
 </script>

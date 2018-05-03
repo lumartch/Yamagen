@@ -1,7 +1,7 @@
 <?php
-	session_start();
-	$username = $_SESSION['username'];
-	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+	$aux = new Conexion;
+	$conn = $aux->conexion();
 
 	$select = "SELECT * FROM PROY_INVESTIGACION WHERE status = true ORDER BY id DESC LIMIT 5";
 	$resultado= mysqli_query($conn, $select);
@@ -13,7 +13,7 @@
 		$select_AC = "SELECT nombre, apellidos FROM ACADEMICO WHERE id = '$id_academico'";
 		$res_AC = mysqli_query($conn, $select_AC);
 		$resul = mysqli_fetch_assoc($res_AC); 
-		$data = $row['id']."_".$row['nomProyecto']."_".$row['id_academicotrue']."_proInv";
+		$data = $row['id']."_".$row['nomProyecto']."_".$row['id_academico']."_proInv";
 		echo '<li><input value="'.$row['nomProyecto'].' del academico '.$resul['nombre'].' '.$resul['apellidos'].'" disabled="true" type="text"/></li>';
 	}
 	echo '</ul>';

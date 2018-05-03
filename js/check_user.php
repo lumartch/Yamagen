@@ -1,5 +1,7 @@
 <?php
-	$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+	$aux = new Conexion;
+	$conn = $aux->conexion();
 
 	if(isset($_POST['username'])){
 		$username = $_POST['username'];

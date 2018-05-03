@@ -1,4 +1,5 @@
 <?php
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
 	class Linea_Investigacion{
 		private $linea;
 
@@ -7,7 +8,8 @@
 		}
 		public function crear($linea){
 			$this->linea = $linea;
-			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			$insert = "INSERT INTO  LINEA_INVESTIGACION (linea) VALUES ('$this->linea')";
 			if(mysqli_query($conn, $insert)){
 				echo "Nueva linea de investigacion creada.";
@@ -19,7 +21,8 @@
 		}
 		
 		public function autocomplementar(){
-			$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			$select = "SELECT linea FROM  LINEA_INVESTIGACION";
 			$resultado = mysqli_query($conn, $select);
 			mysqli_close($conn);

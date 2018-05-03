@@ -1,4 +1,5 @@
 <?php
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
 	class Login 
 	{
 		private $username;
@@ -12,14 +13,17 @@
 			session_start();
 			$this->username = $usr;
 			$this->password = $pass;
-			$conn = mysqli_connect('localhost', 'root', '', 'Yamagen');
+
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
 			$select = "SELECT * FROM USUARIO WHERE username = '$this->username' and password = '$this->password'";
 			$resultado = mysqli_query($conn, $select);
-			mysqli_close($conn);			
+			$aux->cerrar($conn);			
 
 			if (mysqli_num_rows($resultado) == 1) {
 

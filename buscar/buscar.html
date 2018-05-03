@@ -1,19 +1,352 @@
-<section class="banner">
+<style>
+table {
+    border-collapse: collapse;
+    border: 1px;
+} 
+
+th,td {
+    border: 1px;
+}
+
+table.a {
+    table-layout: auto;
+    width: 180px;    
+}
+
+table.b {
+    table-layout: fixed;
+    width: 180px;    
+}
+
+table.c {
+    table-layout: auto;
+    width: 100%;    
+}
+
+table.d {
+    table-layout: fixed;
+    width: 100%;    
+}
+</style>
+
+<section id="busqueda">
 	<h1>Buscar publicación</h1>
+		<table class="d">
+			<tr>
+				<th><input id="nomUsr" name="nomUsr" type="text" placeholder="Nombre del academico"></input></th>
+				<th><input id="nomPub" name="nomPub" type="text" placeholder="Nombre de la publicación"></input></th>
+			</tr>
+			<tr>
+				<th>Entre la fecha:    <input id="fechaPub1" name="fechaPub1" type="date"></input> Y la fecha:    <input id="fechaPub2" name="fechaPub2" type="date"></input></th>
+				<th>Tipo de publicación:
+					<div class="checkbox">
+						<label class="checkbox"><input id="sel1" name="sel1" type="checkbox" value="1"/>Línea innovadora de investigación aplicada y desarrollo tecnológico</label>
+						<label class="checkbox"><input id="sel2" name="sel2" type="checkbox" value="2"/>Artículos</label>
+						<label class="checkbox"><input id="sel3" name="sel3" type="checkbox" value="3"/>Bibliografico</label> 
+						<label class="checkbox"><input id="sel4" name="sel4" type="checkbox" value="4"/>Informe técnico</label>
+						<label class="checkbox"><input id="sel5" name="sel5" type="checkbox" value="5"/>Manual de operación</label>
+						<label class="checkbox"><input id="sel6" name="sel6" type="checkbox" value="6"/>Productividad innovadora</label> 
+						<label class="checkbox"><input id="sel7" name="sel7" type="checkbox" value="7"/>Prototipo</label>
+						<label class="checkbox"><input id="sel8" name="sel8" type="checkbox" value="8"/>Proyectos de investigación aplicada y desarrollo tecnológico</label>
+						<label class="checkbox"><input id="sel9" name="sel9" type="checkbox" value="9"/>Dirección individualizada</label> 
+						<label class="checkbox"><input id="sel10" name="sel10" type="checkbox" value="10"/>Estadía en empresas</label>
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<th><button id="buscar" onclick="buscar()">Buscar</button>
+				<p>
+					*Se deben seleccionar los campos para buscar por publicaciones. De lo contrario solo se mostrar la informacion del academico.
+				</p>
+				</th>
+			</tr>
+		</table>
+		<table id="json-data" class="mt-3 table table-striped table-dark">
+		</table>
 </section>
 
-<section class="inner">
-	<table>
-		<tr>
-			<th><input id="nomUsr" type="text" placeholder="Nombre del academico"></input></th>
-			<th><input id="nomPub" type="text" placeholder="Nombre de la publicación"></input></th>
-		</tr>
-		<tr>
-			<th>Fecha de publicación: <input id="fechaPub1" type="date"></input><input id="fechaPub2" type="date"></input></th>
-			<th>Tipo de publicación:</th>
-		</tr>
-		<tr>
-			<th><button id="buscar" type="submit" >Buscar</button></th>
-		</tr>
-	</table>
-</section>
+<script>
+	/*$(document).ready(function(){
+		
+	 });*/
+	function buscar(){
+		$("#json-data").empty()
+		var sel1 = null;
+		var sel2 = null;
+		var sel3 = null;
+		var sel4 = null;
+		var sel5 = null;
+		var sel6 = null;
+		var sel7 = null;
+		var sel8 = null;
+		var sel9 = null;
+		var sel10 = null;
+		var fechaPub1 = null;
+		var fechaPub2 = null;
+
+		if(document.getElementById('fechaPub1').value != ""){
+			fechaPub1 = document.getElementById('fechaPub1').value;
+		}
+
+		if(document.getElementById('fechaPub2').value != ""){
+			fechaPub2 = document.getElementById('fechaPub2').value;
+		}
+
+		if (document.getElementById('sel1').checked) {
+		  sel1 = document.getElementById('sel1').value;
+		}
+		if (document.getElementById('sel2').checked) {
+		  sel2 = document.getElementById('sel2').value;
+		}
+		if (document.getElementById('sel3').checked) {
+		  sel3 = document.getElementById('sel3').value;
+		}
+		if (document.getElementById('sel4').checked) {
+		  sel4 = document.getElementById('sel4').value;
+		}
+		if (document.getElementById('sel5').checked) {
+		  sel5 = document.getElementById('sel5').value;
+		}
+		if (document.getElementById('sel6').checked) {
+		  sel6 = document.getElementById('sel6').value;
+		}
+		if (document.getElementById('sel7').checked) {
+		  sel7 = document.getElementById('sel7').value;
+		}
+		if (document.getElementById('sel8').checked) {
+		  sel8 = document.getElementById('sel8').value;
+		}
+		if (document.getElementById('sel9').checked) {
+		  sel9 = document.getElementById('sel9').value;
+		}
+		if (document.getElementById('sel10').checked) {
+		  sel10 = document.getElementById('sel10').value;
+		}
+
+		$.ajax({
+			type: "POST",
+			url: '/buscar/buscar.php',
+			data: ({ nomUsr : $("#nomUsr").val(), nomPub : $("#nomPub").val(), sel1 : sel1, sel2 : sel2, sel3 : sel3, sel4 : sel4, sel5 : sel5, sel6 : sel6, sel7 : sel7, sel8 : sel8, sel9 : sel9, sel10 : sel10, fechaPub1: fechaPub1, fechaPub2: fechaPub2}),
+			success: function(respuesta){
+				console.log("Busqueda!")
+				$("#busqueda").html('<h1>Buscar publicación</h1><table id="json-data" class="c"></table>');
+				rellenarTabla(JSON.parse(respuesta))
+
+			},
+			error: function(respuesta){
+				console.log("Error D:")
+			}
+		});
+	}
+
+	function rellenarTabla(respuesta){
+		alert("¡Busqueda completada!");
+		$.each(respuesta, function(index, valor){
+
+			row = '<tr>'
+			row += '<th> Fotografia </th>'
+			row += '<th> Nombre </th>'
+			row += '<th> Apellidos </th>'
+			row += '<th> Email </th>'
+			row += '<th> Universidad </th>'
+			row += '<th> Estudios </th>'
+			row += '<th> Clave </th>'
+			row += '</tr>'
+
+			row += '<tr>'
+			row += '<td>' + valor['fotografia'] + '</td>'
+			row += '<td>' + valor['nombre'] + '</td>'
+			row += '<td>' + valor['apellidos'] + '</td>'
+			row += '<td>' + valor['email'] + '</td>'
+			row += '<td>' + valor['centroUniAct'] + '</td>'
+			row += '<td>' + valor['gradoEstudios'] + '</td>'
+			row += '<td>' + valor['clave'] + '</td>'
+			row += '</tr>'
+
+			if(valor["LIN_INNOVADORA"]){
+				row += '<tr>'
+				row += '<th> Línea innovadora </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["LIN_INNOVADORA"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomInvestigacion'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["ARTICULO"]){
+				row += '<tr>'
+				row += '<th> Articulo </th>'
+				row += '<th> Revista </th>'
+				row += '<th> No. Paginas </th>'
+				row += '<th> ISBN </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '<th> Fecha de publicación </th>'
+				row += '<th> Tipo </th>'
+				row += '</tr>'
+				$.each(valor["ARTICULO"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomArticulo'] + '</td>'
+					row += '<td>' + val['nombreRevista'] + '</td>'
+					row += '<td>' + val['noPaginas'] + '</td>'
+					row += '<td>' + val['isbn'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '<td>' + val['fechaPublicacion'] + '</td>'
+					row += '<td>' + val['tipo'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["BIBLIOGRAFICO"]){
+				row += '<tr>'
+				row += '<th> Bibliografico </th>'
+				row += '<th> Revista </th>'
+				row += '<th> Editorial </th>'
+				row += '<th> No. Paginas </th>'
+				row += '<th> ISBN </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '<th> Fecha de publicación </th>'
+				row += '<th> Tipo </th>'
+				row += '</tr>'
+				$.each(valor["BIBLIOGRAFICO"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomArticulo'] + '</td>'
+					row += '<td>' + val['nombreRevista'] + '</td>'
+					row += '<td>' + val['editorial'] + '</td>'
+					row += '<td>' + val['noPaginas'] + '</td>'
+					row += '<td>' + val['isbn'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '<td>' + val['fechaPublicacion'] + '</td>'
+					row += '<td>' + val['tipo'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["INFORME_TECNICO"]){
+				row += '<tr>'
+				row += '<th> Informe técnico </th>'
+				row += '<th> Dependencia </th>'
+				row += '<th> Fecha de publicación </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["INFORME_TECNICO"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomPub'] + '</td>'
+					row += '<td>' + val['dependencia'] + '</td>'
+					row += '<td>' + val['fechaPublicacion'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["MANUAL_OPERACION"]){
+				row += '<tr>'
+				row += '<th> Manual de operación </th>'
+				row += '<th> No. Registro </th>'
+				row += '<th> Fecha de publicación </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["MANUAL_OPERACION"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomPub'] + '</td>'
+					row += '<td>' + val['noRegistro'] + '</td>'
+					row += '<td>' + val['fechaPublicacion'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["PROD_INNOVADORA"]){
+				row += '<tr>'
+				row += '<th> Productividad innovadora </th>'
+				row += '<th> No. Registro </th>'
+				row += '<th> Fecha de publicación </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["PROD_INNOVADORA"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomPub'] + '</td>'
+					row += '<td>' + val['noRegistro'] + '</td>'
+					row += '<td>' + val['fechaPublicacion'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["PROTOTIPO"]){
+				row += '<tr>'
+				row += '<th> Prototipo </th>'
+				row += '<th> No. Registro </th>'
+				row += '<th> Fecha de publicación </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["PROTOTIPO"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomPub'] + '</td>'
+					row += '<td>' + val['noRegistro'] + '</td>'
+					row += '<td>' + val['fechaPublicacion'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["PROY_INVESTIGACION"]){
+				row += '<tr>'
+				row += '<th> Proyecto de investigación </th>'
+				row += '<th> Empresa </th>'
+				row += '<th> Fecha inicio </th>'
+				row += '<th> Fecha fin </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["PROY_INVESTIGACION"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomProyecto'] + '</td>'
+					row += '<td>' + val['nomEmpresa'] + '</td>'
+					row += '<td>' + val['fechaIni'] + '</td>'
+					row += '<td>' + val['fechaFin'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+			if(valor["DIRECCION"]){
+				row += '<tr>'
+				row += '<th> Direccion individualizada </th>'
+				row += '<th> Empresa </th>'
+				row += '<th> Alumno </th>'
+				row += '<th> Fecha inicio </th>'
+				row += '<th> Fecha fin </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["DIRECCION"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomDireccion'] + '</td>'
+					row += '<td>' + val['nomEmpresa'] + '</td>'
+					row += '<td>' + val['nombreAlumno'] + '</td>'
+					row += '<td>' + val['fechaIni'] + '</td>'
+					row += '<td>' + val['fechaFin'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+
+			if(valor["ESTADIA"]){
+				row += '<tr>'
+				row += '<th> Estadia en empresas </th>'
+				row += '<th> Empresa </th>'
+				row += '<th> Alumno </th>'
+				row += '<th> Fecha inicio </th>'
+				row += '<th> Fecha fin </th>'
+				row += '<th> Fecha de insercion </th>'
+				row += '</tr>'
+				$.each(valor["ESTADIA"], function(ind, val){
+					row += '<tr>'
+					row += '<td>' + val['nomEstadia'] + '</td>'
+					row += '<td>' + val['nomEmpresa'] + '</td>'
+					row += '<td>' + val['nombreAlumno'] + '</td>'
+					row += '<td>' + val['fechaIni'] + '</td>'
+					row += '<td>' + val['fechaFin'] + '</td>'
+					row += '<td>' + val['fechaInsercion'] + '</td>'
+					row += '</tr>'
+				});
+			}
+
+
+			$("#json-data").append(row)
+		});
+	}
+</script>

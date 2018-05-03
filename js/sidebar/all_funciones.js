@@ -17,3 +17,7 @@ $("#galeria").on('click', function() {
 $("#pub_buscar").on('click', function() {
     $("#contInfo").load("/buscar/buscar.html");
 });
+
+$("#contacto").on('click', function() {
+    $("#contInfo").load("/contacto.html");
+});

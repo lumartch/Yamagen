@@ -1,7 +1,9 @@
 <?php
 	session_start();
 	$id_academico = $_SESSION['id_academico'];
-	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+	$aux = new Conexion;
+	$conn = $aux->conexion();
 
 	$select = "SELECT id, nomArticulo, id_academico FROM ARTICULO WHERE id_academico = '$id_academico'";
 	$select_AC = "SELECT nombre, apellidos FROM ACADEMICO WHERE id = '$id_academico'";
@@ -13,6 +15,7 @@
 
 	echo '<ul>';
 	$data = "";
+	$i = 1;
 	while($row = mysqli_fetch_assoc($resultado)) {
 		$data = $row['id']."_".$row['nomArticulo']."_".$row['id_academico']."_articulo";
 		echo '
@@ -20,18 +23,15 @@
 				<input value="'.$row['nomArticulo'].' del academico '.$resul['nombre'].' '.$resul["apellidos"].'" disabled="true" type="text"/>
 
 				<form action="/publicacion/usuario/eliminar_publicacion.php" method="post" id="eliminarForm"></form>
-				<form action="#" method="post" id="mostrarForm"></form>
-				<form action="#" method="post" id="editarForm"></form>
-
 				<table>
 					<tr>
 						<button id="eliminar" name="eliminar" value="'.$data.'" form="eliminarForm">Eliminar</button>
-
-						<button id="ver" name="ver" value="veTODO" form="mostrarForm">Ver</button>
-						<button id="ver" name="ver" value="veTODO" form="editarForm">Editar</button>
+						<button id="modificar'.$i.'" type="button" name="modificar'.$i.'" onclick="modificarDatos('.$row["id"].', 2)">Modificar</button>
+						<button id="ver'.$i.'" type="button" name="ver'.$i.'" onclick="verDatos('.$row["id"].', 2)">Ver</button>
 					</tr>
 				</table>
 			</li>';
+			$i++;
 	}
 	echo '</ul>';
 ?>

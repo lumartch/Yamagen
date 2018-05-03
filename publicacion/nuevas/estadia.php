@@ -1,7 +1,7 @@
 <?php
-	session_start();
-	$username = $_SESSION['username'];
-	$conn = mysqli_connect("localhost", "root", "", "Yamagen");
+	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+	$aux = new Conexion;
+	$conn = $aux->conexion();
 
 	$select = "SELECT * FROM ESTADIA WHERE status = true ORDER BY id DESC LIMIT 5";
 	$resultado= mysqli_query($conn, $select);

@@ -9,7 +9,7 @@ INSERT INTO TIPO_USUARIO(nombreTipo) VALUES ('admin');
 
 INSERT INTO TIPO_USUARIO(nombreTipo) VALUES ('usr');
 
-CREATE TABLE ACADEMICO(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, fotografia VARCHAR(40) NOT NULL, email VARCHAR(40) NOT NULL, centroUniAct VARCHAR(40), gradoEstudios VARCHAR(40), clave VARCHAR(20) UNIQUE);
+CREATE TABLE ACADEMICO(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(40) NOT NULL, apellidos VARCHAR(40) NOT NULL, fotografia VARCHAR(40) NOT NULL, email VARCHAR(40) NOT NULL, centroUniAct VARCHAR(40), gradoEstudios VARCHAR(40), clave VARCHAR(20));
 
 INSERT INTO ACADEMICO(nombre, apellidos, fotografia, email, centroUniAct, gradoEstudios, clave) VALUES ("Yamagen", "Taka", "/imagenes/logo.png", "admin_yamagen@gmail.com","Black Mesa", "Ingenieria en computación", "QWERTY");
 
