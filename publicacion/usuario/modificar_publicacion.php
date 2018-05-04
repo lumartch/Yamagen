@@ -1,167 +1,128 @@
 <?php
 	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
-	//include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
 	
 	$info = $_GET['info'];
 	$tipo = $_GET['tipo'];
 	
 	if($tipo == 1){
-		$aux = new Conexion;
-		$conn = $aux->conexion();
-		if(!$conn){
-			echo "Conexion fallida";
-			return;
-		}
-		$select = "SELECT * FROM LIN_INNOVADORA WHERE id = '$info'";
-		$resultado = mysqli_query($conn, $select);
-		$row = mysqli_fetch_assoc($resultado);
 		echo '
 			<section id="banner">
 				<h1>Línea innovadora de investigación aplicada y desarrollo tecnológico</h1>
 			</section>
 			<section>
-					<div>
-						<table>
-							<tr><input id="nombre" name="nombre" type="text" placeholder="Linea de investigacion" value="'.$row["nomInvestigacion"].'"required></input></tr>
-							<tr><input id="colaborador" name="colaborador" type="text" placeholder="Colaborador(es)"></input></tr>
-						</table>
-						<button id="mod" type="button" name="mod" onclick="modificarDatos()">Actualizar</button>
-					</div>
+				<form id="formulario" name="formulario">
+					<table class="d">
+						<tr>
+							<td><input id="nombre" name="nombre" type="text" placeholder="Línea innovadora de investigación..." required></input></td>
+							<td>
+								<input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list"></input>
+								<input type="button" name="agregar" id="agregar" value="Agregar"></input>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<table id="colaboradoresTable" class="d">
+								</table>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" id="info" name="info" value="'.$info.'"></input>
+					<input type="hidden" id="tipo" name="tipo" value="'.$tipo.'"></input>
+				</form>
 			</section>
-			<script>
-				function modificarDatos(){
-					alert("Modificando publicación...");
-					var nombre = document.getElementById("nombre").value;
-					window.location.href="/publicacion/usuario/mod.php/?info="+ '.$info.' + "&tipo=" + '.$tipo.' + "&nombre=" + nombre;
-				}
-			</script>
-			';
-		mysqli_close($conn);
+			<input id="submit" type="submit" value="Actualizar"></input>';
 	}
 	else if($tipo == 2){
-		$aux = new Conexion;
-		$conn = $aux->conexion();
-		if(!$conn){
-			echo "Conexion fallida";
-			return;
-		}
-		$select = "SELECT * FROM ARTICULO WHERE id = '$info'";
-		$resultado = mysqli_query($conn, $select);
-		$row = mysqli_fetch_assoc($resultado);
 		echo'
 			<section id="banner">
 				<h1>Artículo</h1>
 			</section>
-			<section>
-				<table>
-					<tr>
-						<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" value="'.$row["nomArticulo"].'" required></input></th>
-						<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista"  value="'.$row["nombreRevista"].'" required></input></th>
-					</tr>
-					<tr>
-						<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" value="'.$row["noPaginas"].'" required></input></th>
-						<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" value="'.$row["isbn"].'" required></input></th>
-					</tr>
-					<tr>
-						<th>Fecha de registro</th>
-						<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" value="'.$row["fechaPublicacion"].'" required></input></th>
-					</tr>
-					<tr>
-						<th><select id="tipo" name="tipo" required>
-								<option value="1">Articulo de difusión y divulgación</option>
-								<option value="2">Articulo arbitrado</option>
-								<option value="3">Articulo en revista indexada</option>
-							</select>
-						</th>
-					</tr>
-					<tr>
-						<th><input id="colaborador" name="colaborador" type="text" placeholder="Colaborador(es)"></input></th>
-					</tr>
-				</table>
-				<button id="mod" type="button" name="mod" onclick="modificarDatos()">Actualizar</button>
-			</section>
-			<script>
-				function modificarDatos(){
-					alert("Modificando publicación...");
-					var nombre = document.getElementById("nombre").value;
-					var nomRev = document.getElementById("nomRev").value;
-					var noPag = document.getElementById("noPag").value;
-					var isbn = document.getElementById("isbn").value;
-					var fecha = document.getElementById("fecha").value;
-					var selector = document.getElementById("tipo");
-					var valor = selector[selector.selectedIndex].value;
-					window.location.href="/publicacion/usuario/mod.php/?info="+ '.$info.' + "&tipo=" + '.$tipo.' + "&nombre=" + nombre 
-																+ "&nomRev=" + nomRev +  "&noPag=" + noPag + "&isbn=" + isbn
-																+ "&fecha=" + fecha + "&tipoArt=" + valor;
 
-				}
-			</script>
+			<section>
+				<form id="formulario" name="formulario">
+					<table>
+						<tr>
+							<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" required></input></th>
+							<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista" required></input></th>
+						</tr>
+						<tr>
+							<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" required></input></th>
+							<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" required></input></th>
+						</tr>
+						<tr>
+							<th>Fecha de registro</th>
+							<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" required></input></th>
+						</tr>
+						<tr>
+							<th><select id="tipo" name="tipo" required>
+									<option value="1">Articulo de difusión y divulgación</option>
+									<option value="2">Articulo arbitrado</option>
+									<option value="3">Articulo en revista indexada</option>
+								</select>
+							</th>
+						</tr>
+						<tr>
+							<th><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list"></input>
+								<input type="button" name="agregar" id="agregar" value="Agregar"></input>					
+								<table id="colaboradoresTable" class="d">
+								</table>
+							</th>
+						</tr>
+					</table>
+					<input type="hidden" id="info" name="info" value="'.$info.'"></input>
+					<input type="hidden" id="tipo" name="tipo" value="'.$tipo.'"></input>
+				</form>
+			</section>
+
+			<input id="submit" type="submit" value="Actualizar"></input>
 		';
-		mysqli_close($conn);
 	}
 	else if($tipo == 3){
-		$aux = new Conexion;
-		$conn = $aux->conexion();
-		if(!$conn){
-			echo "Conexion fallida";
-			return;
-		}
-		$select = "SELECT * FROM BIBLIOGRAFICO WHERE id = '$info'";
-		$resultado = mysqli_query($conn, $select);
-		$row = mysqli_fetch_assoc($resultado);
 		echo'
 			<section id="banner">
 				<h1>Bibliografico</h1>
 			</section>
 			<section>
-				<table>
-					<tr>
-						<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" value="'.$row["nomArticulo"].'" required></input></th>
-						<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista"  value="'.$row["nombreRevista"].'" required></input></th>
-					</tr>
-					<tr>
-						<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" value="'.$row["noPaginas"].'" required></input></th>
-						<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" value="'.$row["isbn"].'" required></input></th>
-					</tr>
-						<th>Fecha de registro</th>
-						<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" value="'.$row["fechaPublicacion"].'" required></input></th>
-					</tr>
-					<tr>
-					<tr>
-						<th><input id="editorial" name="editorial" type="text" placeholder="Editorial"  value="'.$row["editorial"].'" required></input></th>
-						<th><select id="tipo" name="tipo" required>
-								<option value="1">Libro</option>
-								<option value="2">Memorias</option>
-							</select>
-						</th>
-					</tr>
-					<tr>
-						<th><input id="colaborador" name="colaborador" type="text" placeholder="Colaborador(es)"></input></th>
-					</tr>
-				</table>
-				<button id="mod" type="button" name="mod" onclick="modificarDatos()">Actualizar</button>
+				<form id="formulario" name="formulario">
+					<table>
+						<tr>
+							<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" required></input></th>
+							<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista" required></input></th>
+						</tr>
+						<tr>
+							<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" required></input></th>
+							<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" required></input></th>
+						</tr>
+							<th>Fecha de registro</th>
+							<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" required></input></th>
+						</tr>
+						<tr>
+						<tr>
+							<th><input id="editorial" name="editorial" type="text" placeholder="Editorial" required></input></th>
+							<th><select id="tipo" name="tipo" required>
+									<option value="1">Libro</option>
+									<option value="2">Memorias</option>
+								</select>
+							</th>
+						</tr>
+						<tr>
+							<th><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list"></input>
+								<input type="button" name="agregar" id="agregar" value="Agregar"></input>					
+								<table id="colaboradoresTable" class="d">
+								</table>
+							</th>
+						</tr>
+					</table>
+					<input type="hidden" id="info" name="info" value="'.$info.'"></input>
+					<input type="hidden" id="tipo" name="tipo" value="'.$tipo.'"></input>
+				</form>
 			</section>
-			<script>
-			function modificarDatos(){
-				alert("Modificando publicación...");
-				var nombre = document.getElementById("nombre").value;
-				var nomRev = document.getElementById("nomRev").value;
-				var noPag = document.getElementById("noPag").value;
-				var isbn = document.getElementById("isbn").value;
-				var fecha = document.getElementById("fecha").value;
-				var editorial = document.getElementById("editorial").value;
-				var selector = document.getElementById("tipo");
-				var valor = selector[selector.selectedIndex].value;
-				window.location.href="/publicacion/usuario/mod.php/?info="+ '.$info.' + "&tipo=" + '.$tipo.' + "&nombre=" + nombre 
-																+ "&nomRev=" + nomRev +  "&noPag=" + noPag + "&isbn=" + isbn
-																+ "&fecha=" + fecha + "&editorial=" + editorial +"&tipoArt=" + valor;
-				
-			}
-			</script>
-		';
-		mysqli_close($conn);
+			<input id="submit" type="submit" value="Actualizar"></input>
 
-	}
+		';
+
+	}/*
 	else if($tipo == 4){
 		$aux = new Conexion;
 		$conn = $aux->conexion();
@@ -485,5 +446,134 @@
 	}
 	else {
 		echo "nope";
-	}
+	}*/
 ?>
+
+
+<script>
+	var i = 1;
+	$( document ).ready(function() {
+		var tipo = "<?php echo $tipo; ?>";
+		var id = "<?php echo $info; ?>";
+		if(tipo == 1){
+			$.ajax({
+				url:"/publicacion/mostrar.php",
+				method:"POST",
+				data: { id : id, tipo : tipo },
+				success:function(data) {
+					
+					var datos = JSON.parse(data)
+					$("#nombre").val(datos["nomInvestigacion"]);
+
+					$.each(datos['COLABORADOR'], function(ind, val){
+						$('#colaboradoresTable').append('<tr id="row'+ i +'"><td><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list" value= "'+ val['nomColaborador'] + '"></input></td><td><input type="button" name="remove" id="'+i+'" class="btn_remove" value="X"></input></td></tr>');
+						i++;
+					});
+
+					$('#submit').click(function(){
+						if($("#nombre").val() == ""){
+							alert("Ingrese un valor del nombre de la linea innovadora.");f
+							return;
+						}		
+						$.ajax({
+							url:"/publicacion/usuario/mod.php",
+							method:"POST",
+							data: $('#formulario').serialize() ,
+							success:function(data) {
+								alert("¡Publicación actualizada!");
+								$("#contInfo").load("/publicacion/usuario/pub_user.html");
+							}
+						});
+					});
+				}
+			});
+		}
+		else if(tipo == 2){
+			$.ajax({
+				url:"/publicacion/mostrar.php",
+				method:"POST",
+				data: { id : id, tipo : tipo },
+				success:function(data) {
+					var datos = JSON.parse(data)
+					$("#nombre").val(datos["nomArticulo"]);
+					$("#nomRev").val(datos["nombreRevista"]);
+					$("#noPag").val(datos["noPaginas"]);
+					$("#isbn").val(datos["isbn"]);
+					$("#fecha").val(datos["fechaPublicacion"]);
+
+					$.each(datos['COLABORADOR'], function(ind, val){
+						$('#colaboradoresTable').append('<tr id="row'+ i +'"><td><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list" value= "'+ val['nomColaborador'] + '"></input></td><td><input type="button" name="remove" id="'+i+'" class="btn_remove" value="X"></input></td></tr>');
+						i++;
+					});
+
+					$('#submit').click(function(){
+						if($("#nombre").val() == ""  || $("#nomRev").val() == ""  || $("#isbn").val() == "" || $("#noPag").val() == "" || $("#fecha").val() == null){
+							alert("Los campos deben estar llenos.");f
+							return;
+						}		
+						$.ajax({
+							url:"/publicacion/usuario/mod.php",
+							method:"POST",
+							data: $('#formulario').serialize() ,
+							success:function(data) {
+								alert("¡Publicación actualizada!");
+								$("#contInfo").load("/publicacion/usuario/pub_user.html");
+							}
+						});
+					});
+				}
+			});
+		}
+		else if(tipo == 3){
+			$.ajax({
+				url:"/publicacion/mostrar.php",
+				method:"POST",
+				data: { id : id, tipo : tipo },
+				success:function(data) {
+					var datos = JSON.parse(data)
+					$("#nombre").val(datos["nomArticulo"]);
+					$("#nomRev").val(datos["nombreRevista"]);
+					$("#noPag").val(datos["noPaginas"]);
+					$("#isbn").val(datos["isbn"]);
+					$("#editorial").val(datos["editorial"]);
+					$("#fecha").val(datos["fechaPublicacion"]);
+
+					$.each(datos['COLABORADOR'], function(ind, val){
+						$('#colaboradoresTable').append('<tr id="row'+ i +'"><td><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list" value= "'+ val['nomColaborador'] + '"></input></td><td><input type="button" name="remove" id="'+i+'" class="btn_remove" value="X"></input></td></tr>');
+						i++;
+					});
+
+					$('#submit').click(function(){
+						if($("#nombre").val() == ""  || $("#nomRev").val() == ""  || $("#isbn").val() == "" || $("#noPag").val() == "" || $("#fecha").val() == null || $("#editorial").val() == ""){
+							alert("Los campos deben estar llenos.");f
+							return;
+						}		
+						$.ajax({
+							url:"/publicacion/usuario/mod.php",
+							method:"POST",
+							data: $('#formulario').serialize() ,
+							success:function(data) {
+								alert("¡Publicación actualizada!");
+								$("#contInfo").load("/publicacion/usuario/pub_user.html");
+							}
+						});
+					});
+				}
+			});
+		}
+
+	});
+
+	
+	$('#agregar').click(function(){
+		var colaborador = $("#colaborador").val();
+		i++;
+		$('#colaboradoresTable').append('<tr id="row'+i+'"><td><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list" value= "'+colaborador+'"></input></td><td><input type="button" name="remove" id="'+i+'" class="btn_remove" value="X"></input></td></tr>');
+		$("#colaborador").val("");
+	});
+
+	$(document).on('click', '.btn_remove', function(){
+		var button_id = $(this).attr("id"); 
+		$('#row' + button_id + '').remove();
+	});
+</script>

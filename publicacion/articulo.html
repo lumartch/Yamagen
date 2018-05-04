@@ -3,7 +3,7 @@
 </section>
 
 <section>
-	<form action="/publicacion/usuario/crear_publicacion.php" method="post">
+	<form id="formulario" name="formulario">
 		<table>
 			<tr>
 				<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" required></input></th>
@@ -26,11 +26,52 @@
 				</th>
 			</tr>
 			<tr>
-				<th><input id="colaborador" name="colaborador" type="text" placeholder="Colaborador(es)"></input></th>
+				<th><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list"></input>
+					<input type="button" name="agregar" id="agregar" value="Agregar"></input>					
+					<table id="colaboradoresTable" class="d">
+					</table>
+				</th>
 			</tr>
 		</table>
-		<input type="submit" value="Registrar" id="registrar"></input>
 		<input type="hidden" id="publicacion" name="publicacion" value="articulo"></input>
 	</form>
 </section>
 
+<input id="submit" type="submit" value="Registrar"></input>
+
+<script>
+	var i = 1;
+	$('#agregar').click(function(){
+		var colaborador = $("#colaborador").val();
+		i++;
+		$('#colaboradoresTable').append('<tr id="row'+i+'"><td><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list" value= "'+colaborador+'"></input></td><td><input type="button" name="remove" id="'+i+'" class="btn_remove" value="X"></input></td></tr>');
+		$("#colaborador").val("");
+	});
+
+	$(document).on('click', '.btn_remove', function(){
+		var button_id = $(this).attr("id"); 
+		$('#row' + button_id + '').remove();
+	});
+
+	$('#submit').click(function(){
+		if($("#nombre").val() == ""  || $("#nomRev").val() == ""  || $("#isbn").val() == "" || $("#noPag").val() == "" || $("#fecha").val() == null){
+			alert("Los campos deben estar llenos.");f
+			return;
+		}		
+		$.ajax({
+			url:"/publicacion/usuario/crear_publicacion.php",
+			method:"POST",
+			data: $('#formulario').serialize(),
+			success:function(data) {
+				alert("¡Publicación ingresada!");
+				$("#nombre").val("");
+				$("#nomRev").val("");
+				$("#noPag").val("");
+				$("#isbn").val("");
+				$("#colaboradoresTable").empty();
+				$("#colaborador").val("");
+			}
+		});
+	});
+
+</script>

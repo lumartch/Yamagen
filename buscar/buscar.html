@@ -140,7 +140,7 @@ table.d {
 	}
 
 	function rellenarTabla(respuesta){
-		alert("¡Busqueda completada!");
+		
 		$.each(respuesta, function(index, valor){
 
 			row = '<tr>'
@@ -347,6 +347,7 @@ table.d {
 
 
 			$("#json-data").append(row)
+			alert("¡Busqueda completada!");
 		});
 	}
 </script>

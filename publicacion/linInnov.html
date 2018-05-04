@@ -1,15 +1,91 @@
+<style>
+table {
+    border-collapse: collapse;
+    border: 1px;
+} 
+
+th,td {
+    border: 1px;
+}
+
+table.a {
+    table-layout: auto;
+    width: 180px;    
+}
+
+table.b {
+    table-layout: fixed;
+    width: 180px;    
+}
+
+table.c {
+    table-layout: auto;
+    width: 100%;    
+}
+
+table.d {
+    table-layout: fixed;
+    width: 100%;    
+}
+</style>
+
 <section id="banner">
 	<h1>Línea innovadora de investigación aplicada y desarrollo tecnológico</h1>
 </section>
 <section>
-	<form  action="/publicacion/usuario/crear_publicacion.php" method="post">
-		<div>
-			<table>
-				<tr><input id="nombre" name="nombre" type="text" placeholder="Linea de investigacion" required></input></tr>
-				<tr><input id="colaborador" name="colaborador" type="text" placeholder="Colaboradores"></input></tr>
-			</table>
-			<input type="submit" value="Registrar"></input>
-		</div>
+	<form id="formulario" name="formulario">
+		<table class="d">
+			<tr>
+				<td><input id="nombre" name="nombre" type="text" placeholder="Línea innovadora de investigación..." required></input></td>
+				<td>
+					<input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list"></input>
+					<input type="button" name="agregar" id="agregar" value="Agregar"></input>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<table id="colaboradoresTable" class="d">
+					</table>
+				</td>
+			</tr>
+		</table>
 		<input type="hidden" id="publicacion" name="publicacion" value="lin_innovadora"></input>
 	</form>
 </section>
+
+<input id="submit" type="submit" value="Registrar"></input>
+
+<script>
+	var i = 1;
+	$('#agregar').click(function(){
+		var colaborador = $("#colaborador").val();
+		i++;
+		$('#colaboradoresTable').append('<tr id="row'+i+'"><td><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list" value= "'+colaborador+'"></input></td><td><input type="button" name="remove" id="'+i+'" class="btn_remove" value="X"></input></td></tr>');
+		$("#colaborador").val("");
+	});
+
+	$(document).on('click', '.btn_remove', function(){
+		var button_id = $(this).attr("id"); 
+		$('#row' + button_id + '').remove();
+	});
+
+	$('#submit').click(function(){
+		if($("#nombre").val() == ""){
+			alert("Ingrese un valor del nombre de la linea innovadora.");f
+			return;
+		}		
+		$.ajax({
+			url:"/publicacion/usuario/crear_publicacion.php",
+			method:"POST",
+			data:$('#formulario').serialize(),
+			success:function(data) {
+				alert("¡Publicación actualizada!");
+				$("#nombre").val("");
+				$("#colaboradoresTable").empty();
+				$("#colaborador").val("");
+			}
+		});
+	});
+
+</script>

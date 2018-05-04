@@ -140,88 +140,99 @@
 			}
 		}
 
-		public function mostrarPublicacion(){
-
+		public function mostrarPublicacion($tipo, $id_pub){
+			if($tipo == "1"){
+				$aux = new Lin_Innovadora;
+				$aux->mostrar($id_pub);
+			}
+			else if($tipo == "2"){
+				$aux = new Articulo;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "3"){
+				$aux = new Bibliografico;
+				$aux->mostrar($id_pub);	
+			}
 		}
 		
 		public function editarPublicacion($tipo, $id_pub){
 			if($tipo == 1){
 				$aux = new Lin_Innovadora;
-				$nombre = $_GET["nombre"];
+				$nombre = $_POST["nombre"];
 				$aux->actualizar($id_pub, $nombre);
 			}
 			else if($tipo == 2){
-				$nomArt = $_GET['nombre'];
-				$nombreRevista = $_GET['nomRev'];
-				$noPaginas = $_GET['noPag'];
-				$isbn = $_GET['isbn'];
-				$fechaPublicacion = $_GET['fecha'];
-				$id_tipo_art = $_GET['tipoArt'];
+				$nomArt = $_POST['nombre'];
+				$nombreRevista = $_POST['nomRev'];
+				$noPaginas = $_POST['noPag'];
+				$isbn = $_POST['isbn'];
+				$fechaPublicacion = $_POST['fecha'];
+				$id_tipo_art = $_POST['tipo'];
 				$aux = new Articulo;
 				$aux->actualizar($id_pub, $nomArt, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $id_tipo_art);
 			}
 			else if($tipo == 3){
-				$nomArt = $_GET['nombre'];
-				$nombreRevista = $_GET['nomRev'];
-				$noPaginas = $_GET['noPag'];
-				$isbn = $_GET['isbn'];
-				$fechaPublicacion = $_GET['fecha'];
-				$editorial = $_GET['editorial'];
-				$id_tipo_art = $_GET['tipoArt'];
+				$nomArt = $_POST['nombre'];
+				$nombreRevista = $_POST['nomRev'];
+				$noPaginas = $_POST['noPag'];
+				$isbn = $_POST['isbn'];
+				$fechaPublicacion = $_POST['fecha'];
+				$editorial = $_POST['editorial'];
+				$id_tipo_art = $_POST['tipo'];
 				$aux = new Bibliografico;
 				$aux->actualizar($id_pub, $nomArt, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $editorial ,$id_tipo_art);
 			}
 			else if($tipo == 4){
-				$nomPub = $_GET['nombre'];
-				$dependencia = $_GET['nomDep'];
-				$fechaPublicacion = $_GET['fecha'];
+				$nomPub = $_POST['nombre'];
+				$dependencia = $_POST['nomDep'];
+				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Informe_Tecnico;
 				$aux->actualizar($id_pub, $nomPub, $dependencia, $fechaPublicacion);
 			}
 			else if($tipo == 5){
-				$nomPub = $_GET['nombre'];
-				$noRegistro = $_GET['noReg'];
-				$fechaPublicacion = $_GET['fecha'];
+				$nomPub = $_POST['nombre'];
+				$noRegistro = $_POST['noReg'];
+				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Manual_Operacion;
 				$aux->actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion);
 			}
 			else if($tipo == 6){
-				$nomPub = $_GET['nombre'];
-				$noRegistro = $_GET['noReg'];
-				$fechaPublicacion = $_GET['fecha'];
+				$nomPub = $_POST['nombre'];
+				$noRegistro = $_POST['noReg'];
+				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Prod_Innovadora;
 				$aux->actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion);
 			}
 			else if($tipo == 7){
-				$nomPub = $_GET['nombre'];
-				$noRegistro = $_GET['noReg'];
-				$fechaPublicacion = $_GET['fecha'];
+				$nomPub = $_POST['nombre'];
+				$noRegistro = $_POST['noReg'];
+				$fechaPublicacion = $_POST['fecha'];
 				$aux = new Prototipo;
 				$aux->actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion);
 			}
 			else if($tipo == 8){
-				$nomPub = $_GET['nombre'];
-				$empresa = $_GET['empresa'];
-				$fechaIni = $_GET['fechaIni'];
-				$fechaFin = $_GET['fechaFin'];
+				$nomPub = $_POST['nombre'];
+				$empresa = $_POST['empresa'];
+				$fechaIni = $_POST['fechaIni'];
+				$fechaFin = $_POST['fechaFin'];
 				$aux = new Proy_Investigacion;
 				$aux->actualizar($id_pub, $nomPub, $empresa, $fechaIni, $fechaFin);
 			}
 			else if($tipo == 9){
-				$nomDireccion = $_GET['nombre'];
-				$empresa = $_GET['empresa'];
-				$fechaIni = $_GET['fechaIni'];
-				$fechaFin = $_GET['fechaFin'];
-				$alumno = $_GET['alumno'];
+				$nomDireccion = $_POST['nombre'];
+				$empresa = $_POST['empresa'];
+				$fechaIni = $_POST['fechaIni'];
+				$fechaFin = $_POST['fechaFin'];
+				$alumno = $_POST['alumno'];
 				$aux = new Direccion;
 				$aux->actualizar($id_pub, $nomDireccion, $empresa, $fechaIni, $fechaFin, $alumno);
 			}
 			else if($tipo == 10){
-				$nomEstadia = $_GET['nombre'];
-				$empresa = $_GET['empresa'];
-				$fechaIni = $_GET['fechaIni'];
-				$fechaFin = $_GET['fechaFin'];
-				$alumno = $_GET['alumno'];
+				$nomEstadia = $_POST['nombre'];
+				$empresa = $_POST['empresa'];
+				$fechaIni = $_POST['fechaIni'];
+				$fechaFin = $_POST['fechaFin'];
+				$alumno = $_POST['alumno'];
 				$aux = new Estadia;
 				$aux->actualizar($id_pub, $nomEstadia, $empresa, $fechaIni, $fechaFin, $alumno);
 			}

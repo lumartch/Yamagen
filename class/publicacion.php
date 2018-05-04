@@ -1,8 +1,10 @@
 <?php
 	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
+
 	class Producto_Status{
 		private $status;
 		private $id_academico;
+		private $fechaInsercion;
 
 		public function __construct(){
 			$this->status = false;
@@ -23,17 +25,35 @@
 			$this->id_academico = $id_academico;
 			$this->status = false;
 
+			$this->fechaInsercion = date("Y-m-d H:i:s");
+
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$insert = "INSERT INTO LIN_INNOVADORA (nomInvestigacion, status, fechaInsercion, id_academico) 
-			VALUES ('$this->nomInvestigacion', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomInvestigacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
+			
+			//Realiza la inserción en la base de datos			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM LIN_INNOVADORA WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador,id_lin_innov) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
+
 			}
 			mysqli_close($conn);
+
 		}
 
 		public function eliminar($id_academico, $nom, $id){
@@ -42,9 +62,6 @@
 			$delete = "DELETE FROM LIN_INNOVADORA WHERE id='$id' AND nomInvestigacion='$nom' AND id_academico = '$id_academico'";
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 		}
@@ -56,26 +73,56 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 		public function actualizar($id_pub, $nombre){
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$update = "UPDATE LIN_INNOVADORA SET nomInvestigacion = '$nombre' WHERE id='$id_pub'";
-			if(mysqli_query($conn, $update)){
-				echo 'Produccion Actualizada';
+			if(mysqli_query($conn, $update)){		
+				$delete = "DELETE FROM COLABORADOR WHERE id_lin_innov = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador,id_lin_innov) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
-			else{
-				echo 'Error de produccion';
-			}
+
+
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM LIN_INNOVADORA WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_lin_innov = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 
 
@@ -93,6 +140,7 @@
 		}
 
 		public function crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $nomAlumno, $id_academico) {
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomDireccion = $nombrePub;
 			$this->fechaIni = $fechaIni;
 			$this->fechaFin = $fechaFin;
@@ -104,12 +152,8 @@
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$insert = "INSERT INTO DIRECCION(nomDireccion, fechaIni, fechaFin, nomEmpresa, nombreAlumno, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomDireccion', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomDireccion', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -121,9 +165,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -134,9 +175,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);	
 		}
 
@@ -146,9 +184,6 @@
 			$update = "UPDATE DIRECCION SET nomDireccion = '$nomDireccion', nomEmpresa = '$nomEmpresa', fechaIni = '$fechaIni', fechaFin = '$fechaFin', nombreAlumno = '$nombreAlumno' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '
@@ -171,6 +206,7 @@
 		}
 
 		public function crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $nomAlumno, $id_academico) {
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomEstadia = $nombrePub;
 			$this->fechaIni = $fechaIni;
 			$this->fechaFin = $fechaFin;
@@ -182,12 +218,8 @@
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$insert = "INSERT INTO ESTADIA(nomEstadia, fechaIni, fechaFin, nomEmpresa, nombreAlumno, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomEstadia', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomEstadia', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -199,9 +231,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -212,9 +241,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -224,9 +250,6 @@
 			$update = "UPDATE ESTADIA SET nomEstadia = '$nomEstadia', nomEmpresa = '$nomEmpresa', fechaIni = '$fechaIni', fechaFin = '$fechaFin', nombreAlumno = '$nombreAlumno' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '
@@ -247,6 +270,7 @@
 		}
 
 		public function crear($nombrePub, $fechaIni, $fechaFin, $nomEmpresa, $id_academico) {
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomProyecto = $nombrePub;
 			$this->fechaIni = $fechaIni;
 			$this->fechaFin = $fechaFin;
@@ -257,12 +281,8 @@
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$insert = "INSERT INTO PROY_INVESTIGACION(nomProyecto, fechaIni, fechaFin, nomEmpresa, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomProyecto', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa',  '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomProyecto', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa',  '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -274,9 +294,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -287,9 +304,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -299,9 +313,6 @@
 			$update = "UPDATE PROY_INVESTIGACION SET nomProyecto = '$nomPub', nomEmpresa = '$nomEmpresa', fechaIni = '$fechaIni', fechaFin = '$fechaFin' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '
@@ -330,6 +341,7 @@
 		}
 
 		public function crear($nombrePub, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $id_academico, $id_tipo){
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomArticulo = $nombrePub;
 			$this->fechaPublicacion = $fechaPublicacion;
 			$this->nombreRevista = $nombreRevista;
@@ -344,13 +356,26 @@
 			$conn = $aux->conexion();
 			$insert = "INSERT INTO ARTICULO(nomArticulo, nombreRevista, noPaginas, isbn, fechaPublicacion, status, fechaInsercion, id_tipo_articulo, id_academico)
 			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->noPaginas','$this->isbn', '$this->fechaPublicacion',
-			 '$this->status', NOW(), '$this->id_tipo', '$this->id_academico')";
+			 '$this->status', '$this->fechaInsercion', '$this->id_tipo', '$this->id_academico')";
 			
+			//Realiza la inserción en la base de datos			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM ARTICULO WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_articulo) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -362,9 +387,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -373,10 +395,6 @@
 			$conn = $aux->conexion();
 			$update = "UPDATE ARTICULO SET status=true WHERE id='$id' AND nomArticulo='$nom' AND id_academico = '$id_academico'";
 			if(mysqli_query($conn, $update)){
-				echo 'Produccion aceptada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 		}
@@ -388,15 +406,52 @@
 												isbn = '$isbn', fechaPublicacion = '$fechaPublicacion', id_tipo_articulo = '$id_tipo_art' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
+				$delete = "DELETE FROM COLABORADOR WHERE id_articulo = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_articulo) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM ARTICULO WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+
+			$selectTipo = "SELECT * FROM TIPO_ARTICULO WHERE id = '".$json["id_tipo_articulo"]."'";
+			$resTipo = mysqli_query($conn, $selectTipo);
+			$json += mysqli_fetch_assoc($resTipo);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_articulo = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 	}
 
@@ -413,6 +468,7 @@
 		}
 
 		public function crear($nombrePub, $nombreRevista, $editorial, $noPaginas, $isbn, $fechaPublicacion, $id_academico, $id_tipo){
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomArticulo = $nombrePub;
 			$this->fechaPublicacion = $fechaPublicacion;
 			$this->nombreRevista = $nombreRevista;
@@ -429,13 +485,25 @@
 			$conn = $aux->conexion();
 			$insert = "INSERT INTO BIBLIOGRAFICO(nomArticulo, nombreRevista, editorial, noPaginas, isbn, fechaPublicacion, status, fechaInsercion, id_tipo_biblio, id_academico)
 			VALUES ('$this->nomArticulo', '$this->nombreRevista', '$this->editorial','$this->noPaginas','$this->isbn', '$this->fechaPublicacion', 
-				'$this->status', NOW(), '$this->id_tipo', '$this->id_academico')";
+				'$this->status', '$this->fechaInsercion', '$this->id_tipo', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM BIBLIOGRAFICO WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_bibliografico) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 		}
 
@@ -446,9 +514,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -458,9 +523,6 @@
 			$update = "UPDATE BIBLIOGRAFICO SET status=true WHERE id='$id' AND nomArticulo='$nom' AND id_academico = '$id_academico'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			
@@ -474,15 +536,51 @@
 												id_tipo_biblio = '$id_tipo_art' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
+				$delete = "DELETE FROM COLABORADOR WHERE id_bibliografico = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_bibliografico) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM BIBLIOGRAFICO WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+
+			$selectTipo = "SELECT * FROM TIPO_BIBLIOGRAFICO WHERE id = '".$json["id_tipo_biblio"]."'";
+			$resTipo = mysqli_query($conn, $selectTipo);
+			$json += mysqli_fetch_assoc($resTipo);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_bibliografico = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 	}
 
@@ -496,6 +594,7 @@
 		}
 
 		public function crear($nombrePub, $dependencia, $fechaPublicacion, $id_academico){
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomPub = $nombrePub;
 			$this->dependencia = $dependencia;
 			$this->fechaPublicacion = $fechaPublicacion;
@@ -505,13 +604,9 @@
 			$conn = $aux->conexion();
 
 			$insert = "INSERT INTO INFORME_TECNICO(nomPub, dependencia, fechaPublicacion, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomPub', '$this->dependencia', '$this->fechaPublicacion', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomPub', '$this->dependencia', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -523,9 +618,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -536,9 +628,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -548,9 +637,6 @@
 			$update = "UPDATE INFORME_TECNICO SET nomPub = '$nomPub', dependencia = '$dependencia', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '
@@ -570,6 +656,7 @@
 		}
 
 		public function crear($nombrePub, $noRegistro, $fechaPublicacion, $id_academico){
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomPub = $nombrePub;
 			$this->noRegistro = $noRegistro;
 			$this->fechaPublicacion = $fechaPublicacion;
@@ -579,13 +666,9 @@
 			$conn = $aux->conexion();
 
 			$insert = "INSERT INTO PROD_INNOVADORA(nomPub, noRegistro, fechaPublicacion, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -597,9 +680,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -610,9 +690,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -622,9 +699,6 @@
 			$update = "UPDATE MANUAL_OPERACION SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '
@@ -644,6 +718,7 @@
 		}
 
 		public function crear($nombrePub, $noRegistro, $fechaPublicacion, $id_academico){
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomPub = $nombrePub;
 			$this->noRegistro = $noRegistro;
 			$this->fechaPublicacion = $fechaPublicacion;
@@ -653,13 +728,9 @@
 			$conn = $aux->conexion();
 
 			$insert = "INSERT INTO MANUAL_OPERACION(nomPub, noRegistro, fechaPublicacion, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -671,9 +742,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -684,9 +752,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -696,9 +761,6 @@
 			$update = "UPDATE MANUAL_OPERACION SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '
@@ -718,6 +780,7 @@
 		}
 
 		public function crear($nombrePub, $noRegistro, $fechaPublicacion, $id_academico){
+			$this->fechaInsercion = date("Y-m-d H:i:s");
 			$this->nomPub = $nombrePub;
 			$this->noRegistro = $noRegistro;
 			$this->fechaPublicacion = $fechaPublicacion;
@@ -727,13 +790,9 @@
 			$conn = $aux->conexion();
 
 			$insert = "INSERT INTO PROTOTIPO(nomPub, noRegistro, fechaPublicacion, status, fechaInsercion, id_academico)
-			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', NOW(), '$this->id_academico')";
+			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
-				echo 'Se ha realizado una insercion';
-			}
-			else{
-				echo "No se pudo";
 			}
 			mysqli_close($conn);
 		}
@@ -745,9 +804,6 @@
 			if(mysqli_query($conn, $delete)){
 				echo 'Produccion Eliminada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -758,9 +814,6 @@
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
-			else{
-				echo 'Error de produccion';
-			}
 			mysqli_close($conn);
 		}
 
@@ -770,9 +823,6 @@
 			$update = "UPDATE PROTOTIPO SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
-			}
-			else{
-				echo 'Error de produccion';
 			}
 			mysqli_close($conn);
 			echo '

@@ -1,50 +1,27 @@
 <?php
-	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
-	//include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
-	
 	$info = $_GET['info'];
 	$tipo = $_GET['tipo'];
 	if($tipo == 1){
-		$aux = new Conexion;
-		$conn = $aux->conexion();
-		if(!$conn){
-			echo "Conexion fallida";
-			return;
-		}
-		$select = "SELECT * FROM LIN_INNOVADORA WHERE id = '$info'";
-		$resultado = mysqli_query($conn, $select);
-		$row = mysqli_fetch_assoc($resultado);
-
 		echo '
 			<section id="banner">
 				<h1>Línea innovadora de investigación aplicada y desarrollo tecnológico</h1>
 			</section>
 			<section>
-					<div>
-						<table>
-							<tr><input id="nombre" name="nombre" type="text" placeholder="Linea de investigacion" value="'.$row["nomInvestigacion"].'" disabled></input></tr>
-							<tr><input id="colaborador" name="colaborador" type="text" placeholder="Colaboradores" disabled></input></tr>
-						</table>
-					</div>
+				<table>
+					<tr>
+						<td><input id="nombre" name="nombre" type="text" placeholder="Línea innovadora de investigación..." disabled></input></td>
+						<td>
+							<table id="colaboradoresTable">
+								<tr> <th>Colaboradores </th> </tr>
+								<tbody id="colBody"> </tbody>
+							</table>
+						</td>
+					</tr>
+				</table>
 			</section>
 			';
-		mysqli_close($conn);
 	}
 	else if($tipo == 2){
-		$aux = new Conexion;
-		$conn = $aux->conexion();
-		if(!$conn){
-			echo "Conexion fallida";
-			return;
-		}
-		$select = "SELECT * FROM ARTICULO WHERE id = '$info'";
-		$resultado = mysqli_query($conn, $select);
-		$row = mysqli_fetch_assoc($resultado);
-		$id_tipo = $row["id_tipo_articulo"];
-
-		$select_Tipo = "SELECT * FROM TIPO_ARTICULO WHERE id = '$id_tipo'";
-		$res = mysqli_query($conn, $select_Tipo);
-		$rowTipo = mysqli_fetch_assoc($res);
 		echo'
 			<section id="banner">
 				<h1>Artículo</h1>
@@ -52,79 +29,71 @@
 			<section>
 				<table>
 					<tr>
-						<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" value="'.$row["nomArticulo"].'" disabled></input></th>
-						<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista"  value="'.$row["nombreRevista"].'" disabled></input></th>
+						<th><input id="nombre" name="nombre" type="text" placeholder="Artículo"  disabled></input></th>
+						<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista"  disabled></input></th>
 					</tr>
 					<tr>
-						<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" value="'.$row["noPaginas"].'" disabled></input></th>
-						<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" value="'.$row["isbn"].'" disabled></input></th>
+						<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" disabled></input></th>
+						<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" disabled></input></th>
 					</tr>
 					<tr>
 						<th>Fecha de registro</th>
-						<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" value="'.$row["fechaPublicacion"].'" disabled></input></th>
+						<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" disabled></input></th>
 					</tr>
 					<tr>
 						<th>
-							<input id="tipoArticulo" name="tipoArticulo" type="text" placeholder="Tipo" value="'.$rowTipo["tipo"].'" disabled></input>
+							<input id="tipoArticulo" name="tipoArticulo" type="text" placeholder="Tipo" disabled></input>
 						</th>
 					</tr>
 					<tr>
-						<th><input id="colaborador" name="colaborador" type="text" placeholder="Colaborador(es)"></input></th>
+						<th><table id="colaboradoresTable">
+								<tr> <th>Colaboradores </th> </tr>
+								<tbody id="colBody"> </tbody>
+							</table>
+						</th>
 					</tr>
 				</table>
 			</section>
 		';
-		mysqli_close($conn);
 	}
 	else if($tipo == 3){
-		$aux = new Conexion;
-		$conn = $aux->conexion();
-		if(!$conn){
-			echo "Conexion fallida";
-			return;
-		}
-		$select = "SELECT * FROM BIBLIOGRAFICO WHERE id = '$info'";
-		$resultado = mysqli_query($conn, $select);
-		$row = mysqli_fetch_assoc($resultado);
-
-		$id_tipo = $row["id_tipo_biblio"];
-
-		$select_Tipo = "SELECT * FROM TIPO_BIBLIOGRAFICO WHERE id = '$id_tipo'";
-		$res = mysqli_query($conn, $select_Tipo);
-		$rowTipo = mysqli_fetch_assoc($res);
 		echo'
 			<section id="banner">
 				<h1>Bibliografico</h1>
 			</section>
 			<section>
-				<table>
-					<tr>
-						<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" value="'.$row["nomArticulo"].'" disabled></input></th>
-						<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista"  value="'.$row["nombreRevista"].'" disabled></input></th>
-					</tr>
-					<tr>
-						<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" value="'.$row["noPaginas"].'" disabled></input></th>
-						<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" value="'.$row["isbn"].'" disabled></input></th>
-					</tr>
-						<th>Fecha de registro</th>
-						<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" value="'.$row["fechaPublicacion"].'" disabled></input></th>
-					</tr>
-					<tr>
-					<tr>
-						<th><input id="editorial" name="editorial" type="text" placeholder="Editorial"  value="'.$row["editorial"].'" disabled></input></th>
-						<th>
-							<input id="tipoArticulo" name="tipoArticulo" type="text" placeholder="Tipo" value="'.$rowTipo["tipo"].'" disabled></input>
-						</th>
-					</tr>
-					<tr>
-						<th><input id="colaborador" name="colaborador" type="text" placeholder="colaboradores"></input></th>
-					</tr>
-				</table>
+					<table>
+						<tr>
+							<th><input id="nombre" name="nombre" type="text" placeholder="Artículo" required></input></th>
+							<th><input id="nomRev" name="nomRev" type="text" placeholder="Revista" required></input></th>
+						</tr>
+						<tr>
+							<th><input id="noPag" name="noPag"type="text" placeholder="No.Páginas" required></input></th>
+							<th><input id="isbn" name="isbn"type="text" placeholder="ISBN" required></input></th>
+						</tr>
+							<th>Fecha de registro</th>
+							<th><input id="fecha" name="fecha" type="date" placeholder="Fecha" required></input></th>
+						</tr>
+						<tr>
+						<tr>
+							<th><input id="editorial" name="editorial" type="text" placeholder="Editorial" required></input></th>
+							<th>
+								<input id="tipoBibliografico" name="tipoBibliografico" type="text" placeholder="Tipo" disabled></input>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<table id="colaboradoresTable">
+									<tr> <th>Colaboradores </th> </tr>
+									<tbody id="colBody"> </tbody>
+								</table>
+							</th>
+						</tr>
+					</table>
 			</section>
 		';
-		mysqli_close($conn);
 
-	}
+	}/*
 	else if($tipo == 4){
 		$aux = new Conexion;
 		$conn = $aux->conexion();
@@ -362,5 +331,69 @@
 			</section>
 		';
 		mysqli_close($conn);
-	}
+	}*/
 ?>
+
+<script>
+	$( document ).ready(function() {
+		var tipo = "<?php echo $tipo; ?>";
+		var id = "<?php echo $info; ?>";
+		var row = "";
+		if(tipo == 1){
+			$.ajax({
+				url:"/publicacion/mostrar.php",
+				method:"POST",
+				data: { id : id, tipo : tipo },
+				success:function(data) {					
+					var datos = JSON.parse(data)
+					$("#nombre").val(datos["nomInvestigacion"]);
+					$.each(datos['COLABORADOR'], function(ind, val){
+							row += val['nomColaborador'] + '</br>'
+						});
+					$('#colBody').append(row)
+				}
+			});
+		}
+		else if( tipo == 2){
+			$.ajax({
+				url:"/publicacion/mostrar.php",
+				method:"POST",
+				data: { id : id, tipo : tipo },
+				success:function(data) {
+					var datos = JSON.parse(data)
+					$("#nombre").val(datos["nomArticulo"]);
+					$("#nomRev").val(datos["nombreRevista"]);
+					$("#noPag").val(datos["noPaginas"]);
+					$("#isbn").val(datos["isbn"]);
+					$("#fecha").val(datos["fechaPublicacion"]);
+					$("#tipoArticulo").val(datos["tipo"]);
+					$.each(datos['COLABORADOR'], function(ind, val){
+							row += val['nomColaborador'] + '</br>'
+						});
+					$('#colBody').append(row)
+				}
+			});
+		}
+		else if( tipo == 3){
+			$.ajax({
+				url:"/publicacion/mostrar.php",
+				method:"POST",
+				data: { id : id, tipo : tipo },
+				success:function(data) {
+					var datos = JSON.parse(data)
+					$("#nombre").val(datos["nomArticulo"]);
+					$("#nomRev").val(datos["nombreRevista"]);
+					$("#noPag").val(datos["noPaginas"]);
+					$("#isbn").val(datos["isbn"]);
+					$("#editorial").val(datos["editorial"]);
+					$("#fecha").val(datos["fechaPublicacion"]);
+					$("#tipoBibliografico").val(datos["tipo"]);
+					$.each(datos['COLABORADOR'], function(ind, val){
+							row += val['nomColaborador'] + '</br>'
+						});
+					$('#colBody').append(row)
+				}
+			});
+		}
+	});
+</script>
