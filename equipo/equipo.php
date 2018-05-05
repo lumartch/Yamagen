@@ -3,27 +3,24 @@
 
 	$aux = new Conexion;
 	$conn = $aux->conexion();
-	if(!$conn){
-		echo 'Conexion no establecida'. mysql_error();
-	}
+
 	$select = "SELECT * FROM ACADEMICO";
 	$resultado = mysqli_query($conn, $select);
-	mysqli_close($conn);
 	
 	while($row = mysqli_fetch_assoc($resultado)) {
-		
-		/*$user = $row['id'];
-		$conection = mysqli_connect('localhost', 'root', '', 'Yamagen');
-		if(!$conection){
-			echo 'Conexion no establecida'. mysql_error();
+		$id_academico = $row["id"];
+		echo "<tr><th><img id='fotografia' height='50' width='50' src='".$row["fotografia"]."'></img></th><th>".$row["nombre"]."</th><th>".$row["apellidos"]."</th><th>".$row["email"]."</th><th>".$row["gradoEstudios"]."</th><th>".$row["centroUniAct"]."</th><th>".$row["clave"]."</th><th>";
+
+		$selectLineasInvestigacion = "SELECT * FROM USR_LIN_INVES WHERE id_academico = '$id_academico'";
+		$resultadoLineas =  mysqli_query($conn, $selectLineasInvestigacion);
+
+		while($rw = mysqli_fetch_assoc($resultadoLineas)){
+			$selectLinea = "SELECT * FROM LINEA_INVESTIGACION WHERE id = '".$rw["id_lin_inves"]."'";
+			$resLinea = mysqli_query($conn, $selectLinea);
+			$queryResult = mysqli_fetch_assoc($resLinea);
+			echo $queryResult["linea"]."</br>";
 		}
-		$sel = "SELECT lin_inves FROM USR_LIN_INVES WHERE usrname = '$user'";
-		$res = mysqli_query($conection, $sel);
-		mysqli_close($conection);*/
-		echo "<tr><th>".$row["fotografia"]."</th><th>".$row["nombre"]."</th><th>".$row["apellidos"]."</th><th>".$row["email"]."</th><th>".$row["gradoEstudios"]."</th><th>".$row["centroUniAct"]."</th><th>".$row["clave"]."</th><th>";
-    	/*while($rw = mysqli_fetch_assoc($res)){
-    		echo "".$rw["lin_inves"]. "<br/>";
-    	}*/
     	echo "</th></tr>";
     }
+	mysqli_close($conn);
 ?>

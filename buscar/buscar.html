@@ -131,6 +131,7 @@ table.d {
 				console.log("Busqueda!")
 				$("#busqueda").html('<h1>Buscar publicación</h1><table id="json-data" class="c"></table>');
 				rellenarTabla(JSON.parse(respuesta))
+				//console.log(respuesta);
 
 			},
 			error: function(respuesta){
@@ -144,210 +145,329 @@ table.d {
 		$.each(respuesta, function(index, valor){
 
 			row = '<tr>'
-			row += '<th> Fotografia </th>'
-			row += '<th> Nombre </th>'
-			row += '<th> Apellidos </th>'
-			row += '<th> Email </th>'
-			row += '<th> Universidad </th>'
-			row += '<th> Estudios </th>'
-			row += '<th> Clave </th>'
-			row += '</tr>'
+				row = '<table>'
+					row += '<tr>'
+					row += '<th> Fotografia </th>'
+					row += '<th> Nombre </th>'
+					row += '<th> Apellidos </th>'
+					row += '<th> Email </th>'
+					row += '<th> Universidad </th>'
+					row += '<th> Estudios </th>'
+					row += '<th> Clave </th>'
+					row += '</tr>'
+
+					row += '<tr>'
+					row += '<td><img id="fotografia" height="50" width="50" src="'+ valor['fotografia'] +'"></img></td>'
+					row += '<td>' + valor['nombre'] + '</td>'
+					row += '<td>' + valor['apellidos'] + '</td>'
+					row += '<td>' + valor['email'] + '</td>'
+					row += '<td>' + valor['centroUniAct'] + '</td>'
+					row += '<td>' + valor['gradoEstudios'] + '</td>'
+					row += '<td>' + valor['clave'] + '</td>'
+					row += '</tr>'
+				row += '</table>'
+			row +='</tr>'
 
 			row += '<tr>'
-			row += '<td>' + valor['fotografia'] + '</td>'
-			row += '<td>' + valor['nombre'] + '</td>'
-			row += '<td>' + valor['apellidos'] + '</td>'
-			row += '<td>' + valor['email'] + '</td>'
-			row += '<td>' + valor['centroUniAct'] + '</td>'
-			row += '<td>' + valor['gradoEstudios'] + '</td>'
-			row += '<td>' + valor['clave'] + '</td>'
-			row += '</tr>'
+				row += '<table>'
+					row += '<tr>'
+						row += '<th> Líneas de investigación </th>'
+					row += '</tr>'
+					row += '<td>'
+					$.each(valor["LINEAS"], function(ind, val){
+						row += val['linea'] + '</br>'
+					});
+					row += '</td>'
+				row += '</table>'
+			row +='</tr>'
+
+			
 
 			if(valor["LIN_INNOVADORA"]){
 				row += '<tr>'
-				row += '<th> Línea innovadora </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Línea innovadora </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["LIN_INNOVADORA"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomInvestigacion'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["LIN_INNOVADORA"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomInvestigacion'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
+
 			}
 			if(valor["ARTICULO"]){
 				row += '<tr>'
-				row += '<th> Articulo </th>'
-				row += '<th> Revista </th>'
-				row += '<th> No. Paginas </th>'
-				row += '<th> ISBN </th>'
-				row += '<th> Fecha de insercion </th>'
-				row += '<th> Fecha de publicación </th>'
-				row += '<th> Tipo </th>'
+					row += '<table>'
+						row += '<th> Articulo </th>'
+						row += '<th> Revista </th>'
+						row += '<th> No. Paginas </th>'
+						row += '<th> ISBN </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Fecha de publicación </th>'
+						row += '<th> Tipo </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["ARTICULO"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomArticulo'] + '</td>'
+							row += '<td>' + val['nombreRevista'] + '</td>'
+							row += '<td>' + val['noPaginas'] + '</td>'
+							row += '<td>' + val['isbn'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += '<td>' + val['fechaPublicacion'] + '</td>'
+							row += '<td>' + val['tipo'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["ARTICULO"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomArticulo'] + '</td>'
-					row += '<td>' + val['nombreRevista'] + '</td>'
-					row += '<td>' + val['noPaginas'] + '</td>'
-					row += '<td>' + val['isbn'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '<td>' + val['fechaPublicacion'] + '</td>'
-					row += '<td>' + val['tipo'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["BIBLIOGRAFICO"]){
 				row += '<tr>'
-				row += '<th> Bibliografico </th>'
-				row += '<th> Revista </th>'
-				row += '<th> Editorial </th>'
-				row += '<th> No. Paginas </th>'
-				row += '<th> ISBN </th>'
-				row += '<th> Fecha de insercion </th>'
-				row += '<th> Fecha de publicación </th>'
-				row += '<th> Tipo </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Bibliografico </th>'
+						row += '<th> Revista </th>'
+						row += '<th> Editorial </th>'
+						row += '<th> No. Paginas </th>'
+						row += '<th> ISBN </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Fecha de publicación </th>'
+						row += '<th> Tipo </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["BIBLIOGRAFICO"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomArticulo'] + '</td>'
+							row += '<td>' + val['nombreRevista'] + '</td>'
+							row += '<td>' + val['editorial'] + '</td>'
+							row += '<td>' + val['noPaginas'] + '</td>'
+							row += '<td>' + val['isbn'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += '<td>' + val['fechaPublicacion'] + '</td>'
+							row += '<td>' + val['tipo'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["BIBLIOGRAFICO"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomArticulo'] + '</td>'
-					row += '<td>' + val['nombreRevista'] + '</td>'
-					row += '<td>' + val['editorial'] + '</td>'
-					row += '<td>' + val['noPaginas'] + '</td>'
-					row += '<td>' + val['isbn'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '<td>' + val['fechaPublicacion'] + '</td>'
-					row += '<td>' + val['tipo'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["INFORME_TECNICO"]){
 				row += '<tr>'
-				row += '<th> Informe técnico </th>'
-				row += '<th> Dependencia </th>'
-				row += '<th> Fecha de publicación </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Informe técnico </th>'
+						row += '<th> Dependencia </th>'
+						row += '<th> Fecha de publicación </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["INFORME_TECNICO"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomPub'] + '</td>'
+							row += '<td>' + val['dependencia'] + '</td>'
+							row += '<td>' + val['fechaPublicacion'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["INFORME_TECNICO"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomPub'] + '</td>'
-					row += '<td>' + val['dependencia'] + '</td>'
-					row += '<td>' + val['fechaPublicacion'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["MANUAL_OPERACION"]){
 				row += '<tr>'
-				row += '<th> Manual de operación </th>'
-				row += '<th> No. Registro </th>'
-				row += '<th> Fecha de publicación </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Manual de operación </th>'
+						row += '<th> No. Registro </th>'
+						row += '<th> Fecha de publicación </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["MANUAL_OPERACION"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomPub'] + '</td>'
+							row += '<td>' + val['noRegistro'] + '</td>'
+							row += '<td>' + val['fechaPublicacion'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["MANUAL_OPERACION"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomPub'] + '</td>'
-					row += '<td>' + val['noRegistro'] + '</td>'
-					row += '<td>' + val['fechaPublicacion'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["PROD_INNOVADORA"]){
 				row += '<tr>'
-				row += '<th> Productividad innovadora </th>'
-				row += '<th> No. Registro </th>'
-				row += '<th> Fecha de publicación </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Productividad innovadora </th>'
+						row += '<th> No. Registro </th>'
+						row += '<th> Fecha de publicación </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["PROD_INNOVADORA"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomPub'] + '</td>'
+							row += '<td>' + val['noRegistro'] + '</td>'
+							row += '<td>' + val['fechaPublicacion'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["PROD_INNOVADORA"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomPub'] + '</td>'
-					row += '<td>' + val['noRegistro'] + '</td>'
-					row += '<td>' + val['fechaPublicacion'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["PROTOTIPO"]){
 				row += '<tr>'
-				row += '<th> Prototipo </th>'
-				row += '<th> No. Registro </th>'
-				row += '<th> Fecha de publicación </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Prototipo </th>'
+						row += '<th> No. Registro </th>'
+						row += '<th> Fecha de publicación </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["PROTOTIPO"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomPub'] + '</td>'
+							row += '<td>' + val['noRegistro'] + '</td>'
+							row += '<td>' + val['fechaPublicacion'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["PROTOTIPO"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomPub'] + '</td>'
-					row += '<td>' + val['noRegistro'] + '</td>'
-					row += '<td>' + val['fechaPublicacion'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["PROY_INVESTIGACION"]){
 				row += '<tr>'
-				row += '<th> Proyecto de investigación </th>'
-				row += '<th> Empresa </th>'
-				row += '<th> Fecha inicio </th>'
-				row += '<th> Fecha fin </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Proyecto de investigación </th>'
+						row += '<th> Empresa </th>'
+						row += '<th> Fecha inicio </th>'
+						row += '<th> Fecha fin </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["PROY_INVESTIGACION"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomProyecto'] + '</td>'
+							row += '<td>' + val['nomEmpresa'] + '</td>'
+							row += '<td>' + val['fechaIni'] + '</td>'
+							row += '<td>' + val['fechaFin'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["PROY_INVESTIGACION"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomProyecto'] + '</td>'
-					row += '<td>' + val['nomEmpresa'] + '</td>'
-					row += '<td>' + val['fechaIni'] + '</td>'
-					row += '<td>' + val['fechaFin'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 			if(valor["DIRECCION"]){
 				row += '<tr>'
-				row += '<th> Direccion individualizada </th>'
-				row += '<th> Empresa </th>'
-				row += '<th> Alumno </th>'
-				row += '<th> Fecha inicio </th>'
-				row += '<th> Fecha fin </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Direccion individualizada </th>'
+						row += '<th> Empresa </th>'
+						row += '<th> Alumno </th>'
+						row += '<th> Fecha inicio </th>'
+						row += '<th> Fecha fin </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["DIRECCION"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomDireccion'] + '</td>'
+							row += '<td>' + val['nomEmpresa'] + '</td>'
+							row += '<td>' + val['nombreAlumno'] + '</td>'
+							row += '<td>' + val['fechaIni'] + '</td>'
+							row += '<td>' + val['fechaFin'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["DIRECCION"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomDireccion'] + '</td>'
-					row += '<td>' + val['nomEmpresa'] + '</td>'
-					row += '<td>' + val['nombreAlumno'] + '</td>'
-					row += '<td>' + val['fechaIni'] + '</td>'
-					row += '<td>' + val['fechaFin'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 
 			if(valor["ESTADIA"]){
 				row += '<tr>'
-				row += '<th> Estadia en empresas </th>'
-				row += '<th> Empresa </th>'
-				row += '<th> Alumno </th>'
-				row += '<th> Fecha inicio </th>'
-				row += '<th> Fecha fin </th>'
-				row += '<th> Fecha de insercion </th>'
+					row += '<table>'
+						row += '<tr>'
+						row += '<th> Estadia en empresas </th>'
+						row += '<th> Empresa </th>'
+						row += '<th> Alumno </th>'
+						row += '<th> Fecha inicio </th>'
+						row += '<th> Fecha fin </th>'
+						row += '<th> Fecha de insercion </th>'
+						row += '<th> Colaborador (es) </th>'
+						row += '</tr>'
+						$.each(valor["ESTADIA"], function(ind, val){
+							row += '<tr>'
+							row += '<td>' + val['nomEstadia'] + '</td>'
+							row += '<td>' + val['nomEmpresa'] + '</td>'
+							row += '<td>' + val['nombreAlumno'] + '</td>'
+							row += '<td>' + val['fechaIni'] + '</td>'
+							row += '<td>' + val['fechaFin'] + '</td>'
+							row += '<td>' + val['fechaInsercion'] + '</td>'
+							row += "<td>"
+								$.each(val["COLABORADOR"], function(indice, v){
+									row += v['nomColaborador'] + '</br>'
+								});
+							row += "</td>"
+							row += '</tr>'
+						});
+					row += '</table>'
 				row += '</tr>'
-				$.each(valor["ESTADIA"], function(ind, val){
-					row += '<tr>'
-					row += '<td>' + val['nomEstadia'] + '</td>'
-					row += '<td>' + val['nomEmpresa'] + '</td>'
-					row += '<td>' + val['nombreAlumno'] + '</td>'
-					row += '<td>' + val['fechaIni'] + '</td>'
-					row += '<td>' + val['fechaFin'] + '</td>'
-					row += '<td>' + val['fechaInsercion'] + '</td>'
-					row += '</tr>'
-				});
 			}
 
 
 			$("#json-data").append(row)
-			alert("¡Busqueda completada!");
 		});
+		alert("¡Busqueda completada!");
 	}
 </script>

@@ -1,111 +1,118 @@
+<section id="banner">
+	<h1>Perfil de usuario</h1>
+</section>
+
+<section id="mostrar_usuarios">
+    <form id="formulario" name="formulario">
+        <table>
+            <tr>
+                <th>Foto</th>
+                <th>Username</th>
+                <th>Contraseña</th>
+            </tr>
+            <tr>
+                <td><img id="fotografia" height="250" width="300"></img></br>Cambiar imagen:</td>
+                <td><input id='username' name='username' type='text' disabled></input></td>
+                <td><input id='password' name='password' type='text' ></input></td>
+                <input type="hidden" id="id_academico" name="id_academico"></input>
+                <input type="hidden" id="id_usuario" name="id_usuario"></input>
+
+            <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+            </tr>
+            <tr>
+                <th><input id='nombre' name='nombre' type='text' ></input></th>
+                <th><input id='apellidos' name='apellidos' type='text' ></input></th>
+                <th><input id='email' name='email' type='text' ></input></th>
+            </tr>
+            <tr>
+                <th>Grado de estudios</th>
+                <th>Centro universitario</th>
+                <th>Clave única de maestro</th>
+            </tr>
+            <tr>
+                <th><input id='gradoEstudios' name='gradoEstudios' type='text' ></input></th>
+                <th><input id='centroUniAct' name='centroUniAct' type='text' ></input></th>
+                <th><input id='clave' name='clave' type='text' ></input></th>
+            </tr>
+        </table>
+        <input id="lineas" name="lineas[]" type="text" placeholder="Línea de investigación...." class="form-control name_list"></input>
+        <input type="button" name="agregar" id="agregar" value="Agregar"></input>                   
+        <table id="lineasTable" class="d">
+        </table>
+    </form>
+</section>
+<input id="submit" type="submit" value="Actualizar"></input>
+
+
 <?php
-	include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
-	session_start();
-
-	$username = $_SESSION['username'];
-	$id_usuario = $_SESSION['id_usuario'];
-	$id_academico = $_SESSION['id_academico'];
-
-	$aux = new Conexion;
-	$conn = $aux->conexion();
-	if(!$conn){
-		echo 'Conexion no establecida'. mysql_error();
-	}
-	$select = "SELECT * FROM USUARIO WHERE id_academico = '$id_academico'";
-	$resultado = mysqli_query($conn, $select);
-	$i = 1;
-
-	while($row = mysqli_fetch_assoc($resultado)) {
-
-		$id_usuario = $row["id"];
-		$id_academico = $row["id_academico"];
-		$username = $row["username"];
-
-		$selectAC = "SELECT * FROM ACADEMICO WHERE id = '$id_academico'";
-		$resAC = mysqli_query($conn, $selectAC);
-		$rowAC = mysqli_fetch_assoc($resAC);
-
-		$user = $row['username'];
-		$fotografia = $rowAC["fotografia"];
-		$nombre= $rowAC["nombre"];
-		$apellidos = $rowAC["apellidos"];
-		$email = $rowAC["email"];
-		$gradoEstudios = $rowAC["gradoEstudios"];
-		$centroUniAct = $rowAC["centroUniAct"];
-		$clave = $rowAC["clave"];
-		$password = $row["password"];
-
-		/*$conection = mysqli_connect('localhost', 'root', '', 'Yamagen');
-		if(!$conection){
-			echo 'Conexion no establecida'. mysql_error();
-		}
-		$sel = "SELECT lin_inves FROM USR_LIN_INVES WHERE usrname = '$user'";
-		$res = mysqli_query($conection, $sel);
-		mysqli_close($conection);*/
-
-		echo "
-			<table>
-				<tr>
-					<th>Foto</th>
-					<th>Username</th>
-					<th>Contraseña</th>
-				</tr>
-				<tr>
-					<th></th>
-					<th><input id='username".$i."' name='username".$i."' type='text' value='$user' disabled></input></th>
-					<th><input id='password".$i."' name='password".$i."' type='text' value='$password'></input></th>
-					<input id='id_usuario".$i."' name='id_usuario".$i."' value='$id_usuario' type='hidden'></input>
-					<input id='id_academico".$i."' name='id_academico".$i."' value='$id_academico' type='hidden'></input>
-					<input id='username".$i."' name='username".$i."' value='$username' type='hidden'></input>
-				<tr>
-					<th>Nombre</th>
-					<th>Apellidos</th>
-					<th>Email</th>
-				</tr>
-				<tr>
-					<th><input id='email".$i."' name='email".$i."' type='text' value='$email'></input></th>
-					<th><input id='nombre".$i."' name='nombre".$i."' type='text' value='$nombre'></input></th>
-					<th><input id='apellidos".$i."' name='apellidos".$i."' type='text' value='$apellidos'></input></th>
-				</tr>
-				<tr>
-					<th>Grado de estudios</th>
-					<th>Centro universitario</th>
-					<th>Clave única de maestro</th>
-				</tr>
-				<tr>
-					<th><input id='gradoEstudios".$i."' name='gradoEstudios".$i."' type='text' value='$gradoEstudios'></input></th>
-					<th><input id='centroUniAct".$i."' name='centroUniAct".$i."' type='text' value='$centroUniAct'></input></th>
-					<th><input id='clave".$i."' name='clave".$i."' type='text' value='$clave'></input></th>
-				</tr>
-				<tr>
-					<th>Líneas Inv.</th>
-				</tr>
-				<tr>
-					<th>";
-			    	/*while($rw = mysqli_fetch_assoc($res)){
-			    		echo "".$rw["lin_inves"]. "<br/>";
-			    	}*/
-
-		echo "	</th>
-	    		</tr>
-
-					<td><button id=\"mod'.$i.'\" type=\"button\" name=\"mod'.$i.'\" onclick='modificarDatos(
-					    id_academico".$i.".value,
-					    id_usuario".$i.".value,
-					    password".$i.".value,
-					    nombre".$i.".value,
-					    apellidos".$i.".value,
-					    email".$i.".value,
-					    gradoEstudios".$i.".value,
-					    centroUniAct".$i.".value,
-					    clave".$i.".value,
-					    username".$i.".value)'>Modificar</button></td>
-					
-				</tr>
-			</table>
-			<br/>";
-		$i++;
-    }
-	mysqli_close($conn);
-    
+    session_start();
+    $id_academico = $_SESSION['id_academico'];
+    $id_usuario = $_SESSION['id_usuario'];
 ?>
+
+<script>
+    var i = 1;
+    var id_academico = "<?php echo $id_academico;?>";
+    var id_usuario = "<?php echo $id_usuario;?>";
+    $( document ).ready(function() {
+        $.ajax({
+            url:"/profile/mostrar.php",
+            method:"POST",
+            data: {id_usuario : id_usuario, id_academico : id_academico},
+            success:function(data) {
+                var datos = JSON.parse(data);
+                $("#fotografia").attr("src",datos["fotografia"]);
+                $("#username").val(datos["username"]);
+                $("#password").val(datos["password"]);
+                $("#email").val(datos["email"]);
+                $("#nombre").val(datos["nombre"]);
+                $("#apellidos").val(datos["apellidos"]);
+                $("#centroUniAct").val(datos["centroUniAct"]);
+                $("#gradoEstudios").val(datos["gradoEstudios"]);
+                $("#clave").val(datos["clave"]);
+                $("#id_academico").val(id_academico);
+                $("#id_usuario").val(id_usuario);
+                var jsonLineas = datos["LINEAS"];
+                $.each(jsonLineas, function(ind, val){
+                    $('#lineasTable').append('<tr id="row'+ i +'"><td><input id="lineas" name="lineas[]" type="text" placeholder="Línea de investigación...." class="form-control name_list" value= "'+ val['linea'] + '"></input></td><td><input type="button" name="remove" id="' + i + '" class="btn_remove" value="X"></input></td></tr>');
+                    i++;
+                });
+            }
+        });
+    });
+
+    $('#agregar').click(function(){
+        var lineas = $("#lineas").val();
+        i++;
+        $('#lineasTable').append('<tr id="row' + i + '"><td><input id="lineas" name="lineas[]" type="text" placeholder="Línea de investigación...." class="form-control name_list" value= "'+ lineas +'"></input></td><td><input type="button" name="remove" id="' + i + '" class="btn_remove" value="X"></input></td></tr>');
+        $("#lineas").val("");
+    });
+
+    $(document).on('click', '.btn_remove', function(){
+        var button_id = $(this).attr("id"); 
+        $('#row' + button_id + '').remove();
+    });
+
+
+    $('#submit').click(function(){
+        if($("#username").val() == ""  || $("#password").val() == ""  || $("#email").val() == "" || $("#nombre").val() == ""
+            || $("#apellidos").val() == "" || $("#centroUniAct").val() == "" || $("#gradoEstudios").val() == "" || $("#clave").val() == ""){
+            alert("Los campos deben estar llenos.");
+            return;
+        }       
+        $.ajax({
+            url:"/profile/modificar.php",
+            method:"POST",
+            data: $('#formulario').serialize(),
+            success:function(data) {
+                alert("¡Perfil actualizado!");
+                $("#contInfo").load("/profile/profile.php");  
+            }
+        });
+    });
+
+
+</script>

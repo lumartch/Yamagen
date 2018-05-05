@@ -1,6 +1,6 @@
 <section>
 	<div class="inner">
-		<form action="/usuario/crear_usuario.php" method="post">
+		<form id="formulario" name="formulario">
 			<h1>Registro de usuario</h1>
 			<table>
 				<tr>
@@ -27,73 +27,34 @@
 					</th>
 				</tr>
 			</table>
-				<!--<tr>
-					<th>
-						<input id="centroUniv" name="centroUniv" type="text" placeholder="Centro universitario" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
-					</th>
-					<th>
-						<input id="gradoEstudios" name="gradoEstudios" type="text" placeholder="Grado de estudios" pattern="[A-Za-záéíóú0-9 .,;:]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" ></input>
-					</th>
-				</tr>
-			</table>-->
 			<table>
-					<!--<tr>
-						<input id="clave" name="clave" type="text" placeholder="Clave única de maestro" pattern="[A-Za-záéíóú0-9]+" title="Solo se aceptan caraceteres alfanúmericos" autocomplete="off" required></input>
-						<input id="linInves" name="linInves" type="text" placeholder="Línea de investigación (Para agregar, introduzca el nombre y luego presione tabulador)" pattern="[A-Za-záéíóú0-9 ,;.:]+" title="Solo se aceptan caraceteres alfanúmericos" autofocus ></input>
-						Líneas de investigación registradas <br/>
-						<div id="linGuardadas" name="linGuardadas" class="inner"></div>
-					</tr>-->
 					<tr>
 					<th><div name="statusUsername" id="statusUsername"><br/><ul><li><strong>Username: </strong></li></ul></div></th>
 					<th><div name="statusEmail" id="statusEmail"><br/><ul><li><strong>Email: </strong></li></ul></div></th>
 					</tr>
 			</table>-
-			<input type="submit" value="Registrar" id="registrar" name="registrar" class="enviar"></input>
-
-			<input type="hidden" id="lineas_inv" name="lineas_inv" disabled></input>
 		</form>
 	</div>
 </section>
+<input type="submit" value="Registrar" id="registrar" name="registrar" class="enviar"></input>
 
 <script language="JavaScript" type="text/javascript" src="/js/check_user.js"></script>
 <script language="JavaScript" type="text/javascript" src="/js/random-password-generator.js"></script>
 
-<!--<script>
-	var cont = 1;
-	$.get( "/linea_investigacion/lin_autocomp.php", function( lineas ) {
-		$( function() {
-			var availableTags = JSON.parse(lineas);
-			$("#linInves").autocomplete({
-			source: availableTags
-			});
-		} );
+<script>
+	$('#registrar').click(function(){
+		$.ajax({
+			url:"/usuario/crear_usuario.php",
+			method:"POST",
+			data: $('#formulario').serialize(),
+			success:function(data) {
+				alert("¡Usuario creado!");
+				$("#username").val("");
+				$("#email").val("");
+				$("#pass").val("");
+				$("#nombre").val("");
+				$("#apellidos").val("");
+			}
+		});
 	});
-
-    var info = "";
-	$("#linInves").keypress(function(e) {
-	    var keycode = (e.keyCode ? e.keyCode : e.which);
-	    var linTexto = document.getElementById("linInves").value + "-";
-
-	    if (keycode == '9' && linTexto != "") {
-	    	$("#linGuardadas").append('<button id="eli'+ cont +'" value="'+linTexto+'" class="btnRemove">'+linTexto+'  X</button>');
-	    	info += linTexto;
-
-			$('.btnRemove').click (function () {   
-				var aux = $(this).prev().text();
-				var auxStr = info.replace(aux, "");
-				info = auxStr;
-                $(this).prev().remove();    
-                $(this).remove();
-            });
-	    	document.getElementById("linInves").value = "";
-	    	$('#linInves').focus();
-	    	cont++;
-	    }
-	});
-
-	$('.enviar').click(function(){
-		$("#lineas_inv").val(info) ;
-	});
-</script>-->
-
-
+</script>

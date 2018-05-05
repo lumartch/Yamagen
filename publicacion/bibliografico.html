@@ -28,7 +28,8 @@
 				<th><input id="colaborador" name="colaborador[]" type="text" placeholder="Colaborador(es)" class="form-control name_list"></input>
 					<input type="button" name="agregar" id="agregar" value="Agregar"></input>					
 					<table id="colaboradoresTable" class="d">
-					</table></th>
+					</table>
+				</th>
 			</tr>
 		</table>
 		<input type="hidden" id="publicacion" name="publicacion" value="bibliografico"></input>
@@ -52,9 +53,9 @@
 	});
 
 	$('#submit').click(function(){
-		console.log("si entro");
-		if($("#nombre").val() == ""  || $("#nomRev").val() == ""  || $("#isbn").val() == "" || $("#noPag").val() == "" || $("#fecha").val() == null || $("#editorial").val() == ""){
-			alert("Los campos deben estar llenos.");f
+		var valueDate = document.getElementById('fecha').value;
+		if($("#nombre").val() == ""  || $("#nomRev").val() == ""  || $("#isbn").val() == "" || $("#noPag").val() == "" || !valueDate || $("#editorial").val() == ""){
+			alert("Los campos deben estar llenos.");
 			return;
 		}
 		$.ajax({

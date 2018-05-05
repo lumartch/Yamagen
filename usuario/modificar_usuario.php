@@ -1,20 +1,18 @@
 <?php
 	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
-	$admin = new Admin;
+	$usr = new Usr;
 
-	$id_academico = $_GET['id_ac'];
-	$id_usuario = $_GET['id_usr'];
-	$password = $_GET['pass'];
-	$nombre = $_GET['nom'];
-	$apellidos = $_GET['ape'];
-	$email = $_GET['ema'];
-	$centroUniversitario = $_GET['cen'];
-	$grado_estudios = $_GET['gra'];
-	$clave = $_GET['clav'];
-
-	$admin->modificarUsuario($id_academico, $id_usuario, $password, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
-	echo '<script type="text/javascript">
-        	window.location.href="/index.html";
-        </script>';
+	$id_academico = $_POST['id_academico'];
+	$id_usuario = $_POST['id_usuario'];
+	$password = $_POST['password'];
+	$nombre = $_POST['nombre'];
+	$apellidos = $_POST['apellidos'];
+	$email = $_POST['email'];
+	$centroUniversitario = $_POST['centroUniAct'];
+	$grado_estudios = $_POST['gradoEstudios'];
+	$clave = $_POST['clave'];
+	
+	$usr->modificarUsuario($id_usuario, $password);
+	$usr->modificarAcademico($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
 ?>
 

@@ -1,6 +1,4 @@
 <?php 
-	//include ($_SERVER['DOCUMENT_ROOT']."/class/conexion.php");
-
 	class Academico{
 		private $id_academico;
 		private $nombre;
@@ -9,9 +7,11 @@
 		private $centroUniversitario;
 		private $grado_estudios = '';
 		private $clave;
+
 		function __construct(){
 
 		}
+
 		public function crear($nombre, $apellidos, $email){
 			$this->nombre = $nombre;
 			$this->apellidos = $apellidos;
@@ -22,7 +22,7 @@
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
-			$insert = ("INSERT INTO ACADEMICO(nombre, apellidos, email) VALUES ('$nombre', '$apellidos', '$email')");
+			$insert = "INSERT INTO ACADEMICO(fotografia, nombre, apellidos, email, centroUniAct, gradoEstudios, clave) VALUES ('/imagenes/logo.png', '$nombre', '$apellidos', '$email', 'N/A', 'N/A', 'N/A')";
 			if(mysqli_query($conn, $insert)){
 				echo "Nuevo Academico creado.";
 			}
@@ -30,7 +30,9 @@
 				echo "Error: ". mysqli_error($conn);
 			}
 			mysqli_close($conn);
+
 		}
+
 		public function modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
 			$this->id_academico = $id_academico;
 			$this->nombre = $nombre;
@@ -42,23 +44,78 @@
 
 			$aux = new Conexion;
 			$conn = $aux->conexion();
+
+			$update = "UPDATE  ACADEMICO SET nombre = '$this->nombre', apellidos = '$this->apellidos', email = '$this->email', 
+						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  WHERE id = '$this->id_academico'";
+
+			if(mysqli_query($conn, $update)){
+				$delete = "DELETE FROM USR_LIN_INVES WHERE id_academico = '$id_academico'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["lineas"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["lineas"][$i] != '')){
+							$linea = $_POST["lineas"][$i];
+							echo $linea."->";
+
+							$insertLin = "INSERT INTO LINEA_INVESTIGACION(linea) VALUES('$linea')";
+							mysqli_query($conn, $insertLin);
+
+							$select = "SELECT * FROM LINEA_INVESTIGACION WHERE linea = '$linea'";
+							$query = mysqli_query($conn, $select);
+							$row = mysqli_fetch_assoc($query);
+							$id_linea = $row["id"];
+
+							$insert = "INSERT INTO USR_LIN_INVES(id_academico, id_lin_inves) VALUES ('$id_academico', '$id_linea')";
+							mysqli_query($conn, $insert);
+						}
+					}
+				}
+			}
+			else{
+			}
+			mysqli_close($conn);
+		}
+
+		public function eliminar($id){
+			$this->id_academico = $id;
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$update = ("UPDATE  ACADEMICO SET nombre = '$this->nombre', apellidos = '$this->apellidos', email = '$this->email', 
-						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  WHERE id = '$this->id_academico'");
-
-			if(mysqli_query($conn, $update)){
-			}
+			$delete = "DELETE FROM ACADEMICO WHERE id = '$this->id_academico'";
+			if(mysqli_query($conn, $delete)){ }
 			else{
 				echo "Error: ". mysqli_error($conn);
 			}
 			mysqli_close($conn);
 		}
 
-		public function eliminar($id){
+		public function mostrar($id){
+			$this->id_academico = $id;
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 
+			$select = "SELECT * FROM ACADEMICO WHERE id = '$id_academico'";
+			$resultado =  mysqli_query($conn, $select);
+			$queryRes = mysqli_fetch_assoc($resultado);
+			$json = $queryRes;
+
+			$select = "SELECT * FROM USR_LIN_INVES WHERE id_academico = '$id_academico'";
+			$resultado =  mysqli_query($conn, $select);
+			$jsonLineas = array();
+			while($queryRes = mysqli_fetch_assoc($resultado)){
+				$selectLin = "SELECT linea FROM LINEA_INVESTIGACION WHERE id = '".$queryRes["id_lin_inves"]."'";
+				$resLin = mysqli_query($conn, $selectLin);
+				$jsonLineas += mysqli_fetch_assoc($resLin);
+			}
+
+			$json += array("LINEAS" => $jsonLineas);
+			mysqli_close($conn);
+			echo json_encode($json);
 		}
 	}
 
@@ -82,14 +139,14 @@
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$select_academico = ("SELECT id FROM ACADEMICO WHERE nombre = '$nombre' and apellidos = '$apellidos' and email = '$email'");
+			$select_academico = "SELECT id FROM ACADEMICO WHERE nombre = '$nombre' and apellidos = '$apellidos' and email = '$email'";
 			$this->id_academico = mysqli_query($conn, $select_academico);
 			$id = mysqli_fetch_assoc($this->id_academico);
 			$id_A = $id["id"];
 			
-			$insert = ("INSERT INTO USUARIO (username, password, id_tipo_usuario, id_academico) VALUES ('$username', '$password', 2, '$id_A')");
+			$insert = "INSERT INTO USUARIO (username, password, id_tipo_usuario, id_academico) VALUES ('$username', '$password', 2, '$id_A')";
 
-			if(mysqli_query($conn, $insert)){
+			if(mysqli_query($conn, $insert)) {
 				echo "Nuevo usuario creado.";
 			}
 			else{
@@ -108,11 +165,8 @@
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$update = ("UPDATE  USUARIO SET password = '$this->password' WHERE id = '$this->id_usuario'");
+			$update = "UPDATE  USUARIO SET password = '$this->password' WHERE id = '$this->id_usuario'";
 			if(mysqli_query($conn, $update)){
-			}
-			else{
-				echo "Error: ". mysqli_error($conn);
 			}
 			mysqli_close($conn);
 		}
@@ -125,7 +179,7 @@
 				echo 'Conexion no establecida'. mysql_error();
 			}
 
-			$delete = ("DELETE FROM USUARIO WHERE id = '$this->id_usuario'");
+			$delete = "DELETE FROM USUARIO WHERE id = '$this->id_usuario'";
 			if(mysqli_query($conn, $delete)){ }
 			else{
 				echo "Error: ". mysqli_error($conn);
@@ -133,89 +187,65 @@
 			mysqli_close($conn);
 		}
 
-
-		/*public function mostrar($username){
+		public function mostrar($id_usuario, $id_academico){
+			$this->id_usuario = $id_usuario;
 			$aux = new Conexion;
 			$conn = $aux->conexion();
-			if(!$conn){
-				echo 'Conexion no establecida'. mysql_error();
+
+			$select = "SELECT * FROM USUARIO WHERE id = '$this->id_usuario'";
+			$resultado =  mysqli_query($conn, $select);
+			$queryRes = mysqli_fetch_assoc($resultado);
+			$json = $queryRes;
+
+			$select = "SELECT * FROM ACADEMICO WHERE id = '$id_academico'";
+			$resultado =  mysqli_query($conn, $select);
+			$queryRes = mysqli_fetch_assoc($resultado);
+			$json += $queryRes;
+
+			$select = "SELECT * FROM USR_LIN_INVES WHERE id_academico = '$id_academico'";
+			$resultado =  mysqli_query($conn, $select);
+			$jsonUsr = array();
+			$j = 0;
+			while($queryRes = mysqli_fetch_assoc($resultado)){
+				$selectLin = "SELECT linea FROM LINEA_INVESTIGACION WHERE id = '".$queryRes["id_lin_inves"]."'";
+				$resLin = mysqli_query($conn, $selectLin);
+				$queryNom = mysqli_fetch_assoc($resLin);
+				$jsonUsr[$j] = $queryNom;
+				$j++;
 			}
-			$select = "SELECT * FROM USUARIO WHERE '$username'";
-			$resultado = mysqli_query($conn, $select);
+			$json += array( "LINEAS" => $jsonUsr);
+
 			mysqli_close($conn);
-			$i = 1;
+			echo json_encode($json);
+		}
 
-			while($row = mysqli_fetch_assoc($resultado)) {
-				
-				$user = $row['username'];
-				$nombre= $row["nombre"];
-				$apellidos = $row["apellidos"];
-				$email = $row["email"];
-				$gradoEstudios = $row["gradoEstudios"];
-				$centroUniAct = $row["centroUniAct"];
-				$clave = $row["clave"];
+		public function mostrarTodos(){
+			$aux = new Conexion;
+			$conn = $aux->conexion();
 
-				$conection = mysqli_connect('localhost', 'root', '', 'Yamagen');
-				if(!$conection){
-					echo 'Conexion no establecida'. mysql_error();
-				}
-				$sel = "SELECT lin_inves FROM USR_LIN_INVES WHERE usrname = '$user'";
-				$res = mysqli_query($conection, $sel);
-				mysqli_close($conection);
+			$select = "SELECT * FROM USUARIO WHERE id_tipo_usuario = 2";
+			$resultado =  mysqli_query($conn, $select);
+			$json = array();
+			$jsonDatos = array(); 
+			$i = 0;
+			while($queryRes = mysqli_fetch_assoc($resultado)){
 
-				echo "
-					<table>
-						<tr>
-							<th>Foto</th>
-							<th>Username</th>
-							<th>Nombre</th>
-							<th>Apellidos</th>
-						</tr>
-						<tr>
-							<th></th>
-							<th><input id='username".$i."' name='username".$i."' type='text' value='$user' disabled></input></th>
-							<th><input id='nombre".$i."' name='nombre".$i."' type='text' value='$nombre'></input></th>
-							<th><input id='apellidos".$i."' name='apellidos".$i."' type='text' value='$apellidos'></input></th>
-						<tr>
-							<th>Email</th>
-							<th>Grado de estudios</th>
-							<th>Centro universitario</th>
-							<th>Clave única de maestro</th>
-						</tr>
-						<tr>
-							<th><input id='email".$i."' name='email".$i."' type='text' value='$email'></input></th>
-							<th><input id='gradoEstudios".$i."' name='gradoEstudios".$i."' type='text' value='$gradoEstudios'></input></th>
-							<th><input id='centroUniAct".$i."' name='centroUniAct".$i."' type='text' value='$centroUniAct'></input></th>
-							<th><input id='clave".$i."' name='clave".$i."' type='text' value='$clave'></input></th>
-						</tr>
+				//Datos de la tabla USUARIO
+				$id_academico = $queryRes["id_academico"];
+				$jsonDatos = $queryRes;
 
-						<tr>
-							<th>Líneas Inv.</th>
-						</tr>
-						<tr>
-							<th>";
-					    	while($rw = mysqli_fetch_assoc($res)){
-					    		echo "".$rw["lin_inves"]. "<br/>";
-					    	}
+				//Datos de la tabla ACADEMICO
+				$select = "SELECT * FROM ACADEMICO WHERE id = '$id_academico'";
+				$resAC =  mysqli_query($conn, $select);
+				$queryAc = mysqli_fetch_assoc($resAC);
+				$jsonDatos += $queryAc;
 
-				echo "	</th>
-			    		</tr>
-
-							<td><button id=\"mod'.$i.'\" type=\"button\" name=\"mod'.$i.'\" onclick='modificarDatos(
-							    username".$i.".value,
-							    nombre".$i.".value,
-							    apellidos".$i.".value,
-							    email".$i.".value,
-							    gradoEstudios".$i.".value,
-							    centroUniAct".$i.".value,
-							    clave".$i.".value)'>Modificar</button></td>
-							
-						</tr>
-					</table>
-					<br/>";
+				$json[$i] = $jsonDatos;
 				$i++;
-		    }
-		}*/
+			}
+			mysqli_close($conn);
+			echo json_encode($json);
+		}
 
 	}
 ?>

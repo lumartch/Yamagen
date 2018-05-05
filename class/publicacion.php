@@ -154,6 +154,22 @@
 			$insert = "INSERT INTO DIRECCION(nomDireccion, fechaIni, fechaFin, nomEmpresa, nombreAlumno, status, fechaInsercion, id_academico)
 			VALUES ('$this->nomDireccion', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM DIRECCION WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_direccion) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -182,14 +198,51 @@
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$update = "UPDATE DIRECCION SET nomDireccion = '$nomDireccion', nomEmpresa = '$nomEmpresa', fechaIni = '$fechaIni', fechaFin = '$fechaFin', nombreAlumno = '$nombreAlumno' WHERE id='$id_pub'";
+			
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_direccion = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador,id_direccion) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
+
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM DIRECCION WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_direccion = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 
 	}
@@ -220,6 +273,22 @@
 			$insert = "INSERT INTO ESTADIA(nomEstadia, fechaIni, fechaFin, nomEmpresa, nombreAlumno, status, fechaInsercion, id_academico)
 			VALUES ('$this->nomEstadia', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa', '$this->nomAlumno', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM ESTADIA WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_estadia) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -250,12 +319,47 @@
 			$update = "UPDATE ESTADIA SET nomEstadia = '$nomEstadia', nomEmpresa = '$nomEmpresa', fechaIni = '$fechaIni', fechaFin = '$fechaFin', nombreAlumno = '$nombreAlumno' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_estadia = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador,id_estadia) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM ESTADIA WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_estadia = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 	}
 
@@ -283,6 +387,33 @@
 			$insert = "INSERT INTO PROY_INVESTIGACION(nomProyecto, fechaIni, fechaFin, nomEmpresa, status, fechaInsercion, id_academico)
 			VALUES ('$this->nomProyecto', '$this->fechaIni', '$this->fechaFin','$this->nomEmpresa',  '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM PROY_INVESTIGACION WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_proy_inves) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
+
+				$number = count($_POST["institucion"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["institucion"][$i] != '')){
+							$nomInstitucion = $_POST["institucion"][$i];
+							$sql = "INSERT INTO INSTITUCION(nomInstitucion, id_proy_inves) VALUES('$nomInstitucion', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -303,6 +434,7 @@
 			$update = "UPDATE PROY_INVESTIGACION SET status=true WHERE id='$id' AND nomProyecto='$nom' AND id_academico = '$id_academico'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
+				
 			}
 			mysqli_close($conn);
 		}
@@ -313,12 +445,73 @@
 			$update = "UPDATE PROY_INVESTIGACION SET nomProyecto = '$nomPub', nomEmpresa = '$nomEmpresa', fechaIni = '$fechaIni', fechaFin = '$fechaFin' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_proy_inves = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador,id_proy_inves) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
+
+				$delete = "DELETE FROM INSTITUCION WHERE id_proy_inves = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["institucion"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["institucion"][$i] != '')){
+							$nomInstitucion = $_POST["institucion"][$i];
+							$sql = "INSERT INTO INSTITUCION(nomInstitucion, id_proy_inves) VALUES('$nomInstitucion', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM PROY_INVESTIGACION WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_proy_inves = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+
+			$selectInstitucion = "SELECT nomInstitucion FROM INSTITUCION WHERE id_proy_inves = '".$json["id"]."' ";
+			$resultInst = mysqli_query($conn, $selectInstitucion);
+			$jsonInst = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultInst)){
+				$jsonInst[$i] = $in;
+				$i++;
+			}
+			$json += array("INSTITUCION" => $jsonInst);
+
+
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 	}
 
@@ -520,7 +713,7 @@
 		public function aceptar($id_academico, $nom, $id){
 			$aux = new Conexion;
 			$conn = $aux->conexion();
-			$update = "UPDATE BIBLIOGRAFICO SET status=true WHERE id='$id' AND nomArticulo='$nom' AND id_academico = '$id_academico'";
+			$update = "UPDATE BIBLIOGRAFICO SET status = true WHERE id = '$id' AND nomArticulo='$nom' AND id_academico = '$id_academico'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion aceptada';
 			}
@@ -528,13 +721,14 @@
 			
 		}
 
-		public function actualizar($id_pub ,$nombrePub, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $editorial, $id_tipo_art){
+		public function actualizar($id_pub ,$nombrePub, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $editorial, $id_tipo_biblio){
 			$aux = new Conexion;
 			$conn = $aux->conexion();
-			$update = "UPDATE BIBLIOGRAFICO SET nomArticulo = '$nombrePub', nombreRevista = '$nombreRevista', noPaginas = '$noPaginas', 
-												isbn = '$isbn', fechaPublicacion = '$fechaPublicacion', editorial = '$editorial',
-												id_tipo_biblio = '$id_tipo_art' WHERE id='$id_pub'";
-			if(mysqli_query($conn, $update)){
+
+			$update = "UPDATE BIBLIOGRAFICO SET nomArticulo = '$nombrePub', nombreRevista = '$nombreRevista', editorial = '$editorial',
+			noPaginas = '$noPaginas', isbn = '$isbn', fechaPublicacion = '$fechaPublicacion', id_tipo_biblio = '$id_tipo_biblio' WHERE id = '$id_pub'";
+
+			if(mysqli_query($conn, $update)) {
 				echo 'Produccion Actualizada';
 				$delete = "DELETE FROM COLABORADOR WHERE id_bibliografico = '$id_pub'";
 				mysqli_query($conn, $delete);
@@ -550,6 +744,7 @@
 					}
 				}
 			}
+
 			mysqli_close($conn);
 		}
 
@@ -607,6 +802,22 @@
 			VALUES ('$this->nomPub', '$this->dependencia', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM INFORME_TECNICO WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_informe) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -637,12 +848,47 @@
 			$update = "UPDATE INFORME_TECNICO SET nomPub = '$nomPub', dependencia = '$dependencia', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_informe = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_informe) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM INFORME_TECNICO WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_informe = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 
 	}
@@ -669,6 +915,22 @@
 			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM PROD_INNOVADORA WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_prod_inn) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -696,15 +958,50 @@
 		public function actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion){
 			$aux = new Conexion;
 			$conn = $aux->conexion();
-			$update = "UPDATE MANUAL_OPERACION SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
+			$update = "UPDATE PROD_INNOVADORA SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_prod_inn = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_prod_inn) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM PROD_INNOVADORA WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_prod_inn = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 
 	}
@@ -731,6 +1028,22 @@
 			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM MANUAL_OPERACION WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_manual) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -755,18 +1068,53 @@
 			mysqli_close($conn);
 		}
 
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM MANUAL_OPERACION WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_manual = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
+		}
+
 		public function actualizar($id_pub, $nomPub, $noRegistro, $fechaPublicacion){
 			$aux = new Conexion;
 			$conn = $aux->conexion();
 			$update = "UPDATE MANUAL_OPERACION SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_manual = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_manual) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
 		}
 
 	}
@@ -793,6 +1141,22 @@
 			VALUES ('$this->nomPub', '$this->noRegistro', '$this->fechaPublicacion', '$this->status', '$this->fechaInsercion', '$this->id_academico')";
 			
 			if(mysqli_query($conn, $insert)){
+				//Toma de la publicación actual el ID para hacer la relación con los colaboradores
+				$select = "SELECT id FROM PROTOTIPO WHERE id_academico = '$this->id_academico' AND fechaInsercion = '$this->fechaInsercion'";
+				$resultado = mysqli_query($conn, $select);
+				$resul = mysqli_fetch_assoc($resultado);
+				$id = $resul["id"];
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_prototipo) VALUES('$nomColaborador', '$id')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
 		}
@@ -823,12 +1187,47 @@
 			$update = "UPDATE PROTOTIPO SET nomPub = '$nomPub', noRegistro = '$noRegistro', fechaPublicacion = '$fechaPublicacion' WHERE id='$id_pub'";
 			if(mysqli_query($conn, $update)){
 				echo 'Produccion Actualizada';
+				$delete = "DELETE FROM COLABORADOR WHERE id_prototipo = '$id_pub'";
+				mysqli_query($conn, $delete);
+
+				$number = count($_POST["colaborador"]);
+				if($number > 1) {
+					for($i = 0; $i < $number; $i++) {
+						if(trim($_POST["colaborador"][$i] != '')){
+							$nomColaborador = $_POST["colaborador"][$i];
+							$sql = "INSERT INTO COLABORADOR(nomColaborador, id_prototipo) VALUES('$nomColaborador', '$id_pub')";
+							mysqli_query($conn, $sql);
+						}
+					}
+				}
 			}
 			mysqli_close($conn);
-			echo '
-				<script>
-					window.location.href="/index.html";
-				</script>';
+		}
+
+		public function mostrar($id_pub){
+			$json = array();
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			if(!$conn){
+				echo "Conexion fallida";
+				return;
+			}
+			$select = "SELECT * FROM PROTOTIPO WHERE id = '$id_pub'";
+			$resultado = mysqli_query($conn, $select);
+			$json = mysqli_fetch_assoc($resultado);
+			
+			$selectColaboradores = "SELECT nomColaborador FROM COLABORADOR WHERE id_prototipo = '".$json["id"]."' ";
+			$resultCol = mysqli_query($conn, $selectColaboradores);
+			$jsonCol = array();
+			$i = 0;
+			while($in = mysqli_fetch_assoc($resultCol)){
+				$jsonCol[$i] = $in;
+				$i++;
+			}
+			$json += array("COLABORADOR" => $jsonCol);
+			mysqli_close($conn);
+
+			echo json_encode($json);
 		}
 
 	}

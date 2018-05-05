@@ -12,6 +12,27 @@
 			
 		}
 
+		public function modificarUsuario($id_usuario, $password){
+			$usuario = new Usuario;
+			$usuario->modificar($id_usuario, $password);
+		}
+
+		public function mostrarUsuario($id_usuario, $id_academico){
+			$usuario = new Usuario;
+			$usuario->mostrar($id_usuario, $id_academico);
+		}
+
+		public function modificarAcademico($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
+			$academico = new Academico;
+			$academico->modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
+		}
+
+		public function mostrarAcademico($id){
+			$usuario = new Academico;
+			$usuario->mostrar($id);
+		}
+		
+
 		public function crearPublicacion($publicacion, $nombrePub){
 			$id_academico = $_SESSION['id_academico'];
 
@@ -153,6 +174,34 @@
 				$aux = new Bibliografico;
 				$aux->mostrar($id_pub);	
 			}
+			else if($tipo == "4"){
+				$aux = new Informe_Tecnico;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "5"){
+				$aux = new Manual_Operacion;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "6"){
+				$aux = new Prod_Innovadora;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "7"){
+				$aux = new Prototipo;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "8"){
+				$aux = new Proy_Investigacion;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "9"){
+				$aux = new Direccion;
+				$aux->mostrar($id_pub);	
+			}
+			else if($tipo == "10"){
+				$aux = new Estadia;
+				$aux->mostrar($id_pub);	
+			}
 		}
 		
 		public function editarPublicacion($tipo, $id_pub){
@@ -167,20 +216,20 @@
 				$noPaginas = $_POST['noPag'];
 				$isbn = $_POST['isbn'];
 				$fechaPublicacion = $_POST['fecha'];
-				$id_tipo_art = $_POST['tipo'];
+				$id_tipo_art = $_POST['tipo_articulo'];
 				$aux = new Articulo;
 				$aux->actualizar($id_pub, $nomArt, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $id_tipo_art);
 			}
 			else if($tipo == 3){
-				$nomArt = $_POST['nombre'];
+				$nomArticulo = $_POST['nombre'];
 				$nombreRevista = $_POST['nomRev'];
 				$noPaginas = $_POST['noPag'];
 				$isbn = $_POST['isbn'];
 				$fechaPublicacion = $_POST['fecha'];
 				$editorial = $_POST['editorial'];
-				$id_tipo_art = $_POST['tipo'];
+				$id_tipo_biblio = $_POST['tipo_bibliografico'];
 				$aux = new Bibliografico;
-				$aux->actualizar($id_pub, $nomArt, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $editorial ,$id_tipo_art);
+				$aux->actualizar($id_pub, $nomArticulo, $nombreRevista, $noPaginas, $isbn, $fechaPublicacion, $editorial ,$id_tipo_biblio);
 			}
 			else if($tipo == 4){
 				$nomPub = $_POST['nombre'];
@@ -245,32 +294,35 @@
 
 
 	class Admin extends Usr{
+
 		function __construct(){
 
 		}
 
+		public function mostrarTodosUsuarios(){
+			$usuario = new Usuario;
+			$usuario->mostrarTodos();
+		}
+
+
 		public function crearUsuario($username, $password, $nombre, $apellidos, $email){
-			$academico = new Academico;
-			$academico->crear($nombre, $apellidos, $email);
+			$this->crearAcademico($nombre, $apellidos, $email);
+
 			$usuario = new Usuario;
 			$usuario->crear($username, $password, $nombre, $apellidos, $email);
 		}
-
-		public function modificarUsuario($id_academico, $id_usuario, $password, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
-			$usuario = new Usuario;
-			$usuario->modificar($id_usuario, $password);
-			$academico = new Academico;
-
-			$academico->modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
-		}
-
-		public function mostrarUsuario($username){
-			$usuario = new Usuario;
-			$usuario->mostrar($username);
-		}
-
 		
 		public function eliminarUsuario($id_usuario){
+			$usuario = new Usuario;
+			$usuario->eliminar($id_usuario);
+		}
+ 
+		public function crearAcademico($nombre, $apellidos, $email){
+			$academico = new Academico;
+			$academico->crear($nombre, $apellidos, $email);
+		}
+
+		public function eliminarAcademico($id_usuario){
 			$usuario = new Usuario;
 			$usuario->eliminar($id_usuario);
 		}

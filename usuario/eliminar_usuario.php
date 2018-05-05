@@ -1,12 +1,6 @@
 <?php
 	include ($_SERVER['DOCUMENT_ROOT']."/class/tipo_usuario.php");
 	$admin = new Admin;
-	$id_usuario = $_GET['id_usuaro'];
-
+	$id_usuario = $_POST['id_usuario'];
 	$admin->eliminarUsuario($id_usuario);
 ?>
-
-<script type="text/javascript">
-	window.location.href = "/index.html";
-	$("#contInfo").load("/usuario/mostrar.html");
-</script>
