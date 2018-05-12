@@ -31,6 +31,7 @@
 			$usuario = new Academico;
 			$usuario->mostrar($id);
 		}
+
 		
 
 		public function crearPublicacion($publicacion, $nombrePub){
@@ -304,6 +305,16 @@
 			$usuario->mostrarTodos();
 		}
 
+		public function mostrarTodosAcademicos(){
+			$usuario = new Academico;
+			$usuario->mostrarTodos();
+		}
+
+
+		public function modificarAcademicoAdmin($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
+			$academico = new Academico;
+			$academico->modificarAcademico($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave);
+		}
 
 		public function crearUsuario($username, $password, $nombre, $apellidos, $email){
 			$this->crearAcademico($nombre, $apellidos, $email);
@@ -322,9 +333,9 @@
 			$academico->crear($nombre, $apellidos, $email);
 		}
 
-		public function eliminarAcademico($id_usuario){
-			$usuario = new Usuario;
-			$usuario->eliminar($id_usuario);
+		public function eliminarAcademico($id_academico){
+			$usuario = new Academico;
+			$usuario->eliminar($id_academico);
 		}
 
 		public function aceptarPublicacion($tipo, $id_academico, $nom, $id){

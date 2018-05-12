@@ -1,0 +1,69 @@
+<section id="banner">
+	<h1>Mostrar academicos</h1>
+</section>
+
+<section id="mostrar_academico">
+	
+</section>
+
+<script>
+    $( document ).ready(function() {
+        $.ajax({
+            url:"/academico/mostrar.php",
+            success:function(data) {
+                var usuarios = JSON.parse(data);
+                var i = 0;
+                var tabla = "";
+                $.each(usuarios, function(index, valor){
+                    console.log(valor);
+                    tabla += '<form id="formulario' + i + '" name="formulario'+i+'">';
+                    tabla += '<table><tr><td><img id="fotografia" height="250" width="300"></img></br>Cambiar imagen:</td>';
+                    tabla += '<input type="hidden" id="id_academico" name="id_academico" value="'+valor["id"]+'"></input>';
+                    tabla += '<tr><th>Email</th><th>Nombre</th><th>Apellidos</th></tr>';
+                    tabla += '<tr><th><input id="email" name="email" type="text" value="'+valor["email"]+'"></input></th>';
+                    tabla += '<th><input id="nombre" name="nombre" type="text" value="'+valor["nombre"]+'"></input></th>';
+                    tabla += '<th><input id="apellidos" name="apellidos" type="text" value="'+valor["apellidos"]+'"></input></th></tr>';
+                    tabla += '<tr><th>Grado de estudios</th><th>Centro universitario</th><th>Clave única de maestro</th></tr>';
+                    tabla += '<tr><th><input id="gradoEstudios" name="gradoEstudios" type="text" value="'+valor["gradoEstudios"]+'"></input></th><th><input id="centroUniAct" name="centroUniAct" type="text" value="'+valor["centroUniAct"]+'"></input></th><th><input id="clave" name="clave" type="text" value="'+valor["clave"]+'"></input></th></tr></table></form>';
+                    tabla += '<input id="actualizar' + i +'" type="submit" value="Actualizar" class="act"></input>';
+                    tabla += '<input id="eliminar' + i +'" type="submit" value="Eliminar" class="el"></input>';
+                    i++;
+                });
+                $("#mostrar_academico").append(tabla);
+            }
+        });
+    });
+
+    $(document).on('click', '.act', function(){
+        var button_id = $(this).attr("id");
+        var respuesta = button_id.split("actualizar");
+        var formulario = "#formulario" + respuesta[1];
+
+        $.ajax({
+            url:"/academico/modificar.php",
+            method:"POST",
+            data: $(formulario).serialize(),
+            success:function(data) {
+                alert("¡Academico actualizado!");
+                window.location.href="/index.html";
+            }
+        });
+    }); 
+
+    $(document).on('click', '.el', function(){
+        var button_id = $(this).attr("id");
+        var respuesta = button_id.split("eliminar");
+        var formulario = "#formulario" + respuesta[1];
+
+        $.ajax({
+            url:"/academico/eliminar.php",
+            method:"POST",
+            data: $(formulario).serialize(),
+            success:function(data) {
+                alert(data);
+                alert("¡Academico eliminado!");
+                window.location.href="/index.html";
+            }
+        });
+    });
+</script>

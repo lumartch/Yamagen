@@ -33,6 +33,27 @@
 
 		}
 
+		public function modificarAcademico($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
+			$this->id_academico = $id_academico;
+			$this->nombre = $nombre;
+			$this->apellidos = $apellidos;
+			$this->email = $email;
+			$this->centroUniversitario = $centroUniversitario;
+			$this->grado_estudios = $grado_estudios;
+			$this->clave = $clave;
+
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+
+			$update = "UPDATE  ACADEMICO SET nombre = '$this->nombre', apellidos = '$this->apellidos', email = '$this->email', 
+						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  
+						WHERE id = '$this->id_academico'";
+			mysqli_query($conn, $update);
+			mysqli_close($conn);
+			//echo $this->id_academico;
+		}
+
+
 		public function modificar($id_academico, $nombre, $apellidos, $email, $centroUniversitario, $grado_estudios, $clave){
 			$this->id_academico = $id_academico;
 			$this->nombre = $nombre;
@@ -46,34 +67,38 @@
 			$conn = $aux->conexion();
 
 			$update = "UPDATE  ACADEMICO SET nombre = '$this->nombre', apellidos = '$this->apellidos', email = '$this->email', 
-						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  WHERE id = '$this->id_academico'";
+						centroUniAct = '$this->centroUniversitario', gradoEstudios = '$this->grado_estudios', clave = '$this->clave'  
+						WHERE id = '$this->id_academico'";
 
 			if(mysqli_query($conn, $update)){
 				$delete = "DELETE FROM USR_LIN_INVES WHERE id_academico = '$id_academico'";
 				mysqli_query($conn, $delete);
+				if(isset($_POST["lineas"])){
+					$number = count($_POST["lineas"]);
+					if($number > 1) {
+						for($i = 0; $i < $number; $i++) {
+							if(trim($_POST["lineas"][$i] != '')){
+								$linea = $_POST["lineas"][$i];
+								echo $linea."->";
 
-				$number = count($_POST["lineas"]);
-				if($number > 1) {
-					for($i = 0; $i < $number; $i++) {
-						if(trim($_POST["lineas"][$i] != '')){
-							$linea = $_POST["lineas"][$i];
-							echo $linea."->";
+								$insertLin = "INSERT INTO LINEA_INVESTIGACION(linea) VALUES('$linea')";
+								mysqli_query($conn, $insertLin);
 
-							$insertLin = "INSERT INTO LINEA_INVESTIGACION(linea) VALUES('$linea')";
-							mysqli_query($conn, $insertLin);
+								$select = "SELECT * FROM LINEA_INVESTIGACION WHERE linea = '$linea'";
+								$query = mysqli_query($conn, $select);
+								$row = mysqli_fetch_assoc($query);
+								$id_linea = $row["id"];
 
-							$select = "SELECT * FROM LINEA_INVESTIGACION WHERE linea = '$linea'";
-							$query = mysqli_query($conn, $select);
-							$row = mysqli_fetch_assoc($query);
-							$id_linea = $row["id"];
-
-							$insert = "INSERT INTO USR_LIN_INVES(id_academico, id_lin_inves) VALUES ('$id_academico', '$id_linea')";
-							mysqli_query($conn, $insert);
+								$insert = "INSERT INTO USR_LIN_INVES(id_academico, id_lin_inves) VALUES ('$id_academico', '$id_linea')";
+								mysqli_query($conn, $insert);
+							}
 						}
 					}
 				}
+				echo "Se hizo la query";
 			}
 			else{
+				echo "No se hizo la query";
 			}
 			mysqli_close($conn);
 		}
@@ -85,9 +110,12 @@
 			if(!$conn){
 				echo 'Conexion no establecida'. mysql_error();
 			}
+			$deleteUs = "DELETE FROM USUARIO WHERE id_academico = '$this->id_academico'";
+			mysqli_query($conn, $deleteUs);
 
 			$delete = "DELETE FROM ACADEMICO WHERE id = '$this->id_academico'";
-			if(mysqli_query($conn, $delete)){ }
+			if(mysqli_query($conn, $delete)){ 
+			}
 			else{
 				echo "Error: ". mysqli_error($conn);
 			}
@@ -114,6 +142,22 @@
 			}
 
 			$json += array("LINEAS" => $jsonLineas);
+			mysqli_close($conn);
+			echo json_encode($json);
+		}
+
+		public function mostrarTodos(){
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+
+			$select = "SELECT * FROM ACADEMICO WHERE id <> 1";
+			$resultado =  mysqli_query($conn, $select);
+			$json = array();
+			$i = 0;
+			while($queryRes = mysqli_fetch_assoc($resultado)){
+				$json[$i] = $queryRes;
+				$i++;
+			}
 			mysqli_close($conn);
 			echo json_encode($json);
 		}
