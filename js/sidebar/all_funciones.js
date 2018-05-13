@@ -21,3 +21,7 @@ $("#pub_buscar").on('click', function() {
 $("#contacto").on('click', function() {
     $("#contInfo").load("/contacto.html");
 });
+
+$("#graf").on('click', function() {
+    $("#contInfo").load("/graficas/graficas.html");
+});

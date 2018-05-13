@@ -1,0 +1,64 @@
+<section id="banner">
+	<h1>Gráficas de contenido</h1>
+</section>
+
+<table>
+	<tr><td id="publicacionesAceptadas"></td><td id="publicacionesPendientes"></td></tr>
+</table>
+
+
+<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(aceptadas);
+	google.charts.setOnLoadCallback(pendientes);
+
+	function aceptadas() {
+		$.ajax({
+            url:"/graficas/aceptadas.php",
+            success:function(data) {
+                var publicaciones = JSON.parse(data);
+								var data = google.visualization.arrayToDataTable([
+									['Task', 'Publicaciones totales'],
+									['Línea innovadora de investigación aplicada y desarrollo tecnológico', publicaciones["LIN_INNOVADORA"]],
+									['Artículos', publicaciones["ARTICULO"]],
+									['Bibliografico', publicaciones["BIBLIOGRAFICO"]],
+									['Informe técnico', publicaciones["INFORME_TECNICO"]],
+									['Manual de operación', publicaciones["MANUAL_OPERACION"]],
+									['Productividad innovadora ', publicaciones["PROD_INNOVADORA"]],
+									['Prototipo', publicaciones["PROTOTIPO"]],
+									['Proyectos de investigación aplicada y desarrollo tecnológico', publicaciones["PROY_INVESTIGACION"]],
+									['Dirección individualizada', publicaciones["DIRECCION"]],
+									['Estadía en empresas', publicaciones["ESTADIA"]]
+								]);
+								var options = {'title':'Publicaciones aceptadas del sistema Yamagen', 'width':400, 'height':400};
+								var chart = new google.visualization.PieChart(document.getElementById('publicacionesAceptadas'));
+								chart.draw(data, options);
+						}
+			});
+	}
+	function pendientes() {
+		$.ajax({
+            url:"/graficas/pendientes.php",
+            success:function(data) {
+                var publicaciones = JSON.parse(data);
+								var data = google.visualization.arrayToDataTable([
+									['Task', 'Publicaciones totales'],
+									['Línea innovadora de investigación aplicada y desarrollo tecnológico', publicaciones["LIN_INNOVADORA"]],
+									['Artículos', publicaciones["ARTICULO"]],
+									['Bibliografico', publicaciones["BIBLIOGRAFICO"]],
+									['Informe técnico', publicaciones["INFORME_TECNICO"]],
+									['Manual de operación', publicaciones["MANUAL_OPERACION"]],
+									['Productividad innovadora ', publicaciones["PROD_INNOVADORA"]],
+									['Prototipo', publicaciones["PROTOTIPO"]],
+									['Proyectos de investigación aplicada y desarrollo tecnológico', publicaciones["PROY_INVESTIGACION"]],
+									['Dirección individualizada', publicaciones["DIRECCION"]],
+									['Estadía en empresas', publicaciones["ESTADIA"]]
+								]);
+								var options = {'title':'Publicaciones pendientes del sistema Yamagen', 'width':400, 'height':400};
+								var chart = new google.visualization.PieChart(document.getElementById('publicacionesPendientes'));
+								chart.draw(data, options);
+						}
+			});
+	}
+	
+</script>

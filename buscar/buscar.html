@@ -61,14 +61,11 @@ table.d {
 				</th>
 			</tr>
 		</table>
-		<table id="json-data" class="mt-3 table table-striped table-dark">
+		<table id="json-data" class="mt-3 table table-striped table-dark"></table>
 		</table>
 </section>
 
 <script>
-	/*$(document).ready(function(){
-		
-	 });*/
 	function buscar(){
 		$("#json-data").empty()
 		var sel1 = null;
@@ -129,7 +126,7 @@ table.d {
 			data: ({ nomUsr : $("#nomUsr").val(), nomPub : $("#nomPub").val(), sel1 : sel1, sel2 : sel2, sel3 : sel3, sel4 : sel4, sel5 : sel5, sel6 : sel6, sel7 : sel7, sel8 : sel8, sel9 : sel9, sel10 : sel10, fechaPub1: fechaPub1, fechaPub2: fechaPub2}),
 			success: function(respuesta){
 				console.log("Busqueda!")
-				$("#busqueda").html('<h1>Buscar publicación</h1><table id="json-data" class="c"></table>');
+				$("#busqueda").html('<h1>Buscar publicación</h1><div align="right"><button onclick="HTMLtoPDF()">Descargar reporte</button></div></br><table id="json-data" class="c"></table>');
 				rellenarTabla(JSON.parse(respuesta))
 				//console.log(respuesta);
 
@@ -464,8 +461,6 @@ table.d {
 					row += '</table>'
 				row += '</tr>'
 			}
-
-
 			$("#json-data").append(row)
 		});
 		alert("¡Busqueda completada!");
