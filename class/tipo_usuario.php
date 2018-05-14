@@ -32,7 +32,10 @@
 			$usuario->mostrar($id);
 		}
 
-		
+		public function cambiarFoto($id_academico, $fotografia){
+			$academico = new Academico;
+			$academico->cambiarFoto($id_academico, $fotografia);
+		}
 
 		public function crearPublicacion($publicacion, $nombrePub){
 			$id_academico = $_SESSION['id_academico'];

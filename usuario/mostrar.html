@@ -15,13 +15,18 @@
                 var i = 0;
                 var tabla = "";
                 $.each(usuarios, function(index, valor){
-                    console.log(valor);
                     tabla += '<form id="formulario' + i + '" name="formulario'+i+'">';
                     tabla += '<table><tr><th>Foto</th><th>Username</th><th>Contraseña</th></tr>';
-                    tabla += '<tr><td><img id="fotografia" height="250" width="300"></img></br>Cambiar imagen:</td>';
+                    tabla += '<tr><td><img id="fotografia" height="200" width="200" class="img-rounded" src="'+ valor['fotografia'] +'"></img></br>';
+                    
+                    tabla += '<input type="file" name="archivo'+i+'" id="archivo'+i+'"></input>';
+                    tabla += '<button id="fotoSubmit'+i+'" name="fotoSubmit'+i+'" type="button" onclick="cambiarFoto('+valor["id_academico"]+', '+i+')">Actualizar foto</button>';
+                    tabla += '</td>';
+                    
                     tabla += '<td><input id="username" name="username" type="text" value="'+valor["username"]+'" disabled></input></td>';
                     tabla += '<td><input id="password" name="password" type="password" value="'+valor["password"]+'"></input></td>';
                     tabla += '<input type="hidden" id="id_academico" name="id_academico" value="'+valor["id_academico"]+'"></input>';
+                    
                     tabla += '<input type="hidden" id="id_usuario" name="id_usuario" value="'+valor["id"]+'"></input>';
                     tabla += '<tr><th>Email</th><th>Nombre</th><th>Apellidos</th></tr>';
                     tabla += '<tr><th><input id="email" name="email" type="text" value="'+valor["email"]+'"></input></th>';
@@ -69,4 +74,30 @@
             }
         });
     }); 
+
+    function cambiarFoto(id_academico, id_archivo){
+        var archivo = "#archivo" + id_archivo;
+        if($(archivo).val() == ""){
+            alert("No se puede actualizar una foto sin archivo.");
+            return;
+        } 
+        var elementFoto = "archivo" + id_archivo;
+        var inputFoto = document.getElementById(elementFoto);
+        var file = inputFoto.files[0];
+        var data = new FormData();
+        data.append('archivo', file);   
+        data.append('id_academico', id_academico); 
+        $.ajax({
+            url:"/profile/upload_foto.php",
+            type:"POST",
+            contentType: false,
+            data: data,
+            processData:false,
+            cache:false,
+            success:function(data) {
+                alert(data);
+                window.location.href="/index.html";
+            }
+        });
+    }
 </script>

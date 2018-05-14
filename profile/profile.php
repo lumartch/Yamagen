@@ -3,7 +3,7 @@
 </section>
 
 <section id="mostrar_usuarios">
-    <form id="formulario" name="formulario">
+    <form id="formulario" name="formulario" enctype="multipart/form-data">
         <table>
             <tr>
                 <th>Foto</th>
@@ -11,7 +11,11 @@
                 <th>Contraseña</th>
             </tr>
             <tr>
-                <td><img id="fotografia" height="250" width="300"></img></br>Cambiar imagen:</td>
+                <td>
+                    <img id="fotografia" height="200" width="200" class="img-rounded"></img></br>
+                    <input type="file" name="archivo" id="archivo"></input>
+                    <button id="fotoSubmit" name="fotoSubmit" type="button" >Actualizar foto</button>
+                </td>
                 <td><input id='username' name='username' type='text' disabled></input></td>
                 <td><input id='password' name='password' type='text' ></input></td>
                 <input type="hidden" id="id_academico" name="id_academico"></input>
@@ -114,5 +118,27 @@
         });
     });
 
-
+    $('#fotoSubmit').click(function(){
+        if($("#archivo").val() == ""){
+            alert("No se puede actualizar una foto sin archivo.");
+            return;
+        } 
+        var inputFoto = document.getElementById("archivo");
+        var file = inputFoto.files[0];
+        var data = new FormData();
+        data.append('archivo', file);   
+        data.append('id_academico', $("#id_academico").val()); 
+        $.ajax({
+            url:"/profile/upload_foto.php",
+            type:"POST",
+            contentType: false,
+            data: data,
+            processData:false,
+            cache:false,
+            success:function(data) {
+                alert(data);
+                $("#contInfo").load("/profile/profile.php");  
+            }
+        });
+    });
 </script>

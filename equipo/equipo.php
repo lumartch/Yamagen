@@ -9,7 +9,7 @@
 	
 	while($row = mysqli_fetch_assoc($resultado)) {
 		$id_academico = $row["id"];
-		echo "<tr><th><img id='fotografia' height='50' width='50' src='".$row["fotografia"]."'></img></th><th>".$row["nombre"]."</th><th>".$row["apellidos"]."</th><th>".$row["email"]."</th><th>".$row["gradoEstudios"]."</th><th>".$row["centroUniAct"]."</th><th>".$row["clave"]."</th><th>";
+		echo "<tr><th><img id='fotografia' height='50' width='50' src='".$row["fotografia"]."' class='img-rounded'></img></th><th>".$row["nombre"]."</th><th>".$row["apellidos"]."</th><th>".$row["email"]."</th><th>".$row["gradoEstudios"]."</th><th>".$row["centroUniAct"]."</th><th>".$row["clave"]."</th><th>";
 
 		$selectLineasInvestigacion = "SELECT * FROM USR_LIN_INVES WHERE id_academico = '$id_academico'";
 		$resultadoLineas =  mysqli_query($conn, $selectLineasInvestigacion);

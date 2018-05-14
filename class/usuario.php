@@ -1,6 +1,7 @@
 <?php 
 	class Academico{
 		private $id_academico;
+		private $fotografia;
 		private $nombre;
 		private $apellidos;
 		private $email;
@@ -95,14 +96,20 @@
 						}
 					}
 				}
-				echo "Se hizo la query";
-			}
-			else{
-				echo "No se hizo la query";
 			}
 			mysqli_close($conn);
 		}
 
+		public function cambiarFoto($id_academico, $fotografia){
+			$this->id_academico;
+			$this->fotografia = $fotografia;
+			$aux = new Conexion;
+			$conn = $aux->conexion();
+			$updateFoto = "UPDATE ACADEMICO SET fotografia = '$fotografia' WHERE id = '$id_academico'";
+			mysqli_query($conn, $updateFoto);
+			mysqli_close($conn);
+
+		}
 		public function eliminar($id){
 			$this->id_academico = $id;
 			$aux = new Conexion;

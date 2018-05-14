@@ -295,7 +295,6 @@
 			while($rowLin = mysqli_fetch_assoc($res)){
 				$jsonManual[$j] = $rowLin;
 
-
 				$id_estadia = $rowLin["id"];
 
 				$selectCol = "SELECT * FROM COLABORADOR WHERE id_estadia = '$id_estadia'";
