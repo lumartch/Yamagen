@@ -1,0 +1,58 @@
+<section id="banner">
+    <h1>Galeria de fotos</h1>
+</section>
+<div id="galeria" name="galeria"> 
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a class="lightbox" href="/galeria/images/park.jpg">
+                <img src="/galeria/images/park.jpg" alt="Park">
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a class="lightbox" href="/galeria/images/bridge.jpg">
+                <img src="/galeria/images/bridge.jpg" alt="Bridge">
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a class="lightbox" href="/galeria/images/tunnel.jpg">
+                <img src="/galeria/images/tunnel.jpg" alt="Tunnel">
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a class="lightbox" href="/galeria/images/coast.jpg">
+                <img src="/galeria/images/coast.jpg" alt="Coast">
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a class="lightbox" href="/galeria/images/rails.jpg">
+                <img src="/galeria/images/rails.jpg" alt="Rails">
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a class="lightbox" href="/galeria/images/traffic.jpg">
+                <img src="/galeria/images/traffic.jpg" alt="Traffic">
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+    $( document ).ready(function() {
+        $.each(function(){
+            var div = '<div class="col-sm-6 col-md-4"><div class="thumbnail">'
+            div += '<a class="lightbox" href="/galeria/images/">'
+            div += '<img src="/galeria/images/" alt="Traffic">'
+            div += '</a></div></div>'
+            $("#galeria").append(div);
+        });
+    });
+</script>
